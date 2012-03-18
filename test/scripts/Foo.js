@@ -7,9 +7,17 @@ Foo=function(param){
     var priVar=0;
     var parameter1=param;
     
+    //Private Methods
+    var privateMethod=function(){
+        console.debug("I'm a private method, only accesible from the Object");
+    };
+    
+    //Test if 'arguments' variable can perform the override property
+    console.warn("My arguments are: ");
+    console.debug(arguments);
+    
     //Public Methods
     return{
-        //Methods
         decrement:function(){
             console.debug(--priVar);
         },
@@ -18,8 +26,13 @@ Foo=function(param){
         },
         getParam:function(){
             console.debug("The parameter passsed in constructor is: "+parameter1);
+        },
+        usePrivateMethod:function(){
+            privateMethod();
         }
     }
+    
+    
 };
 
 /**

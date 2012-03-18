@@ -18,6 +18,7 @@
         <div id="act2">Decrement</div>
         <div id="act3">Use the static Method</div>
         <div id="act4">Testing the constructor</div>
+        <div id="act5">Use the private method called by another</div>
         
         
         
@@ -39,8 +40,9 @@
                 $("#act4").click(function(){
                     foo.getParam();
                 });
-                
-                
+                $("#act5").click(function(){
+                    foo.usePrivateMethod();
+                });
                 
             });
         </script>
