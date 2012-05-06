@@ -19,10 +19,7 @@
         <div id="act3">Use the static Method</div>
         <div id="act4">Testing the constructor</div>
         <div id="act5">Use the private method called by another</div>
-        
-        
-        
-        
+                
         <script type="text/javascript">
             //Execution
             $(document).ready(function() {

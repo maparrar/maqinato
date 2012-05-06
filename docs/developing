@@ -1,0 +1,23 @@
+
+Developing recommendations
+
+Resources
+    - PHP MVC: http://desarrolladorsenior.blogspot.com/2010/10/patron-mvc-modelo-vista-controlador-en.html
+    - http://www.meetup.com/phillyphp/events/39806022/
+    - SPAs Single Web page Applications
+    - Client-side MVC's
+    - Search a book for MVC model
+    - State of browser
+        - Explore if use director.js to enable the state of maqinato
+        - Seems better option Backbone.js to tath
+
+Classes
+	- Use Singleton for Database clases (http://desarrolladorsenior.blogspot.com/2009/09/el-patron-de-diseno-singleton-esta.html)
+	- Use Data Abstraction Layer
+	- 
+
+HTML5
+    - pushState and replaceState to insert data in the browser history
+
+Important:
+	- Make a lot of intensive tests while develop Maqinato

@@ -1,12 +1,15 @@
 /**
  *CLASS IN JAVASCRIPT
+ *  Constructor emulated passed params in class declaration: i.e. param
  **/
 
-Foo=function(param){
+Foo=function(param1,param2){
     //Private variables
     var priVar=0;
-    var parameter1=param;
+    var parameter1=param1;
+    var parameter2=param2;
     
+      
     //Private Methods
     var privateMethod=function(){
         console.debug("I'm a private method, only accesible from the Object");
@@ -25,7 +28,7 @@ Foo=function(param){
             console.debug(++priVar);
         },
         getParam:function(){
-            console.debug("The parameter passsed in constructor is: "+parameter1);
+            console.debug("The parameter1 passsed in constructor is: "+parameter1+" - parameter 2: "+parameter2);
         },
         usePrivateMethod:function(){
             privateMethod();
@@ -37,7 +40,7 @@ Foo=function(param){
 
 /**
  *STATIC METHOD
- *  - Only works with class
+ *  - Only works with the class
  *  - Called by object return error
  *  - Use:
  *      Foo.staticMethod();
