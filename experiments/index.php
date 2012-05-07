@@ -40,7 +40,6 @@
                 $("#act5").click(function(){
                     foo.usePrivateMethod();
                 });
-                
             });
         </script>
     </body>

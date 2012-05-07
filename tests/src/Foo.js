@@ -1,39 +1,35 @@
 /**
  *CLASS IN JAVASCRIPT
  *  Constructor emulated passed params in class declaration: i.e. param
+ *  Proxy Pattern + obj
  **/
-
-Foo=function(param1,param2){
+var Foo=function(param1,param2){
+    "use strict";
+    //Create an obj variable to manage this without conflicts with another this uses
+    var obj=this;
     //Private variables
     var priVar=0;
     var parameter1=param1;
     var parameter2=param2;
     
-      
     //Private Methods
     var privateMethod=function(){
         console.debug("I'm a private method, only accesible from the Object");
     };
     
-    //Test if 'arguments' variable can perform the override property
-    console.warn("My arguments are: ");
-    console.debug(arguments);
-    
     //Public Methods
-    return{
-        decrement:function(){
-            console.debug(--priVar);
-        },
-        increment:function(){
-            console.debug(++priVar);
-        },
-        getParam:function(){
-            console.debug("The parameter1 passsed in constructor is: "+parameter1+" - parameter 2: "+parameter2);
-        },
-        usePrivateMethod:function(){
-            privateMethod();
-        }
-    }
+    obj.decrement=function(){
+        return --priVar;
+    };
+    obj.increment=function(){
+        console.debug(++priVar);
+    };
+    obj.getParam=function(){
+        console.debug("The parameter1 passsed in constructor is: "+parameter1+" - parameter 2: "+parameter2);
+    };
+    obj.usePrivateMethod=function(){
+        privateMethod();
+    };
     
     
 };
@@ -46,5 +42,6 @@ Foo=function(param1,param2){
  *      Foo.staticMethod();
  **/
 Foo.staticMethod=function(){
+    "use strict";
     console.debug("I'm a static method of Foo class");
 };
