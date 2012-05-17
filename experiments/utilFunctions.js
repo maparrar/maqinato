@@ -1,8 +1,7 @@
-/* Testing deveolp branch
+/* 
  * Functions to implement in Maqinato classes
  */
 
-asd
 /**
  * Load Javascript files selectively (Carlos Benítez: http://www.etnassoft.com/2011/05/18/incluyendo-ficheros-javascript-bajo-demanda-includes/)
  * INPUTS
