@@ -1,0 +1,16 @@
+#maqinato .htaccess file
+#ServerSignature EMail
+#SetEnv SERVER_ADMIN https://github.com/maparrar/maqinato
+
+#Hide the files in all folders
+IndexIgnore *
+
+#Avoid vulnerability by no GET or POST requests
+<LimitExcept GET POST>
+Order Allow,Deny
+Deny from all
+</LimitExcept>
+
+#Compress sending data
+SetOutputFilter DEFLATE
+

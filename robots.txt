@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /core/
+Disallow: /docs/
+Disallow: /experiments/
+Disallow: /transactions/
+Disallow: /vendors/

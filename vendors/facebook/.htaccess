@@ -1,0 +1,4 @@
+ErrorDocument 404 '/maqinato/redirect/redirect.php'
+ErrorDocument 403 /maqinato/redirect/redirect.php
+Order deny,allow
+Deny from all
