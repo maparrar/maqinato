@@ -3,14 +3,29 @@
 #SetEnv SERVER_ADMIN https://github.com/maparrar/maqinato
 
 #Hide the files in all folders
-IndexIgnore *
+#IndexIgnore *
 
 #Avoid vulnerability by no GET or POST requests
-<LimitExcept GET POST>
-Order Allow,Deny
-Deny from all
-</LimitExcept>
+#<LimitExcept GET POST>
+#Order Allow,Deny
+#Deny from all
+#</LimitExcept>
 
 #Compress sending data
-SetOutputFilter DEFLATE
+#SetOutputFilter DEFLATE
 
+
+
+##############  ERRORS PAGES ##############
+#Forbidden: You don't have permission to access
+#ErrorDocument 403 maqinato/index.php
+#Page not found
+#ErrorDocument 404 maqinato/index.php
+
+
+#Redirecciona todas las peticiones al index de la aplicación
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule ^$   index.php [L]
+    RewriteRule (.*) index.php [L]
+</IfModule>

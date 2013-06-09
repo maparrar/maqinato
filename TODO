@@ -5,6 +5,9 @@
 - Usar Namespaces
 - Manejo de errores
 
+WEB:
+    - Redirección para mostrar http://localhost/maqinato/presentation/web/views/landing/ como http://localhost/maqinato/landing/
+
 
 
 

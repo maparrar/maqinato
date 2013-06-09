@@ -1,2 +1,2 @@
-#deny all access
-deny from all
+#allow all access
+allow from all

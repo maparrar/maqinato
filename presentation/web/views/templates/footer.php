@@ -10,22 +10,6 @@
  */
  ?>
 <footer>
-    <?php
-        if(!class_exists('Router')) include_once '../../config/Router.php';
-        if(Router::server()==Config::$analyticsServer){
-            echo '<script type="text/javascript">';
-                echo 'var _gaq = _gaq || [];';
-                echo "_gaq.push(['_setAccount', 'UA-40320425-1']);";
-                echo "_gaq.push(['_setDomainName', 'https://github.com/maparrar/maqinato']);";
-                echo "_gaq.push(['_trackPageview']);";
-                echo '(function() {';
-                  echo "var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;";
-                  echo "ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';";
-                  echo "var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);";
-                echo '})();';
-            echo '</script>';
-        }
-    ?>
     <div class="container">
         <div class="sixteen columns">
             <div id="footer">

@@ -59,14 +59,6 @@ class Router{
      */
     public static function init(){
         include_once 'Config.php';
-        //acceso css mobiles
-        include_once 'Mobile.php';
-        $css="css";
-        $detect = new Mobile_Detect();
-        if($detect->isMobile()) {
-            // Si es Android
-            $css="cssmobile";
-        }
         //Define the server type and the application name using the type of server
         //En caso de que no existe el SERVER_NAME se reemplaza por production
         if(!array_key_exists("SERVER_NAME",$_SERVER)){
@@ -81,9 +73,6 @@ class Router{
             Config::$dataSource="file";
             //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
             self::$serverUrl=Config::$protocol."://".Config::$servers["development"][0];
-            //Define las claves del API de Stripe
-            self::$apiStripePublic=Config::$apiStripeTestPublic;
-            self::$apiStripeSecret=Config::$apiStripeTestSecret;
         /*DEBIAN TESTING VERSION */
         }elseif(in_array($serverName,Config::$servers["testing"])){
             self::$serverType="testing";
@@ -91,9 +80,6 @@ class Router{
             Config::$dataSource="file";
             //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
             self::$serverUrl=Config::$protocol."://".Config::$servers["testing"][0];
-            //Define las claves del API de Stripe
-            self::$apiStripePublic=Config::$apiStripeTestPublic;
-            self::$apiStripeSecret=Config::$apiStripeTestSecret;
         /*AMAZON RELEASE CANDIDATE*/
         }elseif(in_array($serverName,Config::$servers["release"])){
             self::$serverType="release";
@@ -103,9 +89,6 @@ class Router{
             Config::$awsBucket = "maqinatorc";
             //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
             self::$serverUrl=Config::$protocol."://".Config::$servers["release"][0];
-            //Define las claves del API de Stripe
-            self::$apiStripePublic=Config::$apiStripeTestPublic;
-            self::$apiStripeSecret=Config::$apiStripeTestSecret;
         /*AMAZON PRODUCTION*/
         }elseif(in_array($serverName,Config::$servers["production"])){
             self::$serverType="production";
@@ -116,9 +99,6 @@ class Router{
             Config::$protocol="https";
             //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
             self::$serverUrl=Config::$protocol."://".Config::$servers["production"][0];
-            //Define las claves del API de Stripe
-            self::$apiStripePublic=Config::$apiStripeLivePublic;
-            self::$apiStripeSecret=Config::$apiStripeLiveSecret;
         }
         //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
         Config::$dataRead=self::$serverUrl."/data";
@@ -145,7 +125,7 @@ class Router{
                 'settings'      =>self::$root.'views/settings/',
             'web'           =>self::$root.'web/',
                 'ajax'          =>self::$root.'web/ajax/',
-                'css'           =>self::$root.'web/'.$css.'/',
+                'css'           =>self::$root.'web/css/',
                 'img'           =>self::$root.'web/img/',
                 'js'            =>self::$root.'web/js/',
                 'templates'     =>self::$root.'web/templates/',
@@ -548,14 +528,14 @@ class Router{
         $id=0;
         $sex="M";
         $name="";
-        if(AccessController::checkSession()){
-            $user=AccessController::getSessionUser();
-            $id=$user->getId();
-            $sex=$user->getSex();
-            $name=$user->name();
-        }else{
-            $_SESSION["sessionLifetime"]=Config::$sessionLifeTime;
-        }
+//        if(AccessController::checkSession()){
+//            $user=AccessController::getSessionUser();
+//            $id=$user->getId();
+//            $sex=$user->getSex();
+//            $name=$user->name();
+//        }else{
+//            $_SESSION["sessionLifetime"]=Config::$sessionLifeTime;
+//        }
         //Create the paths array to JS
         foreach (self::$paths as $key => $path) {
             $paths["$key"]=str_replace(self::root(),"",$path);
@@ -625,8 +605,4 @@ class Router{
         return $string;
     }
 }
-/**
- * Automatically start the static variables if not initialized
- */
-Router::init();
 ?>
