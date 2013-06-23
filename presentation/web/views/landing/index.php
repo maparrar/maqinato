@@ -15,6 +15,8 @@
             session_start();
             
             
+            print_r("<br/> ROOT: ".ROOT."<br/>");
+            print_r("<br/> APPLICATION: ".APPLICATION."<br/>");
             
             
             $maqinato=$_SERVER["DOCUMENT_ROOT"]."/maqinato/core/Maqinato.php";
