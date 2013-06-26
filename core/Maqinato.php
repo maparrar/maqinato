@@ -1,9 +1,6 @@
 <?php
 /** Maqinato File
  * @package core */
-//namespace maqinato\core;
-//use maqinato\core as core;
-//use maqinato\application\controllers as controllers;
 /**
  * Maqinato Class
  * Core class for Maqinato
@@ -11,7 +8,6 @@
  * @author https://github.com/maparrar/maqinato
  * @author Alejandro Parra <maparrar@gmail.com> 
  * @package core
- * @todo Implementar el uso de Namespaces
  * @todo Implementar el manejo de errores
  * @todo Usar el desarrollo orientado a tests
  * @todo Detección de tipo de servidor (development, testing, release, production)
@@ -65,7 +61,6 @@ class Maqinato{
         
         
         //Creates the router object
-//        require_once 'Router.php';
         self::$router=new Router();
         
         
@@ -98,6 +93,9 @@ class Maqinato{
     public static function application(){return self::$application;}
     
     
+    /**************************************************************************/
+    /********************************** UTILS *********************************/
+    /**************************************************************************/
     /**
      * Función que carga automáticamente un archivo de una clase cuando no ha sido
      * cargado usando include o require. Esta función los carga con require.
@@ -131,7 +129,7 @@ class Maqinato{
 
 
 
-private function detectServer(){
+    private function detectServer(){
         /*LOCAL DEVELOPMENT*/
 //        if(in_array($serverName,Config::$servers["development"])){
 //            self::$serverType="development";
