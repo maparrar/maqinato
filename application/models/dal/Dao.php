@@ -1,8 +1,8 @@
 <?php
 /** Dao File
  * @package models @subpackage dal\donation */
-if(!class_exists('Router')) require_once '../../config/Router.php';
-include_once Router::rel('models').'dal/Database.php';
+//if(!class_exists('Router')) require_once '../../config/Router.php';
+//include_once Router::rel('models').'dal/Database.php';
 /**
  * Dao Class
  *

@@ -1,9 +1,9 @@
 <?php
 /** Database File
  * @package models @subpackage dal */
-if(!class_exists('Router')) require_once '../../config/Router.php';
-include_once Router::rel('models').'core/User.php';
-include_once Router::rel('config').'Connection.php';
+//if(!class_exists('Router')) require_once '../../config/Router.php';
+//include_once Router::rel('models').'core/User.php';
+//include_once Router::rel('config').'Connection.php';
 /**
  * Database Class
  *

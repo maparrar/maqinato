@@ -1,7 +1,10 @@
 <?php
 /** AccessController File
  * @package controllers @subpackage core */
-if(!class_exists('Router')) require_once '../../config/Router.php';
+//namespace maqinato\application\controllers;
+//use maqinato\core\Router as Router;
+
+//if(!class_exists('Router')) require_once '../../config/Router.php';
 include_once Router::rel('models').'core/Access.php';
 include_once Router::rel('models').'organization/Organization.php';
 include_once Router::rel('models').'dal/core/DaoUser.php';
@@ -36,6 +39,9 @@ class AccessController {
     function AccessController(){
         $this->access=new Access();
         $this->maxFails=5;
+        
+        
+        
     }
     /** 
      * Return the active User in the Session

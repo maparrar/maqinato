@@ -1,10 +1,4 @@
 <?php
-/** DaoMedia File
- * @package models @subpackage dal\core */
-if(!class_exists('Router')) require_once '../../config/Router.php';
-include_once Router::rel('models').'dal/Dao.php';
-include_once Router::rel('models').'dal/core/DaoMediaType.php';
-include_once Router::rel('models').'core/Media.php';
 /**
  * DaoMedia Class
  *
@@ -15,12 +9,16 @@ include_once Router::rel('models').'core/Media.php';
  * @package models
  * @subpackage dal\core
  */
-class DaoMedia extends Dao{
+class DaoMedia{
     /**
      * Constructor: sets the database Object and the PDO handler
      */
     function DaoMedia(){
-        parent::Dao();
+        
+        
+        $con=new Connection();
+        $daout=new DaoUserType();
+        
     }
     /**
      * Create a Media in the database

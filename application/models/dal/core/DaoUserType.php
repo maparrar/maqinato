@@ -1,9 +1,9 @@
 <?php
 /** DaoUserType File
  * @package models @subpackage dal\core */
-if(!class_exists('Router')) require_once '../../config/Router.php';
-include_once Router::rel('models').'dal/Dao.php';
-include_once Router::rel('models').'core/UserType.php';
+//if(!class_exists('Router')) require_once '../../config/Router.php';
+//include_once Router::rel('models').'dal/Dao.php';
+//include_once Router::rel('models').'core/UserType.php';
 /**
  * DaoUserType Class
  *

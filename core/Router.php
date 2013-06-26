@@ -1,6 +1,7 @@
 <?php
 /** Router File
  * @package config */
+//namespace maqinato\core;
 /**
  * Router Class
  * Specifies the paths and the application name for all the System.
@@ -9,20 +10,7 @@
  * @author Alejandro Parra <maparrar@gmail.com> 
  * @package config
  */
-//Esto permite el uso de cronjobs para el envío de emails
-if(!array_key_exists("SERVER_NAME",$_SERVER)){
-    session_save_path("/tmp");
-    @session_start();
-}
 class Router{
-    /** Root folder of the application
-     * @var string
-     */
-    private static $root=null;
-    /** Application name
-     * @var string
-     */
-    private static $application="";
     /** Server type.
      *  - "development": locate in development server
      *  - "testing": Debian server (maqinato server)
@@ -53,8 +41,19 @@ class Router{
      */
     private static $apiStripePublic="";
     private static $apiStripeSecret="";
+    
+    
+    
+    function __construct() {
+        print_r("CONSTRUYENDO ROUTER</br>");
+        Maqinato::info();
+        
+        
+        
+    }
 
-    /**
+
+        /**
      * Define the paths variables
      */
     public static function init(){
@@ -66,40 +65,7 @@ class Router{
         }else{
             $serverName=$_SERVER['SERVER_NAME'];
         }
-        /*LOCAL DEVELOPMENT*/
-        if(in_array($serverName,Config::$servers["development"])){
-            self::$serverType="development";
-            self::$application=Config::$application;
-            Config::$dataSource="file";
-            //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
-            self::$serverUrl=Config::$protocol."://".Config::$servers["development"][0];
-        /*DEBIAN TESTING VERSION */
-        }elseif(in_array($serverName,Config::$servers["testing"])){
-            self::$serverType="testing";
-            self::$application=Config::$application;
-            Config::$dataSource="file";
-            //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
-            self::$serverUrl=Config::$protocol."://".Config::$servers["testing"][0];
-        /*AMAZON RELEASE CANDIDATE*/
-        }elseif(in_array($serverName,Config::$servers["release"])){
-            self::$serverType="release";
-            self::$application="";
-            Config::$dataSource="rest";
-            Config::$daemonsInterval = 10000;
-            Config::$awsBucket = "maqinatorc";
-            //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
-            self::$serverUrl=Config::$protocol."://".Config::$servers["release"][0];
-        /*AMAZON PRODUCTION*/
-        }elseif(in_array($serverName,Config::$servers["production"])){
-            self::$serverType="production";
-            self::$application="";
-            Config::$dataSource="rest";
-            Config::$daemonsInterval = 10000;
-            Config::$awsBucket = "maqinato";
-            Config::$protocol="https";
-            //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
-            self::$serverUrl=Config::$protocol."://".Config::$servers["production"][0];
-        }
+        
         //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
         Config::$dataRead=self::$serverUrl."/data";
         

@@ -15,25 +15,24 @@
             session_start();
             
             
-            print_r("<br/> ROOT: ".ROOT."<br/>");
-            print_r("<br/> APPLICATION: ".APPLICATION."<br/>");
+            
+            Maqinato::info();
+            
+            $config="core/Config.php";
+            
+            if(!class_exists('Config')) include_once $config;
+            
+//            print_r("PHP_SELF: ".$_SERVER["PHP_SELF"]."<br/>");
+//            print_r("SCRIPT_FILENAME: ".$_SERVER["SCRIPT_FILENAME"]."<br/>");
+//            print_r("SCRIPT_NAME: ".$_SERVER["SCRIPT_NAME"]."<br/>");
+//            print_r("REQUEST_URI: ".$_SERVER["REQUEST_URI"]."<br/>");
+//            print_r("DOCUMENT_ROOT: ".$_SERVER["DOCUMENT_ROOT"]."<br/>");
+//            print_r("DIR_BASE: ".dirname(dirname(__FILE__)) ."<br/>");
+//            print_r("maqinato: ".$maqinato."<br/>");
+//            print_r("<br/><br/>");
             
             
-            $maqinato=$_SERVER["DOCUMENT_ROOT"]."/maqinato/core/Maqinato.php";
             
-            phpinfo();
-            
-            print_r("PHP_SELF: ".$_SERVER["PHP_SELF"]."<br/>");
-            print_r("SCRIPT_FILENAME: ".$_SERVER["SCRIPT_FILENAME"]."<br/>");
-            print_r("SCRIPT_NAME: ".$_SERVER["SCRIPT_NAME"]."<br/>");
-            print_r("REQUEST_URI: ".$_SERVER["REQUEST_URI"]."<br/>");
-            print_r("DOCUMENT_ROOT: ".$_SERVER["DOCUMENT_ROOT"]."<br/>");
-            print_r("DIR_BASE: ".dirname(dirname(__FILE__)) ."<br/>");
-            print_r("maqinato: ".$maqinato."<br/>");
-            print_r("<br/><br/>");
-            
-            
-            if(!class_exists('Maqinato')) include_once $_SERVER["DOCUMENT_ROOT"]."/maqinato/core/Maqinato.php";
             
 //            
 //            
