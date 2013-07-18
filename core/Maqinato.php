@@ -37,8 +37,37 @@ class Maqinato{
      * @var string
      */
     private static $serverType="development";
+    /** Two types of platforms: web y app. i.e:
+     * Web
+     *      - desktop: Un navegador de escritorio estándar
+     *      - mobile: navegador de un dispositivo móvil: tabletas, celulares, ...
+     * App
+     *      - android: aplicación Android
+     *      - ios: aplicación iOS
+     *      - blackberry: aplicación Blackberry
+     *      - ...
+     * @var string
+     */
+    private static $platform="desktop";
+    /** Características de la ventana detectada
+     * 
+     */
+    private static $screen=array();
 
-    private static $timeLoadingClass=0;
+    
+    /**************************** DEBUG VARIABLES ****************************/
+    /** Timers to debug methods, procedures, functions or blok of codes
+     * Each value of array must countain an array with:
+     *  "name"=>"timer_name",
+     *  "ini"=>"timer_start",
+     *  "end"=>"timer_end",
+     */
+    private static $procTimers=array();
+    
+    
+    
+    
+    
 
     /**
      * Constructor of the Maqinato Class
@@ -60,19 +89,22 @@ class Maqinato{
         
         
         
+        
         //Creates the router object
         self::$router=new Router();
         
         
         
+        //Detecta las características de la ventana de la aplicación
         
         
+        //Detecta el tipo de plataforma
         
         
         
         self::info();
         
-        require_once 'presentation/web/views/landing/index.php';
+        require_once 'engine/views/landing/index.php';
         
     }
     
@@ -101,11 +133,12 @@ class Maqinato{
      * cargado usando include o require. Esta función los carga con require.
      */
     private function autoload(){
+        $ini=microtime(true);
         spl_autoload_register(function($className){
             //Lista de directorios en los que se quiere buscar la clase
             $directories = array(
-                self::$root."/application/controllers",
-                self::$root."/application/models",
+                self::$root."/engine/controllers",
+                self::$root."/engine/models",
                 self::$root."/core"
             );
             //Crea un iterador por cada directorio y busca las clases
@@ -125,6 +158,8 @@ class Maqinato{
                 }
             }
         });
+        $end=microtime(true);
+        array_push(self::$procTimers,array("name"=>"autoload classes","ini"=>$ini,"end"=>$end));
     }
 
 
@@ -196,15 +231,21 @@ class Maqinato{
     public static function info(){
         print_r('=======================================================<br/>');
         print_r('Maqinato info{<br/>');
-        print_r("... root: ".self::$root."<br/>");
-        print_r("... application: ".self::$application."<br/>");
-        print_r("... request uri: ".self::$requestUri."<br/>");
-        print_r("... ... Get parameters:<br/>");
+        print_r("|___ root: ".self::$root."<br/>");
+        print_r("|___ application: ".self::$application."<br/>");
+        print_r("|___ request uri: ".self::$requestUri."<br/>");
+        print_r("|______ Get parameters:<br/>");
+        print_r("|_________ ");
         print_r($_GET);
         print_r("<br/>");
-        print_r("... ... Post parameters:<br/>");
+        print_r("|______ Post parameters:<br/>");
+        print_r("|_________ ");
         print_r($_POST);
         print_r("<br/>");
+        print_r("|___ procTimers: <br/>");
+        foreach (self::$procTimers as $timer){
+            print_r("|______ ".$timer["name"]." = ".sprintf('%f',$timer["end"]-$timer["ini"])." ms<br/>");
+        }
         print_r('}<br/>');
         print_r('=======================================================<br/>');
     }

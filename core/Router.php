@@ -46,7 +46,6 @@ class Router{
     
     function __construct() {
         print_r("CONSTRUYENDO ROUTER</br>");
-        Maqinato::info();
         
         
         
