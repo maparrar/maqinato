@@ -45,8 +45,21 @@ class Router{
     
     
     function __construct() {
-        print_r("CONSTRUYENDO ROUTER</br>");
-        
+        //Define the paths variables
+        self::$paths=array(
+            'application'   =>Maqinato::application(),
+            'root'          =>Maqinato::root(),
+            'api'           =>Maqinato::root().'api/',
+            'core'          =>Maqinato::root().'core/',
+            'engine'        =>Maqinato::root().'engine/',
+                'controllers'   =>Maqinato::root().'engine/controllers/',
+                'models'        =>Maqinato::root().'engine/models/',
+                'tests'         =>Maqinato::root().'engine/tests/',
+                'vendors'       =>Maqinato::root().'engine/vendors/',
+                'views'         =>Maqinato::root().'engine/views/',
+            'public'        =>Maqinato::root().'public/',
+            'data'          =>Config::$dataRead.'/'
+        );
         
         
     }
@@ -55,57 +68,57 @@ class Router{
         /**
      * Define the paths variables
      */
-    public static function init(){
-        include_once 'Config.php';
-        //Define the server type and the application name using the type of server
-        //En caso de que no existe el SERVER_NAME se reemplaza por production
-        if(!array_key_exists("SERVER_NAME",$_SERVER)){
-            $serverName='www.maqinato.com';
-        }else{
-            $serverName=$_SERVER['SERVER_NAME'];
-        }
-        
-        //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
-        Config::$dataRead=self::$serverUrl."/data";
-        
-        /*PATHS*/
-        //Define the application root folder
-        self::$root=preg_replace('#/+#','/',$_SERVER['DOCUMENT_ROOT'].'/'.self::$application."/");
-
-        
-        //Define the paths variables
-        self::$paths=array(
-            'application'   =>self::$application,
-            'root'          =>self::$root,
-            'config'        =>self::$root.'config/',
-            'data'          =>self::$root.'data/',
-            'models'        =>self::$root.'models/',
-            'controllers'   =>self::$root.'controllers/',
-            'transactions'  =>self::$root.'transactions/',
-            'vendors'       =>self::$root.'vendors/',
-            'views'         =>self::$root.'views/',
-                'home'          =>self::$root.'views/home/',
-                'pages'         =>self::$root.'views/pages/',
-                'profile'       =>self::$root.'views/profile/',
-                'settings'      =>self::$root.'views/settings/',
-            'web'           =>self::$root.'web/',
-                'ajax'          =>self::$root.'web/ajax/',
-                'css'           =>self::$root.'web/css/',
-                'img'           =>self::$root.'web/img/',
-                'js'            =>self::$root.'web/js/',
-                'templates'     =>self::$root.'web/templates/',
-            'data'          =>Config::$dataRead.'/'
-        );
-        
-        //Configure the users data source
-        if(Config::$dataSource=="file"){
-            
-        }elseif(Config::$dataSource=="rest"){
-            if(!class_exists('S3')) include_once Router::rel("config")."S3.php";
-            self::$s3=new S3(Config::awsAccessKey(),Config::awsSecretKey(),Config::$awsUseSSL,Config::$awsS3Server);
-            self::$publicS3=new S3(Config::awsAccessKey(),Config::awsSecretKey(),Config::$awsUseSSL,Config::$awsS3Server);
-        }
-    }
+//    public static function init(){
+//        include_once 'Config.php';
+//        //Define the server type and the application name using the type of server
+//        //En caso de que no existe el SERVER_NAME se reemplaza por production
+//        if(!array_key_exists("SERVER_NAME",$_SERVER)){
+//            $serverName='www.maqinato.com';
+//        }else{
+//            $serverName=$_SERVER['SERVER_NAME'];
+//        }
+//        
+//        //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
+//        Config::$dataRead=self::$serverUrl."/data";
+//        
+//        /*PATHS*/
+//        //Define the application root folder
+//        self::$root=preg_replace('#/+#','/',$_SERVER['DOCUMENT_ROOT'].'/'.self::$application."/");
+//
+//        
+//        //Define the paths variables
+//        self::$paths=array(
+//            'application'   =>self::$application,
+//            'root'          =>self::$root,
+//            'config'        =>self::$root.'config/',
+//            'data'          =>self::$root.'data/',
+//            'models'        =>self::$root.'models/',
+//            'controllers'   =>self::$root.'controllers/',
+//            'transactions'  =>self::$root.'transactions/',
+//            'vendors'       =>self::$root.'vendors/',
+//            'views'         =>self::$root.'views/',
+//                'home'          =>self::$root.'views/home/',
+//                'pages'         =>self::$root.'views/pages/',
+//                'profile'       =>self::$root.'views/profile/',
+//                'settings'      =>self::$root.'views/settings/',
+//            'web'           =>self::$root.'web/',
+//                'ajax'          =>self::$root.'web/ajax/',
+//                'css'           =>self::$root.'web/css/',
+//                'img'           =>self::$root.'web/img/',
+//                'js'            =>self::$root.'web/js/',
+//                'templates'     =>self::$root.'web/templates/',
+//            'data'          =>Config::$dataRead.'/'
+//        );
+//        
+//        //Configure the users data source
+//        if(Config::$dataSource=="file"){
+//            
+//        }elseif(Config::$dataSource=="rest"){
+//            if(!class_exists('S3')) include_once Router::rel("config")."S3.php";
+//            self::$s3=new S3(Config::awsAccessKey(),Config::awsSecretKey(),Config::$awsUseSSL,Config::$awsS3Server);
+//            self::$publicS3=new S3(Config::awsAccessKey(),Config::awsSecretKey(),Config::$awsUseSSL,Config::$awsS3Server);
+//        }
+//    }
     /**
      * Returns the application name
      * @return string Application name

@@ -95,6 +95,14 @@ class Maqinato{
         
         
         
+        
+        
+        
+        
+        
+        require_once 'core/detectors/clientDetector.php';
+        
+        
         //Detecta las características de la ventana de la aplicación
         
         
@@ -102,9 +110,9 @@ class Maqinato{
         
         
         
-        self::info();
-        
-        require_once 'engine/views/landing/index.php';
+//        self::info();
+//        
+//        require_once 'engine/views/landing/index.php';
         
     }
     
