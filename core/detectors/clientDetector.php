@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="<?php 
-//        error_log(Router::rel("core",true));
-        echo "../../../core/vendors/jquery/jquery-2.0.3.min.js"; 
-        ?>" type="text/javascript" />
+        <script src="public/js/jquery/jquery-2.0.3.min.js" type="text/javascript" ></script>
+        <script>
+            $(document).ready(function(){
+                $("#test").click(function(){
+                    $("body").css("background","red");
+                    $(this).hide();
+                });
+            });
+        </script>
     </head>
     <body>
-        FIN
+        <div id="test">PRUEBA</div>
     </body>
 </html>

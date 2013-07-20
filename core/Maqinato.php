@@ -110,7 +110,7 @@ class Maqinato{
         
         
         
-//        self::info();
+        self::info();
 //        
 //        require_once 'engine/views/landing/index.php';
         
@@ -237,6 +237,7 @@ class Maqinato{
      * Print the Maqinato information
      */
     public static function info(){
+        print_r("<br/>");
         print_r('=======================================================<br/>');
         print_r('Maqinato info{<br/>');
         print_r("|___ root: ".self::$root."<br/>");
