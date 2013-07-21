@@ -74,7 +74,7 @@ class Maqinato{
      * @param string $root Root path in the system. Ie. /var/www/maqinato
      * @param string $application Name of the application folder. Ie. maqinato
      */
-    function __construct($root,$application){
+    public static function start($root,$application){
         self::$root=$root;
         self::$application=$application;
         self::$requestUri=str_replace(self::$application."/","",$_SERVER['REQUEST_URI']);
@@ -83,7 +83,7 @@ class Maqinato{
         
         
         //Registra la función que carga las clases cuando no están include o require
-        $this->autoload();
+        self::autoload();
         
         
         
@@ -95,7 +95,13 @@ class Maqinato{
         
         
         
+        //Redirecciona los datos de GET y POST
+        self::route();
         
+        
+        
+        print_r(get_browser());
+        error_log(get_browser());
         
         
         
@@ -140,7 +146,7 @@ class Maqinato{
      * Función que carga automáticamente un archivo de una clase cuando no ha sido
      * cargado usando include o require. Esta función los carga con require.
      */
-    private function autoload(){
+    private static function autoload(){
         $ini=microtime(true);
         spl_autoload_register(function($className){
             //Lista de directorios en los que se quiere buscar la clase
@@ -221,11 +227,11 @@ class Maqinato{
 
 
 
-    public static function route($get,$post){
+    public static function route(){
         print_r("<br/>GET<br/>");
-        print_r($get);
+        print_r($_GET);
         print_r("<br/>POST<br/>");
-        print_r($post);
+        print_r($_POST);
 
     }
     

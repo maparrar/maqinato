@@ -1,5 +1,3 @@
-
-
 <?php
 /**
  * Redirect all the requests to the Maqinato class
@@ -18,9 +16,6 @@ $application=basename(dirname(__FILE__));
 //Includes the Maqinato class
 include_once 'core/Maqinato.php';
 
-
-
-$maqinato=new Maqinato($root,$application);
-$maqinato->route($_GET,$_POST);
-
+//Inicializa maqinato con los datos de root y aplicación
+Maqinato::start($root, $application);
 ?>

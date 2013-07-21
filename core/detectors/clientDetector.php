@@ -8,6 +8,14 @@
                     $("body").css("background","red");
                     $(this).hide();
                 });
+                
+                console.debug(navigator);
+                console.debug(JSON.stringify(navigator));
+                
+                
+//                jQuery.each(jQuery.browser, function(i, val) {
+//                    console.debug(i+": "+val);
+//                });
             });
         </script>
     </head>
