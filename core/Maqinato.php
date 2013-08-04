@@ -100,18 +100,18 @@ class Maqinato{
     
 
     /**
-     * Constructor of the Maqinato Class
+     * Principal función of the Maqinato Class
      * @param string $root Root path in the system. Ie. /var/www/maqinato
      * @param string $application Name of the application folder. Ie. maqinato
      */
-    public static function start($root,$application){
+    public static function exec($root,$application){
+        $ini=microtime(true);
         self::$root=$root;
         self::$application=$application;
         self::$requestUri=str_replace(self::$application."/","",$_SERVER['REQUEST_URI']);
         
         //Incluye los archivos de configuración
         self::$config=self::loadConfig();
-        print_r(self::$config);
         
         
         //Registra la función que carga las clases cuando no están include o require
@@ -141,10 +141,12 @@ class Maqinato{
         
         
         
-        self::info();
-//        
-//        require_once 'engine/views/landing/index.php';
         
+        
+        
+        $end=microtime(true);
+        array_push(self::$procTimers,array("name"=>"maqinato","ini"=>$ini,"end"=>$end));
+        self::info();
     }
     
     private static function loadConfig(){
@@ -284,7 +286,7 @@ class Maqinato{
     /**
      * Agrega un mensaje de error al array de debug
      */
-    public static function debug($message,$file,$line){
+    public static function debug($message,$file="",$line=""){
         self::$debug[]="[".date("Y-m-d H:i:s")."] - - - [".$file."] - - - [line: ".$line."] - - - ".$message;
     }
     
@@ -292,6 +294,7 @@ class Maqinato{
      * Print the Maqinato information
      */
     public static function info(){
+        $info=$config=$debug="";
         if(self::$debugLevel>0){
             if(self::$debugLevel>=1){
                 $info='<div class="section">';
@@ -321,7 +324,6 @@ class Maqinato{
             if(self::$debugLevel>=2){
                 $config='<div class="section">';
                     $config.='<div class="title">CONFIG</div>';
-                    
                     $config.=self::makeList(self::$config);
                 $config.='</div>';
             }
@@ -349,18 +351,33 @@ class Maqinato{
         }
     }
     //Make a list from an array 
-    private static function makeList($array) { 
+    private static function makeList($array){
+        if(is_array($array)&&count($array)>0){
+            $output='<ul>';
+            foreach ($array as $key => $value){
+                if(is_array($value)){
+                    $output.='<li>['.$key.']: </li>';
+                    $output.=self::makeList($value);
+                }else{
+                    $output.='<li>['.$key.']: '.$value.'</li>';
+                }
+            }
+            $output.='</ul>'; 
+        }
+        
+        
+        
 
-        //Base case: an empty array produces no list 
-        if (empty($array)) return ''; 
-
-        //Recursive Step: make a list with child lists 
-        $output = '<ul>'; 
-        foreach ($array as $key => $subArray) { 
-            $output .= '<li>' . $key . self::makeList($subArray) . '</li>'; 
-        } 
-        $output .= '</ul>'; 
-
+//        //Base case: an empty array produces no list 
+//        if (empty($array)) return ''; 
+//
+//        //Recursive Step: make a list with child lists 
+//        $output = '<ul>'; 
+//        foreach ($array as $key => $subArray) { 
+//            $output .= '<li>' . $key . self::makeList($subArray) . '</li>'; 
+//        } 
+//        $output .= '</ul>'; 
+//
         return $output; 
     }
 }

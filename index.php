@@ -18,7 +18,7 @@ $application=basename(dirname(__FILE__));
 include_once 'core/Maqinato.php';
 
 //Inicializa maqinato con los datos de root y aplicación
-Maqinato::start($root, $application);
+Maqinato::exec($root, $application);
 
 
 ?>
