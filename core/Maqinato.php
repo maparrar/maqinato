@@ -29,31 +29,10 @@ class Maqinato{
      * @var string Uri request
      */
     private static $requestUri="";
-    /** Router object
-     * @var Router
-     */
-    private static $router=null;
     /** Datos del servidor detectado por maqinato
      * @var string
      */
     private static $environment="";
-    /** Two types of platforms: web y app. i.e:
-     * Web
-     *      - desktop: Un navegador de escritorio estándar
-     *      - mobile: navegador de un dispositivo móvil: tabletas, celulares, ...
-     * App
-     *      - android: aplicación Android
-     *      - ios: aplicación iOS
-     *      - blackberry: aplicación Blackberry
-     *      - ...
-     * @var string
-     */
-    private static $platform="desktop";
-    /** Características de la ventana detectada
-     * 
-     */
-    private static $screen=array();
-    
     /** Array asociativo de controlador+función+parámetros tomado de la URL de entrada
      * $command=array(
      *      "controller"=>"controllerName",
