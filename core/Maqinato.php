@@ -53,9 +53,24 @@ class Maqinato{
      * 
      */
     private static $screen=array();
-
+    
+    /** Array asociativo de controlador+función+parámetros tomado de la URL de entrada
+     * $command=array(
+     *      "controller"=>"controllerName",
+     *      "function"=>"functionName",
+     *      "parameters"=>array(
+     *          [0]=>"firstParamater",
+     *          [1]=>"secondParamater"
+     *      )
+     * );
+     */
+    private static $request=array();
     
     /**************************** DEBUG VARIABLES ****************************/
+    /**
+     * Array para almacenar todos los mensajes debug que se requieran
+     */
+    private static $debug=array();
     /** Timers to debug methods, procedures, functions or blok of codes
      * Each value of array must countain an array with:
      *  "name"=>"timer_name",
@@ -95,30 +110,23 @@ class Maqinato{
         
         
         
-        //Redirecciona los datos de GET y POST
-        self::route();
+        //Obtiene los comandos pasados en la URL
+        self::$request=self::$router->parseRequest(self::$requestUri);
         
         
+        $controller=new TempController();
         
-        print_r(get_browser());
-        error_log(get_browser());
-        
-        
-        
-        
-        require_once 'core/detectors/clientDetector.php';
-        
-        
-        //Detecta las características de la ventana de la aplicación
-        
-        
-        //Detecta el tipo de plataforma
+        $controller->probando(self::$request["parameters"][0]);
         
         
         
         self::info();
 //        
 //        require_once 'engine/views/landing/index.php';
+        
+    }
+    
+    public static function redirectRequest(){
         
     }
     
@@ -226,18 +234,17 @@ class Maqinato{
 
 
 
-
-    public static function route(){
-        print_r("<br/>GET<br/>");
-        print_r($_GET);
-        print_r("<br/>POST<br/>");
-        print_r($_POST);
-
+    
+    
+    
+    
+    
+    /**
+     * Agrega un mensaje de error al array de debug
+     */
+    public static function debug($message,$file,$line){
+        self::$debug[]=" - - - [".date("Y-m-d H:i:s")."] - - - [".$file."] - - - [line: ".$line."] - - - ".$message;
     }
-    
-    
-    
-    
     
     /**
      * Print the Maqinato information
@@ -249,19 +256,22 @@ class Maqinato{
         print_r("|___ root: ".self::$root."<br/>");
         print_r("|___ application: ".self::$application."<br/>");
         print_r("|___ request uri: ".self::$requestUri."<br/>");
-        print_r("|______ Get parameters:<br/>");
-        print_r("|_________ ");
-        print_r($_GET);
-        print_r("<br/>");
-        print_r("|______ Post parameters:<br/>");
-        print_r("|_________ ");
-        print_r($_POST);
-        print_r("<br/>");
+        print_r("|______ controller: ".self::$request["controller"]."<br/>");
+        print_r("|______ function: ".self::$request["function"]."<br/>");
+        print_r("|______ parameters: <br/>");
+        foreach (self::$request["parameters"] as $key => $parameter){
+            print_r("|_________ [".$key."]: ".$parameter."<br/>");
+        }
         print_r("|___ procTimers: <br/>");
         foreach (self::$procTimers as $timer){
             print_r("|______ ".$timer["name"]." = ".sprintf('%f',$timer["end"]-$timer["ini"])." ms<br/>");
         }
         print_r('}<br/>');
+        print_r('_______________________________________________________<br/>');
+        print_r("Debug: <br/>");
+        foreach (self::$debug as $key => $message){
+            print_r("[".$key."]".$message."<br/>");
+        }
         print_r('=======================================================<br/>');
     }
 }

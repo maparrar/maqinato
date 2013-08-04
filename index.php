@@ -1,6 +1,7 @@
 <?php
 /**
  * Redirect all the requests to the Maqinato class
+ * Se ejecuta cada que se hace una petición
  * 
  * @author https://github.com/maparrar/maqinato
  * @package views
@@ -18,4 +19,6 @@ include_once 'core/Maqinato.php';
 
 //Inicializa maqinato con los datos de root y aplicación
 Maqinato::start($root, $application);
+
+
 ?>
