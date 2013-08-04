@@ -33,14 +33,10 @@ class Maqinato{
      * @var Router
      */
     private static $router=null;
-    /** Server type.
-     *  - "development": locate in development server
-     *  - "testing": Debian server (maqinato server)
-     *  - "rc": Release Candidate in the Amazon AWS servers
-     *  - "production": Version installed in the Amazon AWS servers
+    /** Datos del servidor detectado por maqinato
      * @var string
      */
-    private static $serverType="development";
+    private static $environment="";
     /** Two types of platforms: web y app. i.e:
      * Web
      *      - desktop: Un navegador de escritorio estándar
@@ -110,25 +106,28 @@ class Maqinato{
         self::$application=$application;
         self::$requestUri=str_replace(self::$application."/","",$_SERVER['REQUEST_URI']);
         
-        //Incluye los archivos de configuración
-        self::$config=self::loadConfig();
-        
-        
         //Registra la función que carga las clases cuando no están include o require
         self::autoload();
         
+        //Incluye los archivos de configuración
+        self::$config=self::loadConfig();
+        
+        //Detecta el nombre del servidor y selecciona el ambiente
+        self::$environment=self::loadEnvironment();
         
         
         
         
         
-        //Creates the router object
-        self::$router=new Router();
         
+        
+        
+        
+        //Incluye los estilos básicos de maqinato
         Router::css("template");
         
         //Obtiene los comandos pasados en la URL
-        self::$request=self::$router->parseRequest(self::$requestUri);
+        self::$request=Router::parseRequest(self::$requestUri);
         
         
         $controller=new TempController();
@@ -137,7 +136,7 @@ class Maqinato{
         
         
         
-        self::redirectRequest(self::$request);
+        self::redirect(self::$request);
         
         
         
@@ -151,11 +150,30 @@ class Maqinato{
     
     private static function loadConfig(){
         return array(
-            "paths"=>require_once 'engine/config/paths.php'
+            "app"           =>  require_once 'engine/config/app.php',
+            "environment"   =>  require_once 'engine/config/environment.php',
+            "client"        =>  require_once 'engine/config/client.php',
+            "database"      =>  require_once 'engine/config/database.php',
+            "paths"         =>  require_once 'engine/config/paths.php'
         );
     }
     
-    public static function redirectRequest($request){
+    private static function loadEnvironment(){
+        $serverName=$_SERVER['SERVER_NAME'];
+        /*DEVELOPMENT*/
+        if(in_array($serverName,self::$config["environment"]["development"]["urls"])){
+            $environment="development";
+        /*RELEASE CANDIDATE*/
+        }elseif(in_array($serverName,self::$config["environment"]["release"]["urls"])){
+            $environment="release";
+        /*PRODUCTION*/
+        }elseif(in_array($serverName,self::$config["environment"]["production"]["urls"])){
+            $environment="production";
+        }
+        return $environment;
+    }
+    
+    public static function redirect($request){
         switch ($request["controller"]) {
             case "landing":
                 View::load("landing");
@@ -165,24 +183,12 @@ class Maqinato{
                 break;
             default:
                 Maqinato::debug("Controller not detected",__FILE__,__LINE__);
-                self::redirectRequest(array(
+                self::redirect(array(
                     "controller"=>"error"
                 ));
                 break;
         }
     }
-    
-    
-    
-    
-//    function my_autoloader($className){
-//        $parts = explode('\\', $className); //split out namespaces
-//        $classname = strtolower(end($parts)); //get classname case insensitive (just my choice)
-//
-//            //TODO: Your Folder handling which returns classfile
-//
-//        require_once($loadFile); 
-//    }
     
     /**************************************************************************/
     /*************************** GETTERS AND SETTERS **************************/
@@ -227,67 +233,40 @@ class Maqinato{
         $end=microtime(true);
         array_push(self::$procTimers,array("name"=>"autoload classes","ini"=>$ini,"end"=>$end));
     }
-
-
-
-    private function detectServer(){
-        /*LOCAL DEVELOPMENT*/
-//        if(in_array($serverName,Config::$servers["development"])){
-//            self::$serverType="development";
-//            self::$application=Config::$application;
-//            Config::$dataSource="file";
-//            //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
-//            self::$serverUrl=Config::$protocol."://".Config::$servers["development"][0];
-//        /*DEBIAN TESTING VERSION */
-//        }elseif(in_array($serverName,Config::$servers["testing"])){
-//            self::$serverType="testing";
-//            self::$application=Config::$application;
-//            Config::$dataSource="file";
-//            //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
-//            self::$serverUrl=Config::$protocol."://".Config::$servers["testing"][0];
-//        /*AMAZON RELEASE CANDIDATE*/
-//        }elseif(in_array($serverName,Config::$servers["release"])){
-//            self::$serverType="release";
-//            self::$application="";
-//            Config::$dataSource="rest";
-//            Config::$daemonsInterval = 10000;
-//            Config::$awsBucket = "maqinatorc";
-//            //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
-//            self::$serverUrl=Config::$protocol."://".Config::$servers["release"][0];
-//        /*AMAZON PRODUCTION*/
-//        }elseif(in_array($serverName,Config::$servers["production"])){
-//            self::$serverType="production";
-//            self::$application="";
-//            Config::$dataSource="rest";
-//            Config::$daemonsInterval = 10000;
-//            Config::$awsBucket = "maqinato";
-//            Config::$protocol="https";
-//            //Toma como dataRead el primer servidor de la lista de servidores para cada tipo de servidor
-//            self::$serverUrl=Config::$protocol."://".Config::$servers["production"][0];
-//        }
+    
+    /**
+     * Convierte un array en un string en json, aprovechando el método jsonEncode() 
+     * de la clase Object de la que heredan todos los demás objetos.
+     * @param array $array con el contenido de los objetos
+     * @param string $name (opcional) Nombre que tiene el objeto de Json retornado
+     * @return string Cadena con los objetos convertidos a json
+     */
+    public static function arrayToJson($array,$name="array"){
+        $string='"'.$name.'":[';
+        if(is_array($array)){
+            foreach ($array as $value){
+                $string.=$value->jsonEncode().',';
+            }
+            if(count($array)>0){
+                //Elimina la última coma
+                $string=substr($string,0,-1);
+            }
+        }else{
+            $string.=$array->jsonEncode().',';
+        }
+        $string.=']';
+        return $string;
     }
-
-    
-
-
-
-
-
-
-
-
-
-
     
     
-    
-    
+
+
     
     /**
      * Agrega un mensaje de error al array de debug
      */
     public static function debug($message,$file="",$line=""){
-        self::$debug[]="[".date("Y-m-d H:i:s")."] - - - [".$file."] - - - [line: ".$line."] - - - ".$message;
+        self::$debug[]="[".date("Y-m-d H:i:s")."] - - - [".$file."] - - - [line: ".$line."] - - - [".$message.']';
     }
     
     /**
@@ -302,6 +281,7 @@ class Maqinato{
                     $info.='<ul>';
                         $info.='<li>root: '.self::$root.'</li>';
                         $info.='<li>application: '.self::$application.'</li>';
+                        $info.='<li>environment: '.self::$environment.'</li>';
                         $info.='<li>request:</li>';
                             $info.='<ul>';
                                 $info.='<li>uri: '.self::$requestUri.'</li>';
@@ -364,21 +344,8 @@ class Maqinato{
             }
             $output.='</ul>'; 
         }
-        
-        
-        
-
-//        //Base case: an empty array produces no list 
-//        if (empty($array)) return ''; 
-//
-//        //Recursive Step: make a list with child lists 
-//        $output = '<ul>'; 
-//        foreach ($array as $key => $subArray) { 
-//            $output .= '<li>' . $key . self::makeList($subArray) . '</li>'; 
-//        } 
-//        $output .= '</ul>'; 
-//
         return $output; 
     }
+    
 }
 ?>
