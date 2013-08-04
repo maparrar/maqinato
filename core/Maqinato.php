@@ -64,7 +64,11 @@ class Maqinato{
      *      )
      * );
      */
-    private static $request=array();
+    private static $request=array(
+        "controller"=>false,
+        "function"=>false,
+        "parameters"=>array()
+    );
     
     /**************************** DEBUG VARIABLES ****************************/
     /**
@@ -108,15 +112,17 @@ class Maqinato{
         //Creates the router object
         self::$router=new Router();
         
-        
+        Router::css("template");
         
         //Obtiene los comandos pasados en la URL
         self::$request=self::$router->parseRequest(self::$requestUri);
         
         
-        $controller=new TempController();
+//        $controller=new TempController();
+//        
+//        $controller->probando(self::$request["parameters"][0]);
         
-        $controller->probando(self::$request["parameters"][0]);
+        self::redirectRequest(self::$request);
         
         
         
@@ -126,9 +132,24 @@ class Maqinato{
         
     }
     
-    public static function redirectRequest(){
-        
+    public static function redirectRequest($request){
+        switch ($request["controller"]) {
+            case "landing":
+                View::load("landing");
+                break;
+            case "error":
+                View::error();
+                break;
+            default:
+                Maqinato::debug("Controller not detected",__FILE__,__LINE__);
+                self::redirectRequest(array(
+                    "controller"=>"error"
+                ));
+                break;
+        }
     }
+    
+    
     
     
 //    function my_autoloader($className){
@@ -250,6 +271,7 @@ class Maqinato{
      * Print the Maqinato information
      */
     public static function info(){
+        print_r('<div class="maqinato_debug">');
         print_r("<br/>");
         print_r('=======================================================<br/>');
         print_r('Maqinato info{<br/>');
@@ -273,6 +295,7 @@ class Maqinato{
             print_r("[".$key."]".$message."<br/>");
         }
         print_r('=======================================================<br/>');
+        print_r("<div/>");
     }
 }
 ?>

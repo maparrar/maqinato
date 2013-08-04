@@ -235,14 +235,13 @@ class Router{
      * @param string (Optional) Se define cuando se quiere forzar la llamada desde otro folder
      * @return string relative path
      */
-    public static function rel($folder,$forceCaller=false){
+    public static function path($folder,$forceCaller=false){
         $path="";
         if($folder=='application'){
             $path=self::$paths[$folder];
         }else{            
             //Caller folder of script 
             $folder=self::$paths[$folder];
-//            $caller=getcwd().'/';
             $caller=$_SERVER['SCRIPT_FILENAME'];            
             if($forceCaller){
                 $caller=self::abs($forceCaller);
@@ -338,14 +337,14 @@ class Router{
             if($value=="google"){
                 $string.='<script class="component" type="text/javascript" src="'.Config::$jsScripts[$value].'"></script>';
             }elseif(array_key_exists($value,Config::$jsScripts)){
-                $string.='<script class="component" type="text/javascript" src="'.self::rel("web").Config::$jsScripts[$value].'"></script>';
+                $string.='<script class="component" type="text/javascript" src="/'.Maqinato::application()."/".Config::$jsScripts[$value].'"></script>';
             }else{
                 $ext=pathinfo($value,PATHINFO_EXTENSION);
                 if(!$ext){
                     $value.=".js";
                 }
-                if(file_exists(self::rel("js").$value)){
-                    $string.='<script class="component" type="text/javascript" src="'.self::rel("js").$value.'"></script>';
+                if(file_exists(self::path("js").$value)){
+                    $string.='<script class="component" type="text/javascript" src="'.self::path("js").$value.'"></script>';
                 }else{
                     $string.='JS script NOT Found: '.$value.'<br/>';
                 }
@@ -364,14 +363,14 @@ class Router{
         $values = func_get_args();
         foreach ($values as $value){
             if(array_key_exists($value,Config::$cssScripts)){
-                $string.='<link rel="stylesheet" type="text/css" href="'.self::rel("web").Config::$cssScripts[$value].'">';
+                $string.='<link rel="stylesheet" type="text/css" href="/'.Maqinato::application()."/".Config::$cssScripts[$value].'">';
             }else{
                 $ext=pathinfo($value,PATHINFO_EXTENSION);
                 if(!$ext){
                     $value.=".css";
                 }
-                if(file_exists(self::rel("css").$value)){
-                    $string.='<link rel="stylesheet" type="text/css" href="'.self::rel("css").$value.'">';
+                if(file_exists(self::path("css").$value)){
+                    $string.='<link rel="stylesheet" type="text/css" href="'.self::path("css").$value.'">';
                 }else{
                     $string.='CSS script NOT Found: '.$value.'<br/>';
                 }

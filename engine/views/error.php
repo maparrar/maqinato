@@ -1,4 +1,8 @@
-<?php
-echo '>>>>>>>>>>>>>>>>>>>>>>>>>> ESTOY EN EL LANDING <<<<<<<<<<<<<<<<<<<<<<<< <br/>';
-Maqinato::info();
-?>
+<!DOCTYPE HTML>
+<html>
+    <head>
+    </head>
+    <body>
+        Page not found
+    </body>
+</html>

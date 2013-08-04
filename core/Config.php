@@ -10,25 +10,19 @@
  * @author Alejandro Parra <maparrar@gmail.com> 
  * @package config
  */
-class Config{
-    
+class Config{    
 /******************************************************************************/
 /*********************************** ROUTING **********************************/
-/******************************************************************************/
-    /** Application name
-     * @var string
-     */
-    public static $application="maqinato";
-    
+/******************************************************************************/    
     /**
      * Protocolo usado por maqinato
      */
     public static $protocol="http";
     
-    /** Array with the possible server names
+    /** Array with the possible environments
      * @var mixed
      */
-    public static $servers=array(
+    public static $environments=array(
         "development"=>array(
             "localhost",
             "127.0.0.1",
@@ -60,25 +54,8 @@ class Config{
      * @var mixed[]
      */
     public static $jsScripts=array(
-        "jquery"                =>  "js/jquery/jquery-1.8.3.min.js",
-        "jqueryui"              =>  "js/jquery/jquery-ui-1.9.2.custom.min.js",
-        "jqueryvalidate"        =>  "js/jquery/jquery-validate.min.js",
-        "jquerymobile"          =>  "js/jquery/jquerymobile.min.js",
-        
-        "system"                =>  "js/system/System.js",
-        "ajax"                  =>  "js/system/ajax/ajax.min.js",
-        "ajaxCore"              =>  "js/system/ajax/AjaxCore.js",
-        "ajaxSocial"            =>  "js/system/ajax/AjaxSocial.js",
-        "access"                =>  "js/system/components/Access.js",
-        "daemons"               =>  "js/system/components/Daemons.js",
-        "landing"               =>  "js/system/components/Landing.js",
-        "home"                  =>  "js/system/components/Home.js",
-        "security"              =>  "js/system/components/Security.js",
-        "settings"              =>  "js/system/components/Settings.js",
-        "tools"                 =>  "js/system/components/Tools.js",
-        "uploader"              =>  "js/system/components/Uploader.js"
+        "jquery"                =>  "public/js/jquery/jquery-2.0.3.min.js"
     );
-    
     
     /**
      * Array of css scripts to use in the application.
@@ -86,8 +63,7 @@ class Config{
      * @var mixed[]
      */
     public static $cssScripts=array(
-        "jqueryui"              =>  "css/jquery/smoothness/jquery-ui-1.9.2.custom.min.css"
-        
+        "template"              =>  "public/css/template.css"
     );
 
 /******************************************************************************/
@@ -204,25 +180,6 @@ class Config{
     /********************************* DAEMONS ********************************/
     /** Intervalo (milisegundos) en que los demonios consultan el servidor */
     public static $daemonsInterval = 10000;
-    
-    
-    /******************************** NEWSFEED ********************************/
-    /** Número de actividades que se cargan al iniciar el newsfeed*/
-    public static $activitiesLoadInit = 10;
-    /** Número de actividades que se cargan al llegar al final de la página*/
-    public static $activitiesLoadScroll = 10;
-    
-    /********************************* GIVING *********************************/
-    /** Monto mínimo que se puede donar*/
-    public static $amountMin = 10;
-    public static $amountDefault = 25;
-    public static $amountIncrement = 5;
-    
-    /********************************* SEARCH *********************************/
-    /* Cantidad máxima de usuarios, tags o nonprofits a mostrar en la búsqueda*/
-    public static $searchMaxUsers = 5;
-    public static $searchMaxTags = 3;
-    public static $searchMaxNonprofits = 3;
     
 /******************************************************************************/
 /************************************ FILES ***********************************/
