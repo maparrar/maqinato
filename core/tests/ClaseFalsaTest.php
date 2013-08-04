@@ -1,5 +1,5 @@
 <?php
-class ExpectedErrorTest extends PHPUnit_Framework_TestCase
+class ClaseFalsaTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException PHPUnit_Framework_Error

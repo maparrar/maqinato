@@ -34,7 +34,7 @@ class Maqinato{
      */
     private static $environment="";
     /** Array asociativo de controlador+función+parámetros tomado de la URL de entrada
-     * $command=array(
+     * $request=array(
      *      "controller"=>"controllerName",
      *      "function"=>"functionName",
      *      "parameters"=>array(
