@@ -1,7 +1,6 @@
 <?php
 /** Config File
  * @package config */
-@session_start();
 /**
  * Config Class
  * All configuration data for the application
@@ -10,7 +9,7 @@
  * @author Alejandro Parra <maparrar@gmail.com> 
  * @package config
  */
-class Config{    
+class Config{
 /******************************************************************************/
 /*********************************** ROUTING **********************************/
 /******************************************************************************/    

@@ -6,7 +6,59 @@ root {
     MAQINATO DEBUG STYLES
 */
 .maqinato_debug{
-    background: green;
+    background: #a6b779;
+    border: 1px solid green;
     color: white;
     font-size: 11px;
+    height: 300px;
+    margin: 10px 0;
+}
+.maqinato_debug > .title{
+    background: green;
+    font-weight: bold;
+    text-indent: 7px;
+}
+.maqinato_debug .column{
+    float: left;
+    height: 284px;
+    margin-left: 5px;
+}
+.maqinato_debug .section{
+    background: #ffff88;
+    border: 1px solid blue;
+}
+.maqinato_debug .section .title{
+    background: blue;
+    font-weight: bold;
+    text-indent: 7px;
+}
+.maqinato_debug .section ul{
+    color: blue;
+}
+.maqinato_debug .left{
+    width: 30%;
+}
+.maqinato_debug .left .section{
+    margin-top: 5px;
+    height: 134px;
+    overflow: hidden;
+}
+.maqinato_debug .left .section > ul{
+    height: 120px;
+    margin-top: 1px;
+    overflow: auto;
+}
+.maqinato_debug .right{
+    float: left;
+    width: 69%;
+}
+.maqinato_debug .right .section{
+    margin-top: 5px;
+    height: 275px;
+    overflow: hidden;
+}
+.maqinato_debug .right .section > ul{
+    height: 260px;
+    margin-top: 1px;
+    overflow: auto;
 }

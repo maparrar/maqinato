@@ -13,6 +13,10 @@
  * @todo Detección de tipo de servidor (development, testing, release, production)
  */
 class Maqinato{
+    /** Variable donde se almacena la configuración de maqinato
+     * @var array
+     */
+    public static $config=array();
     /** Root folder of the application (i.e. /var/www/maqinato)
      * @var string
      */
@@ -71,6 +75,13 @@ class Maqinato{
     );
     
     /**************************** DEBUG VARIABLES ****************************/
+    /** Nivel de debug.
+     *  0   No muestra ningún mensaje de maqinato
+     *  1   Muestra la información básica y el request actual
+     *  2   Muestra el nivel 1 + todos los datos de configuración de maqinato
+     *  3   Muestra el nivel 2 + la lista de mensajes del debug
+     */
+    private static $debugLevel=3;
     /**
      * Array para almacenar todos los mensajes debug que se requieran
      */
@@ -98,7 +109,9 @@ class Maqinato{
         self::$application=$application;
         self::$requestUri=str_replace(self::$application."/","",$_SERVER['REQUEST_URI']);
         
-        
+        //Incluye los archivos de configuración
+        self::$config=self::loadConfig();
+        print_r(self::$config);
         
         
         //Registra la función que carga las clases cuando no están include o require
@@ -118,9 +131,11 @@ class Maqinato{
         self::$request=self::$router->parseRequest(self::$requestUri);
         
         
-//        $controller=new TempController();
-//        
-//        $controller->probando(self::$request["parameters"][0]);
+        $controller=new TempController();
+        
+        $controller->probando(self::$request["parameters"][0]);
+        
+        
         
         self::redirectRequest(self::$request);
         
@@ -130,6 +145,12 @@ class Maqinato{
 //        
 //        require_once 'engine/views/landing/index.php';
         
+    }
+    
+    private static function loadConfig(){
+        return array(
+            "paths"=>require_once 'engine/config/paths.php'
+        );
     }
     
     public static function redirectRequest($request){
@@ -264,38 +285,83 @@ class Maqinato{
      * Agrega un mensaje de error al array de debug
      */
     public static function debug($message,$file,$line){
-        self::$debug[]=" - - - [".date("Y-m-d H:i:s")."] - - - [".$file."] - - - [line: ".$line."] - - - ".$message;
+        self::$debug[]="[".date("Y-m-d H:i:s")."] - - - [".$file."] - - - [line: ".$line."] - - - ".$message;
     }
     
     /**
      * Print the Maqinato information
      */
     public static function info(){
-        print_r('<div class="maqinato_debug">');
-        print_r("<br/>");
-        print_r('=======================================================<br/>');
-        print_r('Maqinato info{<br/>');
-        print_r("|___ root: ".self::$root."<br/>");
-        print_r("|___ application: ".self::$application."<br/>");
-        print_r("|___ request uri: ".self::$requestUri."<br/>");
-        print_r("|______ controller: ".self::$request["controller"]."<br/>");
-        print_r("|______ function: ".self::$request["function"]."<br/>");
-        print_r("|______ parameters: <br/>");
-        foreach (self::$request["parameters"] as $key => $parameter){
-            print_r("|_________ [".$key."]: ".$parameter."<br/>");
+        if(self::$debugLevel>0){
+            if(self::$debugLevel>=1){
+                $info='<div class="section">';
+                    $info.='<div class="title">INFO</div>';
+                    $info.='<ul>';
+                        $info.='<li>root: '.self::$root.'</li>';
+                        $info.='<li>application: '.self::$application.'</li>';
+                        $info.='<li>request:</li>';
+                            $info.='<ul>';
+                                $info.='<li>uri: '.self::$requestUri.'</li>';
+                                $info.='<li>params:</li>';
+                                    $info.='<ul>';
+                                        foreach(self::$request["parameters"] as $key => $parameter){
+                                            $info.='<li>'.$parameter.'</li>';
+                                        }
+                                    $info.='</ul>';
+                            $info.='</ul>';
+                        $info.='<li>procTimers:</li>';    
+                            $info.='<ul>';
+                                foreach (self::$procTimers as $timer){
+                                    $info.='<li>'.$timer["name"].": ".sprintf('%f',$timer["end"]-$timer["ini"])." ms</li>";
+                                }
+                            $info.='</ul>';
+                    $info.='</ul>';
+                $info.='</div>';
+            }
+            if(self::$debugLevel>=2){
+                $config='<div class="section">';
+                    $config.='<div class="title">CONFIG</div>';
+                    
+                    $config.=self::makeList(self::$config);
+                $config.='</div>';
+            }
+            if(self::$debugLevel>=3){
+                $debug='<div class="section">';
+                    $debug.='<div class="title">DEBUG</div>';
+                    $debug.='<ul>';
+                        foreach (self::$debug as $key => $message){
+                            $debug.='<li>'.$message.'</li>';
+                        }
+                    $debug.='</ul>';
+                $debug.='</div>';
+            }
+            $output='<div class="maqinato_debug">';
+            $output.='<div class=title>MAQINATO</div>';
+            $output.='<div class="column left">';
+                $output.=$info;
+                $output.=$config;
+            $output.='</div>';
+            $output.='<div class="column right">';
+                $output.=$debug;
+            $output.='</div>';
+            $output.='</div>';
+            echo $output;
         }
-        print_r("|___ procTimers: <br/>");
-        foreach (self::$procTimers as $timer){
-            print_r("|______ ".$timer["name"]." = ".sprintf('%f',$timer["end"]-$timer["ini"])." ms<br/>");
-        }
-        print_r('}<br/>');
-        print_r('_______________________________________________________<br/>');
-        print_r("Debug: <br/>");
-        foreach (self::$debug as $key => $message){
-            print_r("[".$key."]".$message."<br/>");
-        }
-        print_r('=======================================================<br/>');
-        print_r("<div/>");
+    }
+    //Make a list from an array 
+    private static function makeList($array) { 
+
+        //Base case: an empty array produces no list 
+        if (empty($array)) return ''; 
+
+        //Recursive Step: make a list with child lists 
+        $output = '<ul>'; 
+        foreach ($array as $key => $subArray) { 
+            $output .= '<li>' . $key . self::makeList($subArray) . '</li>'; 
+        } 
+        $output .= '</ul>'; 
+
+        return $output; 
     }
 }
 ?>
