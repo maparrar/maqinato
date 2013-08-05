@@ -1,9 +1,11 @@
-Maqinato v.0.1 (pre-alpha)
-No es funcional. Solo disponible para pruebas hasta la versión 1.0.
+Maqinato v.0.2 (pre-alpha)
+¡¡¡No es funcional. Solo disponible para pruebas hasta la versión 1.0.!!!
 
-Framework para desarrollo de aplicaciones web y backend para aplicaciones móviles.
+Casi-Framework para desarrollo de aplicaciones web y backend para aplicaciones móviles. 
+Más que un framework es una forma de organizar un proyecto de PHP basado en varias
+ideas de frameworks comerciales.
 
-Ofrece una API accesible para aplicaciones web nativas, web móviles y nativas móviles.
+Con suerte ofrecerá una API accesible para aplicaciones web nativas, web móviles y nativas móviles.
 
 
 REQUISITOS
