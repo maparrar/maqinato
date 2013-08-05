@@ -117,7 +117,7 @@ class Maqinato{
         
         self::redirect(self::$request);
         
-        
+        phpinfo();
         
         
         
