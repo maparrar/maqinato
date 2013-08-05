@@ -121,7 +121,6 @@ class Maqinato{
         
         
         
-        
         $end=microtime(true);
         array_push(self::$procTimers,array("name"=>"maqinato","ini"=>$ini,"end"=>$end));
         self::info();
