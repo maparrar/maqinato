@@ -1,65 +1,33 @@
 <?php
-/** UserType File
- * @package models @subpackage core */
-include_once Router::rel('models').'core/Object.php';
-/**
- * UserType Class
- * 
- * @author https://github.com/maparrar/maqinato
- * @author Alejandro Parra <maparrar@gmail.com> 
- * @package models
- * @subpackage core
- */
-class UserType extends Object{
-    /** Identificator
-     * @var int
-     */
-    protected $id;
-    /** name 
-     * @var string
-     */
-    protected $name;
-    /**
-     * Constructor
-     * @param int identificator (optional)
-     * @param string name (optional)
-     */
-    function UserType($id=0,$name=""){
-        $this->id=$id;
-        $this->name=$name;
+class UserTypeTest extends PHPUnit_Framework_TestCase
+{
+    public function testEmpty()
+    {
+        $stack = array();
+        $this->assertEmpty($stack);
+ 
+        return $stack;
     }
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ 
     /**
-     * Setter: id
-     * @param int $id
-     * @return void
+     * @depends testEmpty
      */
-    public function setId($id) {
-        $this->id = $id;
+    public function testPush(array $stack)
+    {
+        array_push($stack, 'foo');
+        $this->assertEquals('foo', $stack[count($stack)-1]);
+        $this->assertNotEmpty($stack);
+ 
+        return $stack;
     }
+ 
     /**
-     * Setter: name
-     * @param String $name
-     * @return void
+     * @depends testPush
      */
-    public function setName($name) {
-        $this->name = $name;
+    public function testPop(array $stack)
+    {
+        $this->assertEquals('foo', array_pop($stack));
+        $this->assertEmpty($stack);
     }
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   GETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /**
-     * Getter: id
-     * @return int
-     */
-    public function getId() {
-        return $this->id;
-    }
-    /**
-     * Getter: name
-     * @return String
-     */
-    public function getName() {
-        return $this->name;
-    }
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-} 
+}
 ?>

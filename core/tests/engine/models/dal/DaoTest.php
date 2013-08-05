@@ -1,34 +1,33 @@
 <?php
-/** Dao File
- * @package models @subpackage dal\donation */
-//if(!class_exists('Router')) require_once '../../config/Router.php';
-//include_once Router::rel('models').'dal/Database.php';
-/**
- * Dao Class
- *
- * Class data layer for the access the databases
- * 
- * @author https://github.com/maparrar/maqinato
- * @author Alejandro Parra <maparrar@gmail.com> 
- * @package models
- * @subpackage dal\donation
- */
-class Dao{
-    /** Database Object 
-     * @var Database
-     */
-    protected $db;
-    /** PDO handler object 
-     * @var PDO
-     */
-    protected $handler;
+class DaoTest extends PHPUnit_Framework_TestCase
+{
+    public function testEmpty()
+    {
+        $stack = array();
+        $this->assertEmpty($stack);
+ 
+        return $stack;
+    }
+ 
     /**
-     * Constructor: sets the database Object and the PDO handler
-     * @param string Type of connection string to use
+     * @depends testEmpty
      */
-    function Dao($type="all"){
-        $this->db=new Database($type);
-        $this->handler=$this->db->getHandler();
+    public function testPush(array $stack)
+    {
+        array_push($stack, 'foo');
+        $this->assertEquals('foo', $stack[count($stack)-1]);
+        $this->assertNotEmpty($stack);
+ 
+        return $stack;
+    }
+ 
+    /**
+     * @depends testPush
+     */
+    public function testPop(array $stack)
+    {
+        $this->assertEquals('foo', array_pop($stack));
+        $this->assertEmpty($stack);
     }
 }
 ?>
