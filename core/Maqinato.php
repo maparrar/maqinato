@@ -110,14 +110,13 @@ class Maqinato{
         
         
         $controller=new TempController();
-        
-        $controller->probando(self::$request["parameters"][0]);
-        
+//        $controller->probando(self::$request["parameters"][0]);
         
         
-        self::redirect(self::$request);
         
-        phpinfo();
+        self::load(self::$request);
+        
+//        phpinfo();
         
         
         
@@ -151,28 +150,37 @@ class Maqinato{
         return $environment;
     }
     
-    public static function redirect($request){
+    public static function load($request){
         switch ($request["controller"]) {
             case "landing":
                 View::load("landing");
+                break;
+            case "home":
+                View::load("home");
                 break;
             case "error":
                 View::error();
                 break;
             default:
                 Maqinato::debug("Controller not detected",__FILE__,__LINE__);
-                self::redirect(array(
+                self::load(array(
                     "controller"=>"error"
                 ));
                 break;
         }
     }
     
+    public static function redirect($url){
+        header( 'Location: /'.self::application().'/'.$url) ;
+    }
+
+
     /**************************************************************************/
     /*************************** GETTERS AND SETTERS **************************/
     /**************************************************************************/
     public static function root(){return self::$root;}
     public static function application(){return self::$application;}
+    public static function request(){return self::$request;}
     
     
     /**************************************************************************/
@@ -263,6 +271,8 @@ class Maqinato{
                         $info.='<li>request:</li>';
                             $info.='<ul>';
                                 $info.='<li>uri: '.self::$requestUri.'</li>';
+                                $info.='<li>controller: '.self::$request["controller"].'</li>';
+                                $info.='<li>function: '.self::$request["function"].'</li>';
                                 $info.='<li>params:</li>';
                                     $info.='<ul>';
                                         foreach(self::$request["parameters"] as $key => $parameter){

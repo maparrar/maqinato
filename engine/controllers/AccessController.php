@@ -39,9 +39,6 @@ class AccessController {
     function AccessController(){
         $this->access=new Access();
         $this->maxFails=5;
-        
-        
-        
     }
     /** 
      * Return the active User in the Session
@@ -71,12 +68,12 @@ class AccessController {
      * @return string 'exist' if the user already exist
      * @return string 'error' if the email and password are bad-formated or are wrong
      */
-    function signup($name,$lastname,$sex,$email,$city,$password,$isPreregister=false){
+    function signup($name,$lastname,$email,$city,$password,$isPreregister=false){
         $response='error';
         $name=SecurityController::sanitizeString($name);
         $lastname=SecurityController::sanitizeString($lastname);
         if(SecurityController::isemail($email)&&SecurityController::ispassword($password)){
-            $response=$this->access->signup($name,$lastname,$sex,$email,$city,$password);
+            $response=$this->access->signup($name,$lastname,$email,$city,$password);
             if(is_object($response)){
                 $user=$response;
                 $daoSet=new DaoSet();
@@ -90,38 +87,6 @@ class AccessController {
             }
         }else{
             error_log("[".__FILE__.":".__LINE__."]"."Signup user: Username and/or password not allowed");
-        }
-        return SecurityController::sanitizeString($response);
-    }
-    /**
-     * Create an Organization account on the system
-     * @param string formated name
-     * @param string formated responsible
-     * @param string formated email
-     * @param string formated password
-     * @return string 'logged'  if mail and password are correct
-     * @return string 'exist' if the user already exist
-     * @return string 'error' if the email and password are bad-formated or are wrong
-     */
-    function signupNop($name,$responsible,$email,$password){
-        $response='error';
-        $name=SecurityController::sanitizeString($name);
-        $responsible=SecurityController::sanitizeString($responsible);
-        if(SecurityController::isemail($email)&&SecurityController::ispassword($password)){
-            $response=$this->access->signup($name,"",$email,$password,true);
-            if(is_object($response)){
-                MediaController::copyImage(Router::rel('data').'users/images/default.png',Router::rel('data').'users/images/'.$response->getId().'.png');
-                MediaController::copyImage(Router::rel('data').'users/thumbnails/default.png',Router::rel('data').'users/thumbnails/'.$response->getId().'.png');
-                //Create the Organization and the first branch in the database
-                $daoOrg=new DaoOrganization();
-                $organization=new Organization(0,$name,$responsible,false,$response->getId());
-                $branch=new Branch(0,"Headquarters");
-                $organization->addBranch($branch);
-                $daoOrg->create($organization);
-                $response=$this->login($email,$password,false);
-            }
-        }else{
-            error_log("[".__FILE__.":".__LINE__."]"."Signup nop: Username and/or password not allowed");
         }
         return SecurityController::sanitizeString($response);
     }
@@ -284,7 +249,7 @@ class AccessController {
      * @param string city
      * @return true if update successfully, false otherwise
      */
-    public static function updateUser($nameInput,$lastnameInput,$bornInput,$sexInput,$iamInput,$cityInput){
+    public static function updateUser($nameInput,$lastnameInput,$bornInput,$iamInput,$cityInput){
         $response=false;
         if (self::checkSession()){
             $daoUser=new DaoUser();
@@ -297,12 +262,10 @@ class AccessController {
             }
             $iam=SecurityController::sanitizeString($iamInput);
             $city=SecurityController::sanitizeString($cityInput);
-            $sex=SecurityController::sanitizeString($sexInput);
             $user=AccessController::getSessionUser();
             $user->setName($name);
             $user->setLastname($lastname);
             $user->setBorn($born);
-            $user->setSex($sex);
             $user->setIam($iam);
             $user->setCity($city);
             $response=$daoUser->update($user);
@@ -311,43 +274,6 @@ class AccessController {
             $response=false;
         }
         return $response;
-    }
-    /**
-     * Send the message to an user
-     * @param string Email for the user
-     * @param string Subject for the message
-     * @param string Message of the Contact
-     */
-    public static function sendSystemEmail($email,$subject,$message){
-        $result=false;
-        $correct=true;
-        if(is_array($email)){
-            foreach ($email as $mail) {
-                if(!SecurityController::isemail($mail)){
-                    $correct=false;
-                    break;
-                }
-            }
-        }else{
-            if(!SecurityController::isemail($email)){
-                $correct=false;
-            }
-        }
-        if($correct){
-            if(is_array($email)){
-                $stringEmail=implode(",",$email);
-            }else{
-                $stringEmail=$email;
-            }
-            $to=$stringEmail;
-            $subject=SecurityController::sanitizeString($subject);
-            $shell="/home/operador/sendMail.sh";
-            if(file_exists($shell)){
-                $command='sh /home/operador/sendMail.sh '.$to.' "'.$subject.'" "'.$message.'"';
-                $result=system($command);
-            }
-        }
-        return $result;
     }
     /**
      * Function that allows entry into the system

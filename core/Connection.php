@@ -19,7 +19,7 @@ class Connection{
     /**
      * Connecting with the database.
      */
-    function Connection() {
+    function __construct() {
         $this->connections = array(
             'read'=>array(
                 'driver'    => Config::$database["driver"],
