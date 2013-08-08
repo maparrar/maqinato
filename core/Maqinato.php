@@ -152,6 +152,9 @@ class Maqinato{
     
     public static function load($request){
         switch ($request["controller"]) {
+            case "":
+                self::redirect("landing");
+                break;
             case "landing":
                 View::load("landing");
                 break;
@@ -163,9 +166,7 @@ class Maqinato{
                 break;
             default:
                 Maqinato::debug("Controller not detected",__FILE__,__LINE__);
-                self::load(array(
-                    "controller"=>"error"
-                ));
+                self::redirect("error/notFound");
                 break;
         }
     }

@@ -5,7 +5,6 @@
             //Incluye los scripts
             Router::js("jquery");
             
-            Maqinato::redirect("home/user/123");
         ?>
         <title>Landing | Maqinato</title>
         <script  type="text/javascript">
