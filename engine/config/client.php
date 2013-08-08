@@ -25,8 +25,4 @@ return array(
      * Define el tamaño máximo de las fotos de perfil de los Usuarios en MB
      */
     "maxSizeProfileImage"   => 5
-);
-
-    
-    
-    
+);    
