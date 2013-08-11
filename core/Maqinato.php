@@ -54,14 +54,9 @@ class Maqinato{
      *  "end"=>"timer_end",
      */
     private static $procTimers=array();
-    
-    
-    
-    
-    
 
     /**
-     * Principal función of the Maqinato Class
+     * Ejecuta todos los procesos necesarios para cada request hecho por el cliente
      * @param string $root Root path in the system. Ie. /var/www/maqinato
      * @param string $application Name of the application folder. Ie. maqinato
      */
@@ -81,23 +76,24 @@ class Maqinato{
         
         //Incluye los estilos básicos de maqinato
         Router::css("template");
-                
+        
+        //Pruebas con los controladores
         $controller=new TempController();
 //        $controller->probando(self::$request["parameters"][0]);
+                
+        //Hace el routing del Request capturado
+        self::route(self::$request);
         
-        
-        
-        self::load(self::$request);
-        
-//        phpinfo();
-        
-        
-        
+        //Calcula el tiempo que toma procesar el request y muestra el debug
         $end=microtime(true);
         array_push(self::$procTimers,array("name"=>"maqinato","ini"=>$ini,"end"=>$end));
         self::info();
     }
     
+    /**
+     * Carga los archivos de configuración en las variables de configuraión
+     * @return void
+     */
     private static function loadConfig(){
         return array(
             "app"           =>  require_once 'engine/config/app.php',
@@ -108,6 +104,10 @@ class Maqinato{
         );
     }
     
+    /**
+     * Carga el environment a partir de la variable $_SERVER["SERVER_NAME"]
+     * @return string Nombre el environment cargado
+     */
     private static function loadEnvironment(){
         $serverName=filter_input(INPUT_SERVER,'SERVER_NAME',FILTER_SANITIZE_STRING);
         /*DEVELOPMENT*/
@@ -123,7 +123,12 @@ class Maqinato{
         return $environment;
     }
     
-    public static function load(Request $request){
+    /**
+     * Procesa un Request y usa el controlador, la función y los parámetros para
+     * redirigir a la página indicada.
+     * @param Request $request Objeto de tipo Request que se routeará
+     */
+    public static function route(Request $request){
         switch ($request->getController()) {
             case "":
                 self::redirect("landing");
@@ -144,10 +149,14 @@ class Maqinato{
         }
     }
     
+    /**
+     * Redirecciona a una URL dentro de la aplicación. La url debe ser del tipo
+     *      controller/function/parameter1/parameter2/...
+     * @param string $url La url a la que se quiere redireccionar
+     */
     public static function redirect($url){
         header( 'Location: /'.self::application().'/'.filter_var($url,FILTER_SANITIZE_URL));
     }
-
 
     /**************************************************************************/
     /*************************** GETTERS AND SETTERS **************************/
@@ -155,8 +164,7 @@ class Maqinato{
     public static function root(){return self::$root;}
     public static function application(){return self::$application;}
     public static function request(){return self::$request;}
-    
-    
+        
     /**************************************************************************/
     /********************************** UTILS *********************************/
     /**************************************************************************/
@@ -217,10 +225,6 @@ class Maqinato{
         $string.=']';
         return $string;
     }
-    
-    
-
-
     
     /**
      * Agrega un mensaje de error al array de debug
