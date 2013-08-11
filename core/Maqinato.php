@@ -25,29 +25,15 @@ class Maqinato{
      * @var string
      */
     private static $application="";
-    /** Uri with the request, witouth application name
-     * @var string Uri request
-     */
-    private static $requestUri="";
     /** Datos del servidor detectado por maqinato
      * @var string
      */
     private static $environment="";
-    /** Array asociativo de controlador+función+parámetros tomado de la URL de entrada
-     * $request=array(
-     *      "controller"=>"controllerName",
-     *      "function"=>"functionName",
-     *      "parameters"=>array(
-     *          [0]=>"firstParamater",
-     *          [1]=>"secondParamater"
-     *      )
-     * );
+    /** 
+     * Objeto de tipo Request que almacena una estructura basada en la URL
+     * @var Request Objeto de tipo Request
      */
-    private static $request=array(
-        "controller"=>false,
-        "function"=>false,
-        "parameters"=>array()
-    );
+    private static $request;
     
     /**************************** DEBUG VARIABLES ****************************/
     /** Nivel de debug.
@@ -81,12 +67,11 @@ class Maqinato{
      */
     public static function exec($root,$application){
         $ini=microtime(true);
-        self::$root=$root;
-        self::$application=$application;
-        self::$requestUri=str_replace(self::$application."/","",filter_input(INPUT_SERVER,'REQUEST_URI',FILTER_SANITIZE_URL));
-        
         //Registra la función que carga las clases cuando no están include o require
         self::autoload();
+        self::$root=$root;
+        self::$application=$application;
+        self::$request=new Request(str_replace(self::$application."/","",filter_input(INPUT_SERVER,'REQUEST_URI',FILTER_SANITIZE_URL)));
         
         //Incluye los archivos de configuración
         self::$config=self::loadConfig();
@@ -94,21 +79,9 @@ class Maqinato{
         //Detecta el nombre del servidor y selecciona el ambiente
         self::$environment=self::loadEnvironment();
         
-        
-        
-        
-        
-        
-        
-        
-        
         //Incluye los estilos básicos de maqinato
         Router::css("template");
-        
-        //Obtiene los comandos pasados en la URL
-        self::$request=Router::parseRequest(self::$requestUri);
-        
-        
+                
         $controller=new TempController();
 //        $controller->probando(self::$request["parameters"][0]);
         
@@ -150,8 +123,8 @@ class Maqinato{
         return $environment;
     }
     
-    public static function load($request){
-        switch ($request["controller"]) {
+    public static function load(Request $request){
+        switch ($request->getController()) {
             case "":
                 self::redirect("landing");
                 break;
@@ -271,12 +244,12 @@ class Maqinato{
                         $info.='<li>environment: '.self::$environment.'</li>';
                         $info.='<li>request:</li>';
                             $info.='<ul>';
-                                $info.='<li>uri: '.self::$requestUri.'</li>';
-                                $info.='<li>controller: '.self::$request["controller"].'</li>';
-                                $info.='<li>function: '.self::$request["function"].'</li>';
+                                $info.='<li>uri: '.self::$request->getUri().'</li>';
+                                $info.='<li>controller: '.self::$request->getController().'</li>';
+                                $info.='<li>function: '.self::$request->getFunction().'</li>';
                                 $info.='<li>params:</li>';
                                     $info.='<ul>';
-                                        foreach(self::$request["parameters"] as $key => $parameter){
+                                        foreach(self::$request->getParameters() as $key => $parameter){
                                             $info.='<li>'.$parameter.'</li>';
                                         }
                                     $info.='</ul>';

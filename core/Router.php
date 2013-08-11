@@ -10,37 +10,7 @@
  * @author Alejandro Parra <maparrar@gmail.com> 
  * @package config
  */
-class Router{    
-    /**
-     * Detecta la URL de entrada y procesa los datos
-     */
-    public static function parseRequest($requestUri){
-        $controller=false;
-        $function=false;
-        $parameters=array();
-        $requestArray=explode("/",$requestUri);
-        //Recorre cada valor pasado en la URL. El primero es el controlador, el
-        //segundo la función y el resto los parámetros
-        $i=0;
-        foreach ($requestArray as $value){
-            if(trim($value)!=""){
-                if($i===0){
-                    $controller=$value;
-                }elseif($i===1){
-                    $function=$value;
-                }else{
-                    $parameters[]=$value;
-                }
-                $i++;
-            }
-        }
-        return array(
-            "controller"=>$controller,
-            "function"=>$function,
-            "parameters"=>$parameters
-        );
-    }
-    
+class Router{
     /**
      * Retorna la ruta a partir de su nombre y del directorio de rutas definido
      * en config
