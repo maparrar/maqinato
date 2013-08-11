@@ -19,6 +19,3 @@ include_once 'core/Maqinato.php';
 
 //Inicializa maqinato con los datos de root y aplicación
 Maqinato::exec($root, $application);
-
-
-?>
