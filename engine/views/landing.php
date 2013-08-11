@@ -32,23 +32,25 @@
         <hr/>
         <h2>Pruebas de i18n</h2>
         <?php
-            // Set language to German
-            $language='en_GB';
+            // Set language
+            $language='es';
             putenv('LC_ALL='.$language);
             setlocale(LC_ALL,$language);
-            
-            Maqinato::debug(getenv("LC_ALL"));
 
             // Specify location of translation tables
             $domain='messages';
-            bindtextdomain($domain,"/var/www/maqinato/public/locale");
+            bindtextdomain($domain,"./locale");
+            // El codeset del textdomain
+            bind_textdomain_codeset($domain,'UTF-8');
             // Choose domain
             textdomain($domain);
             
+            $cant=43;
+            echo "<h4>"._("Hello world")."</h4><br/>";
+            echo "<h4>"._("You have ").$cant._(" messages")."</h4><br/>";
+
+
             
-            echo gettext("Texto de prueba")."<br/>";
-            echo _("Otra prueba")."<br/>";
-            echo _("La ultima prueba")."<br/>";
         ?>
         <hr/>
     </body>

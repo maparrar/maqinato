@@ -6,7 +6,6 @@
             //Incluye los scripts
             Router::js("jquery");
             
-            Maqinato::redirect("");
         ?>
         <title>Home | Maqinato</title>
         <script  type="text/javascript">
@@ -20,7 +19,10 @@
     <body>
         <h1>PÁGINA DE HOME DEL USUARIO <?php 
                 $request=Maqinato::request();
-                echo $request["parameters"][0]; 
+//                echo $request["parameters"][0]; 
+                
+                
+                echo "<br/><h4>"._("Test in home page")."</h4><br/>";
             ?></h1>
     </body>
 </html>
