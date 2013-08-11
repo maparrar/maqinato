@@ -83,7 +83,7 @@ class Maqinato{
         $ini=microtime(true);
         self::$root=$root;
         self::$application=$application;
-        self::$requestUri=str_replace(self::$application."/","",filter_input(INPUT_SERVER,'REQUEST_URI',FILTER_SANITIZE_STRING));
+        self::$requestUri=str_replace(self::$application."/","",filter_input(INPUT_SERVER,'REQUEST_URI',FILTER_SANITIZE_URL));
         
         //Registra la función que carga las clases cuando no están include o require
         self::autoload();
@@ -172,7 +172,7 @@ class Maqinato{
     }
     
     public static function redirect($url){
-        header( 'Location: /'.self::application().'/'.$url) ;
+        header( 'Location: /'.self::application().'/'.filter_var($url,FILTER_SANITIZE_URL));
     }
 
 

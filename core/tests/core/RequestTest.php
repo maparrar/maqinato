@@ -1,35 +1,23 @@
 <?php
-class ConnectionTest extends PHPUnit_Framework_TestCase
-{
-    // contains the object handle of the string class
-    var $abc;
+require_once 'Request.php';
+class RequestTest extends PHPUnit_Framework_TestCase{
+    //contains the object handle of the string class
+    var $request;
 
-    // constructor of the test suite
-    function __construct() {
-        
-    }
-
-    // called before the test functions will be executed
-    // this function is defined in PHPUnit_TestCase and overwritten
-    // here
+    // Función de PHPUnit que se ejecuta antes de los tests
     function setUp() {
-        // create a new instance of String with the
-        // string 'abc'
-//        $this->abc = new String("abc");
+        $this->request=new Request("/controller/function/parameter1/parameter2/");
     }
 
-    // called after the test functions are executed
-    // this function is defined in PHPUnit_TestCase and overwritten
-    // here
+    // Función de PHPUnit que se ejecuta luego de ejecutar los tests
     function tearDown() {
-        // delete your instance
-//        unset($this->abc);
+        unset($this->request);
     }
 
-    // test the toString function
-    function testToString() {
-//        $result = $this->abc->toString('contains %s');
-//        $expected = 'contains abc';
-        $this->assertTrue(1 == 1);
+    // Tests de los métodos de la clase
+    function testGetController() {
+        $controller=$this->request->getController();
+        $expected='controller';
+        $this->assertTrue($controller==$expected);
     }
 }

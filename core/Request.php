@@ -1,107 +1,68 @@
 <?php
-/** Router File
+/** Request File
  * @package config */
 //namespace maqinato\core;
 /**
- * Router Class
- * Specifies the paths and the application name for all the System.
+ * Request Class
+ * Clase que representa una solicitud por URL
  *
  * @author https://github.com/maparrar/maqinato
  * @author Alejandro Parra <maparrar@gmail.com> 
  * @package config
  */
-class Router{    
+class Request{
     /**
-     * Detecta la URL de entrada y procesa los datos
+     * Controlador del request
+     * 
+     * @var string
      */
-    public static function parseRequest($requestUri){
-        $controller=false;
-        $function=false;
-        $parameters=array();
-        $requestArray=explode("/",$requestUri);
-        //Recorre cada valor pasado en la URL. El primero es el controlador, el
-        //segundo la función y el resto los parámetros
-        $i=0;
-        foreach ($requestArray as $value){
-            if(trim($value)!=""){
-                if($i===0){
-                    $controller=$value;
-                }elseif($i===1){
-                    $function=$value;
-                }else{
-                    $parameters[]=$value;
-                }
-                $i++;
-            }
-        }
-        return array(
-            "controller"=>$controller,
-            "function"=>$function,
-            "parameters"=>$parameters
-        );
-    }
+    protected $controller;
+    /**
+     * Función del request
+     * 
+     * @var string
+     */
+    protected $function;
+    /**
+     * Parámetros pasados al request
+     * 
+     * @var array
+     */
+    protected $parameters;
     
     /**
-     * Retorna la ruta a partir de su nombre y del directorio de rutas definido
-     * en config
+     * Constructor de la clase
+     * @param string $url Url del request, debe ser de la forma:
+     *      /url_controller/url_function/url_paramater_1/.../url_parameter_n
+     * @return void
      */
-    public static function path($folder){
-        return Maqinato::$config["paths"]["app"][$folder];
-    }
-
-    /**
-     * Return the html includes of a JS script or an array of scripts, if is not
-     * registered, search the name in js folder
-     * @param mixed Array or sigle name of JS scripts
-     * @return string String with the includes for each JS provided
-     */
-    public static function js(){
-        $string="";
-        $values = func_get_args();
-        foreach ($values as $value){
-            if($value=="google"){
-                $string.='<script class="component" type="text/javascript" src="'.Maqinato::$config["paths"]["js"][$value].'"></script>';
-            }elseif(array_key_exists($value,Maqinato::$config["paths"]["js"])){
-                $string.='<script class="component" type="text/javascript" src="/'.Maqinato::application()."/".Maqinato::$config["paths"]["js"][$value].'"></script>';
-            }else{
-                $ext=pathinfo($value,PATHINFO_EXTENSION);
-                if(!$ext){
-                    $value.=".js";
-                }
-                if(file_exists(self::path("js").$value)){
-                    $string.='<script class="component" type="text/javascript" src="'.self::path("js").$value.'"></script>';
-                }else{
-                    $string.='JS script NOT Found: '.$value.'<br/>';
+    function __construct($url=""){
+        $this->controller=false;
+        $this->function=false;
+        $this->parameters=array();
+        //Si la url no es vacía, se procesa
+        if(trim($url)!=""){
+            $requestArray=explode("/",filter_var($url,FILTER_SANITIZE_URL));
+            $i=0;
+            foreach ($requestArray as $value){
+                if(trim($value)!=""){
+                    if($i===0){
+                        $this->controller=$value;
+                    }elseif($i===1){
+                        $this->function=$value;
+                    }else{
+                        $this->parameters[]=$value;
+                    }
+                    $i++;
                 }
             }
         }
-        echo $string;
     }
     /**
-     * Return the html includes of a CSS script or an array of scripts, if is not
-     * registered, search the name in css folder
-     * @param mixed Array or sigle name of CSS scripts
-     * @return string String with the includes for each CSS provided
+     * Get del controller
+     * @return string Nombre del controller
      */
-    public static function css(){
-        $string="";
-        $values = func_get_args();
-        foreach ($values as $value){
-            if(array_key_exists($value,Maqinato::$config["paths"]["css"])){
-                $string.='<link rel="stylesheet" type="text/css" href="/'.Maqinato::application()."/".Maqinato::$config["paths"]["css"][$value].'">';
-            }else{
-                $ext=pathinfo($value,PATHINFO_EXTENSION);
-                if(!$ext){
-                    $value.=".css";
-                }
-                if(file_exists(self::path("css").$value)){
-                    $string.='<link rel="stylesheet" type="text/css" href="'.self::path("css").$value.'">';
-                }else{
-                    $string.='CSS script NOT Found: '.$value.'<br/>';
-                }
-            }
-        }
-        echo $string;
+    public function getController(){
+        return $this->controller;
     }
 }
-?>
