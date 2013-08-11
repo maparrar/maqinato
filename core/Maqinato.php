@@ -83,7 +83,7 @@ class Maqinato{
         $ini=microtime(true);
         self::$root=$root;
         self::$application=$application;
-        self::$requestUri=str_replace(self::$application."/","",$_SERVER['REQUEST_URI']);
+        self::$requestUri=str_replace(self::$application."/","",filter_input(INPUT_SERVER,'REQUEST_URI',FILTER_SANITIZE_STRING));
         
         //Registra la función que carga las clases cuando no están include o require
         self::autoload();
