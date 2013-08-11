@@ -136,7 +136,7 @@ class Maqinato{
     }
     
     private static function loadEnvironment(){
-        $serverName=$_SERVER['SERVER_NAME'];
+        $serverName=filter_input(INPUT_SERVER,'SERVER_NAME',FILTER_SANITIZE_STRING);
         /*DEVELOPMENT*/
         if(in_array($serverName,self::$config["environment"]["development"]["urls"])){
             $environment="development";
