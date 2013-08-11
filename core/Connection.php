@@ -60,4 +60,3 @@ class Connection{
         return $output;
     }
 }
-?>

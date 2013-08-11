@@ -1,33 +1,35 @@
 <?php
 class ConnectionTest extends PHPUnit_Framework_TestCase
 {
-    public function testEmpty()
-    {
-        $stack = array();
-        $this->assertEmpty($stack);
- 
-        return $stack;
+    // contains the object handle of the string class
+    var $abc;
+
+    // constructor of the test suite
+    function __construct() {
+        
     }
- 
-    /**
-     * @depends testEmpty
-     */
-    public function testPush(array $stack)
-    {
-        array_push($stack, 'foo');
-        $this->assertEquals('foo', $stack[count($stack)-1]);
-        $this->assertNotEmpty($stack);
- 
-        return $stack;
+
+    // called before the test functions will be executed
+    // this function is defined in PHPUnit_TestCase and overwritten
+    // here
+    function setUp() {
+        // create a new instance of String with the
+        // string 'abc'
+//        $this->abc = new String("abc");
     }
- 
-    /**
-     * @depends testPush
-     */
-    public function testPop(array $stack)
-    {
-        $this->assertEquals('foo', array_pop($stack));
-        $this->assertEmpty($stack);
+
+    // called after the test functions are executed
+    // this function is defined in PHPUnit_TestCase and overwritten
+    // here
+    function tearDown() {
+        // delete your instance
+//        unset($this->abc);
+    }
+
+    // test the toString function
+    function testToString() {
+//        $result = $this->abc->toString('contains %s');
+//        $expected = 'contains abc';
+        $this->assertTrue(1 == 1);
     }
 }
-?>

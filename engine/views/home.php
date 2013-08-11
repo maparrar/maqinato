@@ -4,8 +4,10 @@
         <?php
             //Incluye los scripts
             Router::js("jquery");
+            
+            Maqinato::redirect("");
         ?>
-        <title>Landing | Maqinato</title>
+        <title>Home | Maqinato</title>
         <script  type="text/javascript">
             $(document).ready(function(){
                 $("body").click(function(){
