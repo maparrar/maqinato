@@ -246,6 +246,7 @@ class Maqinato{
                         $info.='<li>root: '.self::$root.'</li>';
                         $info.='<li>application: '.self::$application.'</li>';
                         $info.='<li>environment: '.self::$environment.'</li>';
+                        $info.='<li>lang: '.getenv("LC_ALL").'</li>';
                         $info.='<li>request:</li>';
                             $info.='<ul>';
                                 $info.='<li>uri: '.self::$request->getUri().'</li>';

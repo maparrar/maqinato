@@ -1,0 +1,30 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: maqinato 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-11 12:36-0500\n"
+"PO-Revision-Date: 2013-08-11 13:42-0500\n"
+"Last-Translator: maparrar <maparrar@gmail.com>\n"
+"Language-Team: maqinato <maparrar@gmail.com>\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: landing.php:47
+msgid "Texto de prueba"
+msgstr "testing probe"
+
+#: landing.php:48
+msgid "Otra prueba"
+msgstr "Other test"
+
+#: landing.php:49
+msgid "La ultima prueba"
+msgstr "Last test"

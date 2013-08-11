@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
+        <meta charset="utf-8" />
         <?php
             //Incluye los scripts
             Router::js("jquery");
