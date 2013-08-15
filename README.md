@@ -11,3 +11,10 @@ Con suerte ofrecerá una API accesible para aplicaciones web nativas, web móvil
 REQUISITOS
 ==========
 - Activar mod_rewrite en apache
+
+- Si se quiere usar la localización "l10n" e internacionalización "i18n" se debe
+instalar gettext usando el administrador de paquetes de la distribución, en varias
+ya viene instalado, sino en Debian/Ubuntu:
+```
+#> apt-get install gettext
+```
