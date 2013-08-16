@@ -137,7 +137,11 @@ class Maqinato{
             //Verifica los que empiecen con el idioma y toma el primero
             $list=glob($directory."/".reset(explode("_",$lang))."*");
             if(count($list)>0){
-                $language=end(explode("/",$list[0]));
+                if(file_exists($list[0].".utf8")){
+                    $language=end(explode("/",$list[0])).".utf8";
+                }else{
+                    $language=end(explode("/",$list[0]));
+                }
             }
         }
         //Configura las variables de i18n y l10n

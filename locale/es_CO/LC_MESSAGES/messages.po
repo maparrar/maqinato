@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: maqinato\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-16 00:37-0500\n"
-"PO-Revision-Date: 2013-08-16 00:37-0500\n"
+"POT-Creation-Date: 2013-08-16 00:46-0500\n"
+"PO-Revision-Date: 2013-08-16 00:46-0500\n"
 "Last-Translator: maparrar <maparrar@gmail.com>\n"
 "Language-Team: maqinato <maparrar@gmail.com>\n"
 "Language: \n"
@@ -15,6 +15,10 @@ msgstr ""
 "X-Poedit-Language: es_CO\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: /var/www/maqinato\n"
+
+#: /var/www/maqinato/engine/views/landing.php:23
+msgid "Testing i18n"
+msgstr "Probando i18n"
 
 #: /var/www/maqinato/engine/views/landing.php:25
 msgid "NEW text in English to translate to another language."

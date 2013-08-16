@@ -20,7 +20,7 @@
     <body>
         <h1>PÁGINA DE LANDING</h1>
         <hr/>
-        <h2>Pruebas de i18n</h2>
+        <h2><?php echo _("Testing i18n"); ?></h2>
         <?php
             echo _("NEW text in English to translate to another language.")."<br/>";
             echo _("Maqinato is a non-framework tool.")."<br/>";
