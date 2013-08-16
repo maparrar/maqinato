@@ -13,8 +13,10 @@ REQUISITOS
 - Activar mod_rewrite en apache
 
 
-Internacionalización Y Localización
+Internacionalización y Localización
 ==========
+Instalar gettext y agrergar "locale"
+----------
 Si se quiere usar la localización "l10n" e internacionalización "i18n" se debe
 instalar gettext usando el administrador de paquetes de la distribución, en varias
 ya viene instalado, sino en Debian/Ubuntu:
@@ -37,4 +39,31 @@ $> cat /usr/share/i18n/SUPPORTED
 - Para agregar uno de la lista:
 ```
 #> locale-gen de_DE
+```
+
+Usar poedit para crear las traducciones
+----------
+Poedit [http://www.poedit.net/] sirve para editar los archivos .po que contienen
+las traducciones y convertirlos a binarios .mo para acceso rápido de la aplicación.
+Se puede instalar de los repositorios de varias distribuciones:
+```
+#> apt-get install poedit
+```
+Al crear el catálogo .po se debe ubicar dentro de una carpeta con el nombre del 
+"locale", la estructura de la aplicación con el ejemplo anterior sería:
+```
+application
+ |___ locale
+       |___ de_DE
+             |___ LC_MESSAGES
+                   |___ messages.po
+```
+Poedit genera automáticamente el .mo, quedando:
+```
+application
+ |___ locale
+       |___ de_DE
+             |___ LC_MESSAGES
+                   |___ messages.po
+                   |___ messages.mo
 ```
