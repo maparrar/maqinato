@@ -13,7 +13,7 @@ REQUISITOS
 - Activar mod_rewrite en apache
 
 
-INTERNACIONALIZACIÓN Y LOCALIZACIÓN
+Internacionalización Y Localización
 ==========
 Si se quiere usar la localización "l10n" e internacionalización "i18n" se debe
 instalar gettext usando el administrador de paquetes de la distribución, en varias
