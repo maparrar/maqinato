@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <?php
-            //Incluye los scripts.
+            //Incluye los scripts
             Router::js("jquery");
             
             
