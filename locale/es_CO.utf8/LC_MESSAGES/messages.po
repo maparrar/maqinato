@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: maqinato\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 21:12-0500\n"
-"PO-Revision-Date: 2013-08-15 21:13-0500\n"
+"POT-Creation-Date: 2013-08-15 23:28-0500\n"
+"PO-Revision-Date: 2013-08-15 23:39-0500\n"
 "Last-Translator: maparrar <maparrar@gmail.com>\n"
 "Language-Team: maqinato <maparrar@gmail.com>\n"
 "Language: \n"
@@ -12,11 +12,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-Language: es_CO.utf8\n"
+"X-Poedit-Language: es_CO\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: /var/www/maqinato\n"
 
-#: /var/www/maqinato/index.php:24
+#: /var/www/maqinato/index.php:34
 msgid "NEW text in English to translate to Spanish."
 msgstr "Nuevo texto en Inglés para traducir a Español."
+
+#: /var/www/maqinato/index.php:36
+msgid "Maqinato is a non-framework tool."
+msgstr "Maqinato es una herramienta no-framework."
+
+#: /var/www/maqinato/index.php:38
+msgid "The son of the frog"
+msgstr "El hijo de rana"
 

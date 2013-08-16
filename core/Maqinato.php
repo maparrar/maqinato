@@ -25,6 +25,10 @@ class Maqinato{
      * @var string
      */
     private static $application="";
+    /** Variable de locale procesada por la aplicación
+     * @var string
+     */
+    private static $locale="";
     /** Datos del servidor detectado por maqinato
      * @var string
      */
@@ -71,6 +75,9 @@ class Maqinato{
         //Incluye los archivos de configuración
         self::$config=self::loadConfig();
         
+        //Procesa la configuración de i18n y l10n
+        self::$locale=self::i18n();
+        
         //Detecta el nombre del servidor y selecciona el ambiente
         self::$environment=self::loadEnvironment();
         
@@ -104,6 +111,46 @@ class Maqinato{
         );
     }
     
+    /**
+     * Procesa la configuración de la internacionalización y localización
+     */
+    private static function i18n(){
+        if(!self::$config["app"]["locale"]){
+            $lang=filter_input(INPUT_SERVER,'HTTP_ACCEPT_LANGUAGE',FILTER_SANITIZE_STRING);
+            $lang=substr($lang,0,strpos($lang,','));
+            $lang=str_replace("-","_",$lang);
+            $lang=reset(explode("_",$lang))."_".strtoupper(end(explode("_",$lang)));
+        }else{
+            $lang=self::$config["app"]["locale"];
+        }
+        
+        //Verifica si el directorio con utf8 existe, sino busca el directorio estándar
+        //sino busca el primero que contenga el idioma sin localización, por ejemplo
+        //en "es_ES", si no lo encuentra, busca el primero que empiece con "es"
+        $language=$lang;
+        if(file_exists(self::$root."/locale/".$lang.".utf8")){
+            $language=$lang.".utf8";
+        }elseif(file_exists($lang)){
+            $language=$lang;
+        }else{
+            $directory=self::$root."/locale";
+            //Verifica los que empiecen con el idioma y toma el primero
+            $list=glob($directory."/".reset(explode("_",$lang))."*");
+            if(count($list)>0){
+                $language=end(explode("/",$list[0]));
+            }
+        }
+        //Configura las variables de i18n y l10n
+        putenv("LC_ALL=$language");
+        setlocale(LC_ALL,$language);
+        // Set the text domain as 'messages'
+        $domain='messages';
+        bindtextdomain($domain,"./locale");
+        bind_textdomain_codeset('default', 'UTF-8');
+        textdomain($domain);
+        return $language;
+    }
+
     /**
      * Carga el environment a partir de la variable $_SERVER["SERVER_NAME"]
      * @return string Nombre el environment cargado
@@ -246,7 +293,7 @@ class Maqinato{
                         $info.='<li>root: '.self::$root.'</li>';
                         $info.='<li>application: '.self::$application.'</li>';
                         $info.='<li>environment: '.self::$environment.'</li>';
-                        $info.='<li>lang: '.getenv("LC_ALL").'</li>';
+                        $info.='<li>locale: '.self::$locale.'</li>';
                         $info.='<li>request:</li>';
                             $info.='<ul>';
                                 $info.='<li>uri: '.self::$request->getUri().'</li>';

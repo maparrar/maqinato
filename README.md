@@ -68,9 +68,26 @@ application
                    |___ messages.mo
 ```
 
+Selección de locale
+----------
+Maqinato detecta la configuración de idioma del navegador y busca una traducción
+que corresponda, si no la encuentra, usa el texto que tiene por defecto, es decir,
+el usado en programación.
 
+Si se quiere forzar un "locale", en /engine/config/app.php modificar la variable
+"locale" por uno especídico, por ejemplo "pr_BR".
 
-
+Uso
+----------
+Cualquier texto que se quiera traducir en el futuro por medio de gettext debe ser
+de la forma:
+```
+gettext("Texto a traducir a diferentes idiomas");
+```
+para mayor facilidad:
+```
+_("Texto a traducir a diferentes idiomas");
+```
 
 Cambios
 ==========

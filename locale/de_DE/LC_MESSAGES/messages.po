@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: maqinato\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 20:42-0500\n"
-"PO-Revision-Date: 2013-08-15 20:42-0500\n"
+"POT-Creation-Date: 2013-08-15 23:02-0500\n"
+"PO-Revision-Date: 2013-08-15 23:05-0500\n"
 "Last-Translator: maparrar <maparrar@gmail.com>\n"
 "Language-Team: maqinato <maparrar@gmail.com>\n"
 "Language: \n"
@@ -17,7 +17,11 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: /var/www/maqinato\n"
 
-#: /var/www/maqinato/index.php:19
+#: /var/www/maqinato/index.php:34
 msgid "NEW text in English to translate to Spanish."
-msgstr "Novo texto em Inglês para traduzir para o espanhol."
+msgstr "Neuer Text in Englisch ins Spanische übersetzen."
+
+#: /var/www/maqinato/index.php:36
+msgid "Maqinato is a non-framework tool."
+msgstr "Maqinato ist ein Nicht-Gerüst-Werkzeug."
 
