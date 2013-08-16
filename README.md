@@ -1,4 +1,4 @@
-Maqinato v.0.2 (pre-alpha)
+Maqinato v.0.3 (pre-alpha)
 ¡¡¡No es funcional. Solo disponible para pruebas hasta la versión 1.0.!!!
 
 Casi-Framework para desarrollo de aplicaciones web y backend para aplicaciones móviles. 
@@ -8,7 +8,7 @@ ideas de frameworks comerciales.
 Con suerte ofrecerá una API accesible para aplicaciones web nativas, web móviles y nativas móviles.
 
 
-REQUISITOS
+Requisitos
 ==========
 - Activar mod_rewrite en apache
 
@@ -67,3 +67,13 @@ application
                    |___ messages.po
                    |___ messages.mo
 ```
+
+
+
+
+
+Cambios
+==========
+Versión 0.3:
+----------
+- Soporte para i18n y l10n
