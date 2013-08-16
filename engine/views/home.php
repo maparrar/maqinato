@@ -22,7 +22,7 @@
 //                echo $request["parameters"][0]; 
                 
                 
-                echo "<br/><h4>"._("Test in home page")."</h4><br/>";
+//                echo "<br/><h4>"._("Test in home page")."</h4><br/>";
             ?></h1>
     </body>
 </html>

@@ -33,21 +33,21 @@
         <h2>Pruebas de i18n</h2>
         <?php
             // Set language
-            $language='es';
-            putenv('LC_ALL='.$language);
-            setlocale(LC_ALL,$language);
-
-            // Specify location of translation tables
-            $domain='messages';
-            bindtextdomain($domain,"./locale");
-            // El codeset del textdomain
-            bind_textdomain_codeset($domain,'UTF-8');
-            // Choose domain
-            textdomain($domain);
-            
-            $cant=43;
-            echo "<h4>"._("Hello world")."</h4><br/>";
-            echo "<h4>"._("You have ").$cant._(" messages")."</h4><br/>";
+//            $language='es';
+//            putenv('LC_ALL='.$language);
+//            setlocale(LC_ALL,$language);
+//
+//            // Specify location of translation tables
+//            $domain='messages';
+//            bindtextdomain($domain,"./locale");
+//            // El codeset del textdomain
+//            bind_textdomain_codeset($domain,'UTF-8');
+//            // Choose domain
+//            textdomain($domain);
+//            
+//            $cant=43;
+//            echo "<h4>"._("Hello world")."</h4><br/>";
+//            echo "<h4>"._("You have ").$cant._(" messages")."</h4><br/>";
 
 
             
