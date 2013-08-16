@@ -15,7 +15,7 @@ REQUISITOS
 
 INTERNACIONALIZACIÓN Y LOCALIZACIÓN
 ==========
-- Si se quiere usar la localización "l10n" e internacionalización "i18n" se debe
+Si se quiere usar la localización "l10n" e internacionalización "i18n" se debe
 instalar gettext usando el administrador de paquetes de la distribución, en varias
 ya viene instalado, sino en Debian/Ubuntu:
 ```
@@ -24,15 +24,15 @@ ya viene instalado, sino en Debian/Ubuntu:
 - Un "locale" es una lista de parámetros que definen el idioma, la localización
 entre otros. Para generar los .mo a partir de los .po se requieren los "locale" 
 respectivos:
-> 1. Para ver la lista de "locale" agregados al sistema:
-> ```
-> $> locale -a
-> ```
-> 2. Para ver la lista de "locale" disponibles para agregar:
-> ```
-> $> cat /usr/share/i18n/SUPPORTED
-> ```
-> 3. Para agregar uno de la lista:
-> ```
-> #> locale-gen de_DE
-> ```
+- Para ver la lista de "locale" agregados al sistema:
+```
+$> locale -a
+```
+- Para ver la lista de "locale" disponibles para agregar:
+```
+$> cat /usr/share/i18n/SUPPORTED
+```
+- Para agregar uno de la lista:
+```
+#> locale-gen de_DE
+```
