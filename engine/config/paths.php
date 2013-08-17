@@ -1,6 +1,5 @@
 <?php
-return array(
-    
+return array(    
     /**
      * Directorio de scripts js
      * Lista de scripts de javascript. Incluya los scripts que desea llamar
