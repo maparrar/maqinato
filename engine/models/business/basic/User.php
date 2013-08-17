@@ -31,44 +31,14 @@ class User extends Object{
      * @var date
      */
     protected $born;
-    /** User sex 
-     * @var string
-     */
-    protected $sex;
-    /** I am
-     * @var string
-     */
-    protected $iam;
     /** If the user is validated
      * @var bool
      */
     protected $validated;
-    /** User city
-     * @var int
-     */
-    protected $city;
-    /** User type (superuser,team,standard,nonprofit)
-     * @var UserType Objeto de tipo UserType
-     */
-    protected $type;
-    /** User country
-     * @var string
-     */
-    protected $country;
     /** maqinato session id 
      * @var string
      */
     private $sessionId;
-    /** True if is friend of another relative User. i.e. If this user is friend 
-     * of the logged user. False if not are friends. NOTE: Is only relative to 
-     * another User, and depends of the context. Returned:
-     *      - true if the user THIS is friend of B
-     *      - false if the user THIS is not friend of B
-     *      - "sent" if THIS sent an invitation to B
-     *      - "received" if THIS received an invitation from B
-     * @var mixed
-     */
-    protected $isFriend;
     /** Image of the user
      * @var string i.e.: 123.png or default.png
      */
@@ -86,10 +56,7 @@ class User extends Object{
         $this->name=$name;
         $this->lastname=$lastname;
         $this->born=date('1900-01-01 H:i:s');
-        $this->sex="";
-        $this->iam="";
         $this->validated=true;
-        $this->city=0;
         $this->type=null;
         $this->country='';
         $this->isFriend=false;
