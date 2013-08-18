@@ -113,7 +113,63 @@ El archivo de configuración de entornos se encuentra por defecto en:
 
 Bases de datos
 ==========
+La configuración de las bases de datos se hace directamente dentro de cada Entorno.
+En el archivo:
+```
+/engine/config/environment.php
+```
+se encuentra al inicio una variable llamada $database, esta se puede establecer
+y pasar a todos los Entornos si todos comparten los mismos datos de conexión. Si
+tienen diferentes usuarios y/o claves de acceso, basta con configurar cada uno por
+separado agregando un array de conexión a cada Entorno.
 
+Como un intento por aumentar la seguridad de la aplicación, cada base de datos
+puede contar con más de una conexión, así es posible definir una conexión (usuario
+y clave) que solo permita leer de la base de datos (read) que será usada por la 
+Capa de Acceso a Datos (DAL Data Access Layer) en las operaciones que requieran 
+lectura de la base de datos por parte de las funciones CRUD (Create, Read, 
+Update, Delete). Definir una conexión para escritura (write), una para borrado
+(delete) y una para todas las operaciones (all).
+
+Para crear una conexión para cada operación, es necesario crear los usuarios y 
+permisos en la base de datos. Por ejemplo:
+```
+GRANT SELECT,INSERT,UPDATE,DELETE ON myDatabase.* TO 'myUser'@'localhost' IDENTIFIED BY 'myFirstPassword';
+GRANT SELECT ON myDatabase.* TO 'myUserRead'@'localhost' IDENTIFIED BY 'mySecondPassword';
+GRANT INSERT,UPDATE ON myDatabase.* TO 'myUserWrite'@'localhost' IDENTIFIED BY 'myThirdPassword';
+GRANT DELETE ON myDatabase.* TO 'myUserDelete'@'localhost' IDENTIFIED BY 'myFourthPassword';
+```
+En este caso la configuración quedaría:
+```
+$database=array(
+    "name" => "myDatabase",
+    "driver" => "mysql",
+    "persistent" => true,
+    "host"=>"localhost",
+    "connections" => array(
+        array(
+            "name"=>"read",
+            "login" => "myUserRead",
+            "password" => "mySecondPassword"
+        ),
+        array(
+            "name"=>"write",
+            "login" => "myUserWrite",
+            "password" => "myThirdPassword"
+        ),
+        array(
+            "name"=>"delete",
+            "login" => "myUserDelete",
+            "password" => "myFourthPassword"
+        ),
+        array(
+            "name"=>"all",
+            "login" => "myUser",
+            "password" => "myFirstPassword"
+        )
+    )
+);
+```
 
 Cambios
 ==========
