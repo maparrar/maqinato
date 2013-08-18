@@ -113,9 +113,8 @@ class Router{
     public static function loadConfig(){
         return array(
             "app"           =>  require_once 'engine/config/app.php',
-            "environment"   =>  require_once 'engine/config/environment.php',
+            "environments"  =>  require_once 'engine/config/environment.php',
             "client"        =>  require_once 'engine/config/client.php',
-            "database"      =>  require_once 'engine/config/database.php',
             "paths"         =>  require_once 'engine/config/paths.php'
         );
     }

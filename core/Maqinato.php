@@ -141,19 +141,17 @@ class Maqinato{
     }
     /**
      * Carga el environment a partir de la variable $_SERVER["SERVER_NAME"]
-     * @return string Nombre el environment cargado
+     * @return Environment El environment cargado
      */
     private static function loadEnvironment(){
+        $environment=false;
         $serverName=filter_input(INPUT_SERVER,'SERVER_NAME',FILTER_SANITIZE_STRING);
-        /*DEVELOPMENT*/
-        if(in_array($serverName,self::$config["environment"]["development"]["urls"])){
-            $environment="development";
-        /*RELEASE CANDIDATE*/
-        }elseif(in_array($serverName,self::$config["environment"]["release"]["urls"])){
-            $environment="release";
-        /*PRODUCTION*/
-        }elseif(in_array($serverName,self::$config["environment"]["production"]["urls"])){
-            $environment="production";
+        foreach(self::$config["environments"] as $envArray){
+            $environment=new Environment();
+            $environment->readEnvironment($envArray);
+            if($environment->checkUrl($serverName)){
+                break;
+            }
         }
         return $environment;
     }
@@ -219,7 +217,30 @@ class Maqinato{
                     $info.='<ul>';
                         $info.='<li>root: '.self::$root.'</li>';
                         $info.='<li>application: '.self::$application.'</li>';
-                        $info.='<li>environment: '.self::$environment.'</li>';
+                        $info.='<li>environment:</li>';
+                            $info.='<ul>';
+                                $info.='<li>name: '.self::$environment->getName().'</li>';
+                                $info.='<li>urls:</li>';
+                                $info.=self::makeList(self::$environment->getUrls());
+                                $info.='<li>database:</li>';
+                                    $info.='<ul>';
+                                        $info.='<li>name: '.self::$environment->getDatabase()->getName().'</li>';
+                                        $info.='<li>driver: '.self::$environment->getDatabase()->getDriver().'</li>';
+                                        $info.='<li>persistent: '.self::$environment->getDatabase()->getPersistent().'</li>';
+                                        $info.='<li>host: '.self::$environment->getDatabase()->getHost().'</li>';
+                                        $info.='<li>connections:</li>';
+                                            $info.='<ul>';
+                                                foreach(self::$environment->getDatabase()->getConnections() as $dbConnection){
+                                                    $info.='<li>connection:</li>';
+                                                    $info.='<ul>';
+                                                        $info.='<li>name: '.$dbConnection->getName().'</li>';
+                                                        $info.='<li>login: '.$dbConnection->getLogin().'</li>';
+                                                        $info.='<li>password: '.$dbConnection->getPassword().'</li>';
+                                                    $info.='</ul>';
+                                                }
+                                            $info.='</ul>';
+                                    $info.='</ul>';
+                            $info.='</ul>';
                         $info.='<li>locale: '.self::$locale.'</li>';
                         $info.='<li>request:</li>';
                             $info.='<ul>';

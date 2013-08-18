@@ -1,62 +1,90 @@
 <?php
 /** Connection File
- * @package config @subpackage database */
+* @package core @subpackage  */
 /**
- * Connection Class
- *
- * Connecting with the database.
- *
- * @author https://github.com/maparrar/maqinato
- * @author Alejandro Parra <maparrar@gmail.com> 
- * @package config
- * @subpackage database 
- */
+* Connection Class
+*
+* @author https://github.com/maparrar/maqinato
+* @author maparrar <maparrar@gmail.com>
+* @package core
+* @subpackage 
+*/
 class Connection{
-    /** Connection Strings to write and read database
+    /** 
+     * Nombre de la conexión, puede ser: read, write, delete, all 
+     * 
      * @var string
      */
-    private $connections;
-    /**
-     * Connecting with the database.
+    protected $name;
+    /** 
+     * Login de acceso a la base de datos para la conexión 
+     * 
+     * @var string
      */
-    function __construct() {
-        $this->connections = array(
-            'read'=>array(
-                'driver'    => Config::$database["driver"],
-                'persistent'=> Config::$database["persistent"],
-                'host'      => Config::$database["host"][Router::server()],
-                'login'     => Config::$database["read"]["login"],
-                'password'  => Config::$database["read"]["password"],
-                'database'  => Config::$database["database"]
-             ),
-            'write'=>array(
-                'driver'    => Config::$database["driver"],
-                'persistent'=> Config::$database["persistent"],
-                'host'      => Config::$database["host"][Router::server()],
-                'login'     => Config::$database["write"]["login"],
-                'password'  => Config::$database["write"]["password"],
-                'database'  => Config::$database["database"]
-             ),
-            'all'=>array(
-                'driver'    => Config::$database["driver"],
-                'persistent'=> Config::$database["persistent"],
-                'host'      => Config::$database["host"][Router::server()],
-                'login'     => Config::$database["all"]["login"],
-                'password'  => Config::$database["all"]["password"],
-                'database'  => Config::$database["database"]
-             )
-        );
+    protected $login;
+    /** 
+     * Password de acceso a la base de datos para la conexión 
+     * 
+     * @var string
+     */
+    protected $password;
+    /**
+    * Constructor
+    * @param string $name Nombre de la conexión, puede ser: read, write, delete, all        
+    * @param string $login Login de acceso a la base de datos para la conexión        
+    * @param string $password Password de acceso a la base de datos para la conexión        
+    */
+    function __construct($name="",$login="",$password=""){        
+        $this->name=$name;
+        $this->login=$login;
+        $this->password=$password;
+    }
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /**
+    * Setter name
+    * @param string $value Nombre de la conexión, puede ser: read, write, delete, all
+    * @return void
+    */
+    public function setName($value) {
+        $this->name=$value;
     }
     /**
-     * Return the connection string
-     * @param string type of connection
-     * @return string Connection string
-     */
-    function getConnection($type){
-        $output="";
-        if($type=="read"||$type=="all"){
-            $output=$this->connections[$type];
-        }
-        return $output;
+    * Setter login
+    * @param string $value Login de acceso a la base de datos para la conexión
+    * @return void
+    */
+    public function setLogin($value) {
+        $this->login=$value;
     }
+    /**
+    * Setter password
+    * @param string $value Password de acceso a la base de datos para la conexión
+    * @return void
+    */
+    public function setPassword($value) {
+        $this->password=$value;
+    }
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /**
+    * Getter: name
+    * @return string
+    */
+    public function getName() {
+        return $this->name;
+    }
+    /**
+    * Getter: login
+    * @return string
+    */
+    public function getLogin() {
+        return $this->login;
+    }
+    /**
+    * Getter: password
+    * @return string
+    */
+    public function getPassword() {
+        return $this->password;
+    }    
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 }

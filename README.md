@@ -91,6 +91,12 @@ _("Texto a traducir a diferentes idiomas");
 
 Cambios
 ==========
+Versión 0.3.1:
+----------
+- Reorganización de funciones
+- Mejoras en el Router
+- Inclusión de la clase Environment
+- Uso de Environment para almacenar las bases de datos
 Versión 0.3:
 ----------
 - Soporte para i18n y l10n

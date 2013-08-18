@@ -14,7 +14,7 @@
  * @package models
  * @subpackage dal
  */
-class Database{
+class Database1{
     /** PDO PHP Handler 
      * @var PDO
      */
