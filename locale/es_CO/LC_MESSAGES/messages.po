@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: maqinato\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-16 12:00-0500\n"
-"PO-Revision-Date: 2013-08-16 12:00-0500\n"
+"POT-Creation-Date: 2013-08-18 18:38-0500\n"
+"PO-Revision-Date: 2013-08-18 18:39-0500\n"
 "Last-Translator: maparrar <maparrar@gmail.com>\n"
 "Language-Team: maqinato <maparrar@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -15,21 +15,36 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: /var/www/maqinato\n"
 
-#: /var/www/maqinato/engine/views/landing.php:23
+#: /var/www/maqinato/engine/views/landing.php:22
 msgid "Testing i18n"
 msgstr "Probando i18n"
 
-#: /var/www/maqinato/engine/views/landing.php:25
+#: /var/www/maqinato/engine/views/landing.php:24
 msgid "NEW text in English to translate to another language."
 msgstr "Nuevo texto en Inglés para traducir a otro idioma."
 
-#: /var/www/maqinato/engine/views/landing.php:26
+#: /var/www/maqinato/engine/views/landing.php:25
 msgid "Maqinato is a non-framework tool."
 msgstr "Maqinato es una herramienta no-framework."
 
-#: /var/www/maqinato/engine/views/landing.php:27
-msgid "word games"
-msgstr "Juegos de palabras"
+#: /var/www/maqinato/engine/views/accessing.php:10
+msgid "Accessing"
+msgstr "Acceso"
+
+#: /var/www/maqinato/engine/views/accessing.php:20
+msgid "Login in "
+msgstr "Ingresar en "
+
+#: /var/www/maqinato/engine/views/accessing.php:21
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: /var/www/maqinato/engine/views/accessing.php:22
+msgid "Password"
+msgstr "Contraseña"
+
+#~ msgid "word games"
+#~ msgstr "Juegos de palabras"
 
 #~ msgid "The son of the frog"
 #~ msgstr "El hijo de rana"

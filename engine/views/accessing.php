@@ -5,10 +5,9 @@
         <?php
             //Incluye los scripts
             Router::js("jquery");
-            
         ?>
-        <title>Landing | Maqinato</title>
-        <script  type="text/javascript">
+        <title><?php echo _("Accessing")." | ".ucfirst(Maqinato::application()); ?></title>
+        <script type="text/javascript">
             $(document).ready(function(){
                 $("body").click(function(){
                   $(this).css("background","red");
@@ -17,13 +16,9 @@
         </script>
     </head>
     <body>
-        <h1>PÁGINA DE LANDING</h1>
-        <hr/>
-        <h2><?php echo _("Testing i18n"); ?></h2>
-        <?php
-            echo _("NEW text in English to translate to another language.")."<br/>";
-            echo _("Maqinato is a non-framework tool.")."<br/>";
-        ?>
-        <hr/>
+        <h1><?php echo _("Login in ").ucfirst(Maqinato::application()); ?></h1>
+        <?php echo _("Username"); ?>: <input type="text" name="username"/><br />
+        <?php echo _("Password"); ?>: <input type="password" name="password"/><br />
+        <span><?php echo _("Login"); ?></span>
     </body>
 </html>

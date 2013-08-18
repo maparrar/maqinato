@@ -3,17 +3,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/var/www/maqinato/core/tests/core/RequestTest.php</file>
-            <file>file:/var/www/maqinato/engine/views/landing.php</file>
-            <file>file:/var/www/maqinato/index.php</file>
-            <file>file:/var/www/maqinato/engine/controllers/TempController.php</file>
-            <file>file:/var/www/maqinato/core/Maqinato.php</file>
-            <file>file:/var/www/maqinato/core/Request.php</file>
-            <file>file:/var/www/maqinato/engine/config/app.php</file>
-            <file>file:/var/www/maqinato/locale/de_DE/LC_MESSAGES/messages.po</file>
-            <file>file:/var/www/maqinato/engine/config/paths.php</file>
-            <file>file:/var/www/maqinato/core/View.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

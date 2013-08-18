@@ -233,6 +233,12 @@ class Maqinato{
                 $info='<div class="section">';
                     $info.='<div class="title">INFO</div>';
                     $info.='<ul>';
+                        $info.='<li>timers:</li>';    
+                            $info.='<ul>';
+                                foreach (self::$procTimers as $timer){
+                                    $info.='<li>'.$timer["name"].": ".sprintf('%f',$timer["end"]-$timer["ini"])." ms</li>";
+                                }
+                            $info.='</ul>';
                         $info.='<li>root: '.self::$root.'</li>';
                         $info.='<li>application: '.self::$application.'</li>';
                         $info.='<li>environment:</li>';
@@ -271,12 +277,6 @@ class Maqinato{
                                             $info.='<li>'.$parameter.'</li>';
                                         }
                                     $info.='</ul>';
-                            $info.='</ul>';
-                        $info.='<li>procTimers:</li>';    
-                            $info.='<ul>';
-                                foreach (self::$procTimers as $timer){
-                                    $info.='<li>'.$timer["name"].": ".sprintf('%f',$timer["end"]-$timer["ini"])." ms</li>";
-                                }
                             $info.='</ul>';
                     $info.='</ul>';
                 $info.='</div>';

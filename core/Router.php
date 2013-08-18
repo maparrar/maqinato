@@ -27,10 +27,10 @@ class Router{
     public static function route(Request $request){
         switch ($request->getController()) {
             case "":
-                self::redirect("landing");
+                self::redirect("accessing");
                 break;
-            case "landing":
-                View::load("landing");
+            case "accessing":
+                View::load("accessing");
                 break;
             case "home":
                 View::load("home");

@@ -176,7 +176,7 @@ class Database{
                 array(PDO::ATTR_PERSISTENT => $this->persistent)
             );
         } catch (PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
+            error_log("Error!: " . $e->getMessage());
             die();
         }
         return $handler;

@@ -10,5 +10,5 @@
  */
  ?>
 <footer>
-    FOOTER
+    © <?php echo date("Y")." ".ucfirst(Maqinato::application()); ?>
 </footer>

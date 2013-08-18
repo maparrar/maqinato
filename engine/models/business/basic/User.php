@@ -13,12 +13,6 @@ class User extends Person{
     /** 
      *  
      * 
-     * @var int
-     */
-    protected $id;
-    /** 
-     *  
-     * 
      * @var string
      */
     protected $password;
@@ -34,20 +28,11 @@ class User extends Person{
     * @param string         
     * @param string         
     */
-    function __construct($id=0,$password="",$salt=""){        
-        $this->id=$id;
+    function __construct($password="",$salt=""){
         $this->password=$password;
         $this->salt=$salt;
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /**
-    * Setter id
-    * @param int $value 
-    * @return void
-    */
-    public function setId($value) {
-        $this->id=$value;
-    }
     /**
     * Setter password
     * @param string $value 
@@ -65,13 +50,6 @@ class User extends Person{
         $this->salt=$value;
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /**
-    * Getter: id
-    * @return int
-    */
-    public function getId() {
-        return $this->id;
-    }
     /**
     * Getter: password
     * @return string
