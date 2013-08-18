@@ -89,8 +89,31 @@ para mayor facilidad:
 _("Texto a traducir a diferentes idiomas");
 ```
 
-Internacionalización y Localización
+Entornos (Environments)
 ==========
+Se pueden configurar varios entornos para una aplicación. Cada entorno representa
+una instalación de la aplicación, así se puede tener un entorno para desarrollo,
+uno para release y otro para producción. Es posible tener tantos entornos como se
+quieran.
+
+Cada entorno cuenta con una lista de URL's para que Maqinato identifique
+automáticamente en qué entorno está trabajando. Por ejemplo, para el entorno de 
+desarrollo es normal tener la URL "localhost", pero si se quiere acceder a la
+aplicación por medio de una LAN, se debería agregar la URL que identifica al
+servidor en la red local, por ejemplo: "192.168.0.102".
+
+Para un entorno de producción, la URL puede ser del tipo: "150.51.10.52", 
+"aws.server.production.com" o "www.example.com".
+
+El archivo de configuración de entornos se encuentra por defecto en:
+```
+/engine/config/environment.php
+```
+
+
+Bases de datos
+==========
+
 
 Cambios
 ==========
