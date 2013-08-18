@@ -132,7 +132,7 @@ Update, Delete). Definir una conexión para escritura (write), una para borrado
 (delete) y una para todas las operaciones (all).
 
 Para crear una conexión para cada operación, es necesario crear los usuarios y 
-permisos en la base de datos. Por ejemplo:
+permisos en la base de datos (requiere permisos de root). Por ejemplo:
 ```
 GRANT SELECT,INSERT,UPDATE,DELETE ON myDatabase.* TO 'myUser'@'localhost' IDENTIFIED BY 'myFirstPassword';
 GRANT SELECT ON myDatabase.* TO 'myUserRead'@'localhost' IDENTIFIED BY 'mySecondPassword';

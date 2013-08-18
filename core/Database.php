@@ -40,11 +40,6 @@ class Database{
      * @var Connection[]
      */
     protected $connections;
-    /** 
-     * Variable de tipo PDO que conecta con la base de datos
-     * @var PDO
-     */
-    private $handler;
     /**
     * Constructor
     * @param string $name Nombre de la base de datos        
@@ -59,7 +54,6 @@ class Database{
         $this->persistent=$persistent;
         $this->host=$host;
         $this->connections=$connections;
-        $this->handler=false;
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
@@ -138,13 +132,6 @@ class Database{
     public function getConnections() {
         return $this->connections;
     }
-    /**
-     * Getter: PDO handler
-     * @return PDO Object databse handler
-     */
-    public function getHandler(){
-        return $this->handler;
-    }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
      * Agrega una conexión a la base de datos
@@ -174,11 +161,13 @@ class Database{
      * Conecta con una base de datos, si hay algún error ejecuta die() para terminar
      * cualquier proceso.
      * @param string $connectionName Nombre la conexión a usar: read, write, delete, all
+     * @return PDO Object databse handler
      */
     function connect($connectionName="all"){
+        $handler=false;
         $conection=$this->connection($connectionName);
         try {
-            $this->handler = new PDO(
+            $handler = new PDO(
                 $this->driver.
                 ':host='.$this->host.
                 ';dbname='.$this->name,
@@ -190,5 +179,6 @@ class Database{
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
+        return $handler;
     }
 }

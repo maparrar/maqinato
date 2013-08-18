@@ -89,9 +89,9 @@ class Maqinato{
         $controller->probando(serialize(self::$request->getParameters()));
         
         
-        self::$environment->getDatabase()->connect();
+        $dao=new DaoPerson();
+        $dao->create(new Person(0,"Pepito","Perez","pepito@perez.com",55555));
         
-                
         //Hace el routing del Request capturado
         Router::route(self::$request);
         
@@ -167,6 +167,20 @@ class Maqinato{
     public static function application(){return self::$application;}
     public static function request(){return self::$request;}
     
+    /**************************************************************************/
+    /********************************* METHODS ********************************/
+    /**************************************************************************/
+    /**
+     * Conecta con la base de datos definida para el Environment y retorna el 
+     * handler.
+     * @param string $connectionName Nombre la conexión a usar: read, write, delete, all
+     * @return PDO Handler de la base de datos con la conexión especificada
+     */
+    public static function connect($connectionName="all"){
+        return self::$environment->getDatabase()->connect($connectionName);
+    }
+
+
     /**************************************************************************/
     /********************************** UTILS *********************************/
     /**************************************************************************/

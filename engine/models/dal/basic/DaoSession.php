@@ -1,96 +1,185 @@
 <?php
 /** DaoSession File
  * @package models @subpackage dal */
-if(!class_exists('Router')) require_once '../../config/Router.php';
-include_once Router::rel('models').'dal/Database.php';
-include_once Router::rel('models').'core/Session.php';
 /**
  * DaoSession Class
  *
  * Class data layer for the Session class
  * 
  * @author https://github.com/maparrar/maqinato
- * @author Alejandro Parra <maparrar@gmail.com> 
+ * @author maparrar <maparrar@gmail.com>
  * @package models
  * @subpackage dal
  */
-class DaoSession extends Dao{
+class DaoSession{
     /**
-     * Constructor: sets the database Object and the PDO handler
-     */
-    function DaoSession(){
-        parent::Dao();
-    }
-    /**
-     * Create a session in the database
-     * @param Session Session object
-     * @return false if could'nt create it
-     * @return Session Session created
+     * Create an Session in the database
+     * @param Session $session new Session
+     * @return Session Session stored
+     * @return string "exist" if the Session already exist
+     * @return false if the Session couldn't created
      */
     function create($session){
         $created=false;
-        if(!$this->sessionExist($session->getId())){
-            $stmt = $this->handler->prepare("INSERT INTO sessions (ini,end,state,ipIni,ipEnd,phpSession,user) VALUES (:ini,:end,:state,:ipIni,:ipEnd,:phpSession,:user)");
-            $stmt->bindParam(':ini', $session->getIni());
+        if(!$this->exist($session->getId())){    
+            $handler=Maqinato::connect("write");
+            $stmt = $handler->prepare("INSERT INTO Session 
+                (`id`,`ini`,`end`,`state`,`ipIni`,`ipEnd`,`phpSession`,`user`) VALUES 
+                (:id,:ini,:end,:state,:ipIni,:ipEnd,:phpSession,:user)");
+            $stmt->bindParam(':id',$session->getId());
+            $stmt->bindParam(':ini',$session->getIni());
             $stmt->bindParam(':end',$session->getEnd());
             $stmt->bindParam(':state',$session->getState());
             $stmt->bindParam(':ipIni',$session->getIpIni());
             $stmt->bindParam(':ipEnd',$session->getIpEnd());
             $stmt->bindParam(':phpSession',$session->getPhpSession());
             $stmt->bindParam(':user',$session->getUser());
-            $stmt->execute();
-            $session->setId(intval($this->handler->lastInsertID()));
-            $created=$session->getId();
+            if($stmt->execute()){
+                $session->setId(intval($handler->lastInsertID()));
+                $created=$session;
+            }else{
+                $error=$stmt->errorInfo();
+                error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
+            }
+        }else{
+            $created="exist";
         }
         return $created;
     }
     /**
-     * Read a session from the database
-     * @param string idSession
+     * Read a Session from the database
+     * @param int $id Session identificator
      * @return Session Session loaded
      */
-    function read($idSession){
-        $stmt = $this->handler->prepare("SELECT * FROM sessions WHERE id = ?");
-        if ($stmt->execute(array($idSession))) {
-            $list=$stmt->fetch();
-            $session=new Session();
-            $session->setId($idSession);
-            $session->setIni($list["ini"]);
-            $session->setEnd($list["end"]);
-            $session->setState($list["state"]);
-            $session->setIpIni($list["ipIni"]);
-            $session->setIpEnd($list["ipEnd"]);
-            $session->setPhpSession($list["phpSession"]);
-            $session->setUser(intval($list["user"]));
-            return $session;
+    function read($id){
+        $response=null;
+        if($this->exist($id)){
+            $handler=Maqinato::connect("read");
+            $stmt = $handler->prepare("SELECT * FROM Session WHERE id= ?");
+            if ($stmt->execute(array($id))) {
+                $row=$stmt->fetch();
+                $session=new Session();
+                $session->setId(intval($row["id"]));
+                $session->setIni($row["ini"]);
+                $session->setEnd($row["end"]);
+                $session->setState($row["state"]);
+                $session->setIpIni($row["ipIni"]);
+                $session->setIpEnd($row["ipEnd"]);
+                $session->setPhpSession($row["phpSession"]);
+                $session->setUser(intval($row["user"]));
+                $response=$session;
+            }else{
+                $error=$stmt->errorInfo();
+                error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
+            }
         }
+        return $response;
     }
     /**
-     * Update a session in the database
-     * @param Session Session object
+     * Update a Session in the database
+     * @param Session $session Session object
      * @return false if could'nt update it
-     * @return true if the session was updated
+     * @return true if the Session was updated
      */
     function update($session){
         $updated=false;
-        if($this->sessionExist($session->getId())){
-            $stmt = $this->handler->prepare("UPDATE sessions SET end=?,state=?,ipEnd=? WHERE id=?");
-            $stmt->execute(array($session->getEnd(),$session->getState(),$session->getIpEnd(),$session->getId()));
-            $updated=true;
+        if($this->exist($session->getId())){
+            $handler=Maqinato::connect();
+            $stmt = $handler->prepare("UPDATE Session SET 
+                `ini`=:ini,
+                `end`=:end,
+                `state`=:state,
+                `ipIni`=:ipIni,
+                `ipEnd`=:ipEnd,
+                `phpSession`=:phpSession,
+                `user`=:user,
+                WHERE id=:id");
+            $stmt->bindParam(':id',$session->getId());
+            $stmt->bindParam(':ini',$session->getIni());
+            $stmt->bindParam(':end',$session->getEnd());
+            $stmt->bindParam(':state',$session->getState());
+            $stmt->bindParam(':ipIni',$session->getIpIni());
+            $stmt->bindParam(':ipEnd',$session->getIpEnd());
+            $stmt->bindParam(':phpSession',$session->getPhpSession());
+            $stmt->bindParam(':user',$session->getUser());
+            if($stmt->execute()){
+                $updated=true;
+            }else{
+                $error=$stmt->errorInfo();
+                error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
+            }
         }else{
             $updated=false;
         }
         return $updated;
     }
     /**
-     * Delete a session from the database
-     * @param string idSession
+     * Delete an Session from the database
+     * @param Session $session Session object
      * @return false if could'nt delete it
-     * @return true if was deleted
-     * @todo implement
+     * @return true if the Session was deleted
      */
-    function delete($idSession){
-        
+    function delete($session){
+        $deleted=false;
+        if($this->exist($session->getId())){
+            $handler=Maqinato::connect("delete");
+            $stmt = $handler->prepare("DELETE Session WHERE id=:id");
+            $stmt->bindParam(':id',$session->getId());
+            if($stmt->execute()){
+                $deleted=true;
+            }else{
+                $error=$stmt->errorInfo();
+                error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
+            }
+        }else{
+            $deleted=false;
+        }
+        return $deleted;
+    }
+    /**
+     * Return if a Session exist in the database
+     * @param int $id Session identificator
+     * @return false if doesn't exist
+     * @return true if exist
+     */
+    function exist($id){
+        $exist=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT id FROM Session WHERE id=:id");
+        $stmt->bindParam(':id',$id);
+        if ($stmt->execute()) {
+            $list=$stmt->fetch();
+            if($list){
+                if(intval($list["id"])===intval($id)){
+                    $exist=true;
+                }else{
+                    $exist=false;
+                }
+            }
+        }else{
+            $error=$stmt->errorInfo();
+            error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
+        }
+        return $exist;
+    }
+    /**
+     * Get the list of Session
+     * @return Session[] List of Session
+     */
+    function listing(){
+        $list=array();
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT id FROM Session");
+        if ($stmt->execute()) {
+            while ($row = $stmt->fetch()){
+                $session=$this->read($row["id"]);
+                array_push($list,$session);
+            }
+        }else{
+            $error=$stmt->errorInfo();
+            error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
+        }
+        return $list;
     }
     /**
      * Return if a session exist in the database
@@ -100,7 +189,8 @@ class DaoSession extends Dao{
      */
     function sessionExist($idSession){
         $exist=false;
-        $stmt = $this->handler->prepare("SELECT id FROM sessions WHERE id = ?");
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT id FROM sessions WHERE id = ?");
         if ($stmt->execute(array($idSession))) {
             $list=$stmt->fetch();
             if($list){
@@ -121,7 +211,8 @@ class DaoSession extends Dao{
      */
     function lastSession($userId){
         $session=false;
-        $stmt = $this->handler->prepare("SELECT id FROM sessions WHERE user = ? ORDER BY id DESC LIMIT 1");
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT id FROM sessions WHERE user = ? ORDER BY id DESC LIMIT 1");
         if ($stmt->execute(array($userId))) {
             $list=$stmt->fetch();
             $session=new Session();
@@ -130,5 +221,3 @@ class DaoSession extends Dao{
         return $session;
     }
 }
-
-?>

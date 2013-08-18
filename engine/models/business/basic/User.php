@@ -1,286 +1,90 @@
 <?php
 /** User File
- * @package models @subpackage core */
-include_once Router::rel('models').'core/Object.php';
+* @package  @subpackage  */
 /**
- * User Class
- * 
- * @author https://github.com/maparrar/maqinato
- * @author Alejandro Parra <maparrar@gmail.com> 
- * @package models
- * @subpackage core
- */
+* User Class
+*
+* @author https://github.com/maparrar/maqinato
+* @author maparrar <maparrar@gmail.com>
+* @package 
+* @subpackage 
+*/
 class User extends Object{
-    /** User id 
+    /** 
+     *  
+     * 
      * @var int
      */
     protected $id;
-    /** User email 
+    /** 
+     *  
+     * 
      * @var string
      */
-    protected $email;
-    /** User name 
+    protected $password;
+    /** 
+     *  
+     * 
      * @var string
      */
-    protected $name;
-    /** User lastname 
-     * @var string
-     */
-    protected $lastname;
-    /** Born date
-     * @var date
-     */
-    protected $born;
-    /** If the user is validated
-     * @var bool
-     */
-    protected $validated;
-    /** maqinato session id 
-     * @var string
-     */
-    private $sessionId;
-    /** Image of the user
-     * @var string i.e.: 123.png or default.png
-     */
-    protected $image;
+    protected $salt;
     /**
-     * Constructor
-     * @param int identifier of the user
-     * @param string email user
-     * @param string user name
-     * @param string user lastname
-     */
-    function User($id=0,$email="",$name="",$lastname=""){
+    * Constructor
+    * @param int         
+    * @param string         
+    * @param string         
+    */
+    function __construct($id=0,$password="",$salt=""){        
         $this->id=$id;
-        $this->email=$email;
-        $this->name=$name;
-        $this->lastname=$lastname;
-        $this->born=date('1900-01-01 H:i:s');
-        $this->validated=true;
-        $this->type=null;
-        $this->country='';
-        $this->isFriend=false;
-        $this->image="";
+        $this->password=$password;
+        $this->salt=$salt;
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
-     * Setter: id
-     * @param int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = $id;
+    * Setter id
+    * @param int $value 
+    * @return void
+    */
+    public function setId($value) {
+        $this->id=$value;
     }
     /**
-     * Setter: email
-     * @param String $email
-     * @return void
-     */
-    public function setEmail($email) {
-        $this->email = $email;
+    * Setter password
+    * @param string $value 
+    * @return void
+    */
+    public function setPassword($value) {
+        $this->password=$value;
     }
     /**
-     * Setter: name
-     * @param String $name
-     * @return void
-     */
-    public function setName($name) {
-        $this->name = $name;
+    * Setter salt
+    * @param string $value 
+    * @return void
+    */
+    public function setSalt($value) {
+        $this->salt=$value;
     }
-     /**
-     * Setter: lastname
-     * @param String $lastname
-     * @return void
-     */
-    public function setLastname($lastname) {
-        $this->lastname = $lastname;
-    }
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
-     * Setter: born
-     * @param date $born
-     * @return void
-     */
-    public function setBorn($born) {
-        $this->born = $born;
-    }
-    /**
-     * Setter: lastname
-     * @param String $lastname
-     * @return void
-     */
-    public function setSex($value) {
-        $this->sex = $value;
-    }
-    /**
-     * Setter: iam
-     * @param string $iam
-     * @return void
-     */
-    public function setIam($iam) {
-        $this->iam = $iam;
-    }
-    /**
-     * Setter: validated
-     * @param bool $value
-     * @return void
-     */
-    public function setValidated($value) {
-        $this->validated = $value;
-    }
-    /**
-     * Setter: city
-     * @param int $value
-     * @return void
-     */
-    public function setCity($value) {
-        $this->city = $value;
-    }
-    /**
-     * Setter: type
-     * @param UserType $value
-     * @return void
-     */
-    public function setType($value) {
-        $this->type = $value;
-    }
-    /**
-     * Setter: country
-     * @param string $value
-     * @return void
-     */
-    public function setCountry($value) {
-        $this->country = $value;
-    }
-    /**
-     * Setter: sessionId
-     * @param int $sessionId
-     * @return void
-     */
-    public function setSessionId($sessionId) {
-        $this->sessionId = $sessionId;
-    }
-    /**
-     * Setter: isFriend
-     * @param mixed $isFriend
-     * @return void
-     */
-    public function setIsFriend($isFriend) {
-        $this->isFriend = $isFriend;
-    }
-    /**
-     * Setter: image
-     * @param string $image
-     * @return void
-     */
-    public function setImage($image) {
-        $this->image = $image;
-    }
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   GETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /**
-     * Getter: id
-     * @return int
-     */
+    * Getter: id
+    * @return int
+    */
     public function getId() {
         return $this->id;
     }
     /**
-     * Getter: email
-     * @return String
-     */
-    public function getEmail() {
-        return $this->email;
+    * Getter: password
+    * @return string
+    */
+    public function getPassword() {
+        return $this->password;
     }
     /**
-     * Getter: name
-     * @return String
-     */
-    public function getName() {
-        return $this->name;
-    }
-    /**
-     * Getter: lastname
-     * @return String
-     */
-    public function getLastname() {
-        return $this->lastname;
-    }
-    /**
-     * Getter: born
-     * @return date
-     */
-    public function getBorn() {
-        return $this->born;
-    }
-    /**
-     * Getter: sex
-     * @return String
-     */
-    public function getSex() {
-        return $this->sex;
-    }
-    /**
-     * Getter: iam
-     * @return string
-     */
-    public function getIam() {
-        return $this->iam;
-    }
-    /**
-     * Getter: validated
-     * @return bool
-     */
-    public function getValidated() {
-        return $this->validated;
-    }
-    /**
-     * Getter: city
-     * @return int
-     */
-    public function getCity() {
-        return $this->city;
-    }
-    /**
-     * Getter: type
-     * @return UserType
-     */
-    public function getType() {
-        return $this->type;
-    }
-    /**
-     * Getter: country
-     * @return string
-     */
-    public function getCountry() {
-        return $this->country;
-    }
-    /**
-     * Getter: sessionId
-     * @return String
-     */
-    public function getSessionId() {
-        return $this->sessionId;
-    }
-    /**
-     * Getter: isFriend
-     * @return mixed
-     */
-    public function getIsFriend() {
-        return $this->isFriend;
-    }
-    /**
-     * Getter: image
-     * @return string
-     */
-    public function getImage() {
-        return $this->image;
-    }
+    * Getter: salt
+    * @return string
+    */
+    public function getSalt() {
+        return $this->salt;
+    }    
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /**
-     * Return the name and lastname in a string
-     * @return string Name and lastname
-     */
-    public function name(){
-        return $this->name." ".$this->lastname;
-    }
-} 
-?>
+}

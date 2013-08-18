@@ -1,9 +1,9 @@
 <?php
 /** Object File
  * @package models @subpackage core */
-if(!class_exists('Router')) require_once '../../config/Router.php';
-include_once Router::rel('models').'core/Media.php';
-include_once Router::rel('models').'core/MediaType.php';
+//if(!class_exists('Router')) require_once '../../config/Router.php';
+//include_once Router::rel('models').'core/Media.php';
+//include_once Router::rel('models').'core/MediaType.php';
 /**
  * Object Class
  * Provides standard methods to Class, like JSON transformations

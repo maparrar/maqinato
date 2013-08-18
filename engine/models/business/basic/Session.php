@@ -1,58 +1,196 @@
 <?php
 /** Session File
- * @package models @subpackage core */
+* @package  @subpackage  */
 /**
- * Session Class
- * 
- * @author https://github.com/maparrar/maqinato
- * @author Alejandro Parra <maparrar@gmail.com> 
- * @package models
- * @subpackage core
- * @todo store the lat and lon
- */
-class Session{
-    /** Session id 
+* Session Class
+*
+* @author https://github.com/maparrar/maqinato
+* @author maparrar <maparrar@gmail.com>
+* @package 
+* @subpackage 
+*/
+class Session extends Object{
+    /** 
+     *  
+     * 
      * @var int
      */
-    private $id;
-    /** Start date and time  
-     * @var Date
+    protected $id;
+    /** 
+     *  
+     * 
+     * @var date
      */
-    private $ini;
-    /** End date and time 
-     * @var Date
+    protected $ini;
+    /** 
+     *  
+     * 
+     * @var date
      */
-    private $end;
-    /** true if the session is open, false otherwise 
-     * @var bool
+    protected $end;
+    /** 
+     *  
+     * 
+     * @var tinyint
      */
-    private $state;
-    /** IP where the session starts 
+    protected $state;
+    /** 
+     *  
+     * 
      * @var string
      */
-    private $ipIni;
-    /** IP where the session ends 
+    protected $ipIni;
+    /** 
+     *  
+     * 
      * @var string
      */
-    private $ipEnd;
-    /** Session ID from the $_SESSION PHP variable 
+    protected $ipEnd;
+    /** 
+     *  
+     * 
      * @var string
      */
-    private $phpSession;
-    /** Id user 
+    protected $phpSession;
+    /** 
+     *  
+     * 
      * @var int
      */
-    private $user;
+    protected $user;
     /**
-     * Constructor
-     * @param User user that use the session
-     */
-    function Session($user=0){
+    * Constructor 
+    * @param int $user         
+    */
+    function __construct($user=0){        
         $this->id=0;
         $this->state=false;
         $this->phpSession=session_id();
         $this->user=$user;
     }
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /**
+    * Setter id
+    * @param int $value 
+    * @return void
+    */
+    public function setId($value) {
+        $this->id=$value;
+    }
+    /**
+    * Setter ini
+    * @param date $value 
+    * @return void
+    */
+    public function setIni($value) {
+        $this->ini=$value;
+    }
+    /**
+    * Setter end
+    * @param date $value 
+    * @return void
+    */
+    public function setEnd($value) {
+        $this->end=$value;
+    }
+    /**
+    * Setter state
+    * @param tinyint $value 
+    * @return void
+    */
+    public function setState($value) {
+        $this->state=$value;
+    }
+    /**
+    * Setter ipIni
+    * @param string $value 
+    * @return void
+    */
+    public function setIpIni($value) {
+        $this->ipIni=$value;
+    }
+    /**
+    * Setter ipEnd
+    * @param string $value 
+    * @return void
+    */
+    public function setIpEnd($value) {
+        $this->ipEnd=$value;
+    }
+    /**
+    * Setter phpSession
+    * @param string $value 
+    * @return void
+    */
+    public function setPhpSession($value) {
+        $this->phpSession=$value;
+    }
+    /**
+    * Setter user
+    * @param int $value 
+    * @return void
+    */
+    public function setUser($value) {
+        $this->user=$value;
+    }
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /**
+    * Getter: id
+    * @return int
+    */
+    public function getId() {
+        return $this->id;
+    }
+    /**
+    * Getter: ini
+    * @return date
+    */
+    public function getIni() {
+        return $this->ini;
+    }
+    /**
+    * Getter: end
+    * @return date
+    */
+    public function getEnd() {
+        return $this->end;
+    }
+    /**
+    * Getter: state
+    * @return tinyint
+    */
+    public function getState() {
+        return $this->state;
+    }
+    /**
+    * Getter: ipIni
+    * @return string
+    */
+    public function getIpIni() {
+        return $this->ipIni;
+    }
+    /**
+    * Getter: ipEnd
+    * @return string
+    */
+    public function getIpEnd() {
+        return $this->ipEnd;
+    }
+    /**
+    * Getter: phpSession
+    * @return string
+    */
+    public function getPhpSession() {
+        return $this->phpSession;
+    }
+    /**
+    * Getter: user
+    * @return int
+    */
+    public function getUser() {
+        return $this->user;
+    }    
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
      * Start the session
      * @param string IP where the session starts
@@ -71,88 +209,4 @@ class Session{
         $this->ipEnd=$ip;
         $this->state=false;
     }
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /**
-     * Set id of the Object
-     * @param int id of the Object
-     */
-    function setId($value){$this->id=$value;}
-    /**
-     * Set ini of the Object
-     * @param Date init of the Object
-     */
-    function setIni($value){$this->ini=$value;}
-    /**
-     * Set end of the Object
-     * @param Date end of the Object
-     */
-    function setEnd($value){$this->end=$value;}
-    /**
-     * Set state of the Object
-     * @param bool state of the Object
-     */
-    function setState($value){$this->state=$value;}
-    /**
-     * Set the initial IP
-     * @param string IP init of the Object
-     */
-    function setIpIni($value){$this->ipIni=$value;}
-    /**
-     * Set the end IP
-     * @param string IP end of the Object
-     */
-    function setIpEnd($value){$this->ipEnd=$value;}
-    /**
-     * Set the phpSession string
-     * @param string PHP Session
-     */
-    function setPhpSession($value){$this->phpSession=$value;}
-    /**
-     * Set the User of the session
-     * @param int User Id
-     */
-    function setUser($value){$this->user=$value;}
-    
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   GETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /**
-     * Get id of the Object
-     * @return int name of the Object
-     */
-    function getId(){return $this->id;}
-    /**
-     * Get initial date of the Object
-     * @return Date date initial of the Object
-     */
-    function getIni(){return $this->ini;}
-    /**
-     * Get end date of the Object
-     * @return Date date end of the Object
-     */
-    function getEnd(){return $this->end;}
-    /**
-     * Get state of the Object
-     * @return bool state of the Object
-     */
-    function getState(){return $this->state;}
-    /**
-     * Get start IP
-     * @return string with the IP from the user
-     */
-    function getIpIni(){return $this->ipIni;}
-    /**
-     * Get end IP
-     * @return string with the IP from the user
-     */
-    function getIpEnd(){return $this->ipEnd;}
-    /**
-     * Get PhpSession from the browser
-     * @return string PhpSession
-     */
-    function getPhpSession(){return $this->phpSession;}
-    /**
-     * Get User id in the session
-     * @return int User id
-     */
-    function getUser(){return $this->user;}
-} 
-?>
+}

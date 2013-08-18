@@ -4,30 +4,30 @@
  * cada ambiente
  */
 $database=array(
-    "name" => "maqinato",
+    "name" => "maqinatoTest",
     "driver" => "mysql",
     "persistent" => true,
     "host"=>"localhost",
     "connections" => array(
         array(
             "name"=>"read",
-            "login" => "maqinatoRead",
-            "password" => "asdasd"
+            "login" => "userRead",
+            "password" => "passwordRead"
         ),
         array(
             "name"=>"write",
-            "login" => "maqinatoWrite",
-            "password" => "asdasd"
+            "login" => "userWrite",
+            "password" => "passwordWrite"
         ),
         array(
             "name"=>"delete",
-            "login" => "maqinatoDelete",
-            "password" => "asdasd"
+            "login" => "userDelete",
+            "password" => "passwordDelete"
         ),
         array(
             "name"=>"all",
-            "login" => "maqinato",
-            "password" => "asdasd"
+            "login" => "userAll",
+            "password" => "passwordAll"
         )
     )
 );
@@ -67,30 +67,30 @@ return array(
             "00.00.00.00"
         ),
         "database"  =>  array(
-            "name" => "maqinato",
+            "name" => "maqinatoTest",
             "driver" => "mysql",
             "persistent" => true,
-            "host"=>"production.database.server.com",
+            "host"=>"localhost",
             "connections" => array(
                 array(
                     "name"=>"read",
-                    "login" => "maqinatoRead",
-                    "password" => "production"
+                    "login" => "userRead",
+                    "password" => "passwordRead"
                 ),
                 array(
                     "name"=>"write",
-                    "login" => "maqinatoWrite",
-                    "password" => "production"
+                    "login" => "userWrite",
+                    "password" => "passwordWrite"
                 ),
                 array(
                     "name"=>"delete",
-                    "login" => "maqinatoDelete",
-                    "password" => "production"
+                    "login" => "userDelete",
+                    "password" => "passwordDelete"
                 ),
                 array(
                     "name"=>"all",
-                    "login" => "maqinato",
-                    "password" => "production"
+                    "login" => "userAll",
+                    "password" => "passwordAll"
                 )
             )
         )
