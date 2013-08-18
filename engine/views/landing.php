@@ -6,7 +6,6 @@
             //Incluye los scripts
             Router::js("jquery");
             
-            
         ?>
         <title>Landing | Maqinato</title>
         <script  type="text/javascript">

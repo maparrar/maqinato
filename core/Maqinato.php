@@ -83,13 +83,13 @@ class Maqinato{
         
         //Incluye los estilos básicos de maqinato
         Router::css("template");
-        
+                
         //Pruebas con los controladores
         $controller=new TempController();
         $controller->probando(serialize(self::$request->getParameters()));
                 
         //Hace el routing del Request capturado
-        self::route(self::$request);
+        Router::route(self::$request);
         
         //Calcula el tiempo que toma procesar el request y muestra el debug
         $end=microtime(true);
@@ -179,35 +179,35 @@ class Maqinato{
      * redirigir a la página indicada.
      * @param Request $request Objeto de tipo Request que se routeará
      */
-    public static function route(Request $request){
-        switch ($request->getController()) {
-            case "":
-                self::redirect("landing");
-                break;
-            case "landing":
-                View::load("landing");
-                break;
-            case "home":
-                View::load("home");
-                break;
-            case "error":
-                View::error();
-                break;
-            default:
-                Maqinato::debug("Controller not detected",__FILE__,__LINE__);
-                self::redirect("error/notFound");
-                break;
-        }
-    }
+//    public static function route(Request $request){
+//        switch ($request->getController()) {
+//            case "":
+//                self::redirect("landing");
+//                break;
+//            case "landing":
+//                View::load("landing");
+//                break;
+//            case "home":
+//                View::load("home");
+//                break;
+//            case "error":
+//                View::error();
+//                break;
+//            default:
+//                Maqinato::debug("Controller not detected",__FILE__,__LINE__);
+//                self::redirect("error/notFound");
+//                break;
+//        }
+//    }
     
     /**
      * Redirecciona a una URL dentro de la aplicación. La url debe ser del tipo
      *      controller/function/parameter1/parameter2/...
      * @param string $url La url a la que se quiere redireccionar
      */
-    public static function redirect($url){
-        header( 'Location: /'.self::application().'/'.filter_var($url,FILTER_SANITIZE_URL));
-    }
+//    public static function redirect($url){
+//        header( 'Location: /'.self::application().'/'.filter_var($url,FILTER_SANITIZE_URL));
+//    }
 
     /**************************************************************************/
     /*************************** GETTERS AND SETTERS **************************/
@@ -216,6 +216,17 @@ class Maqinato{
     public static function application(){return self::$application;}
     public static function request(){return self::$request;}
         
+    /**************************************************************************/
+    /******************** ALIAS DE FUNCIONES DE OTRAS CLASES ******************/
+    /**************************************************************************/
+    /**
+     * Retorna el path de un folder registrado en la variable self::$config
+     */
+    public static function path($folder){
+        
+    }
+
+
     /**************************************************************************/
     /********************************** UTILS *********************************/
     /**************************************************************************/

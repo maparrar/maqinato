@@ -13,12 +13,45 @@
 class Router{
     /**
      * Retorna la ruta a partir de su nombre y del directorio de rutas definido
-     * en config
+     * en config. Esta ruta funciona respecto a la pagina principal de la aplicación
+     * para escribir en los enlaces de HTML use la función link();
      */
     public static function path($folder){
-        return Maqinato::$config["paths"]["app"][$folder];
+        return "/".Maqinato::application()."/".Maqinato::$config["paths"]["app"][$folder];
     }
-
+    /**
+     * Procesa un Request y usa el controlador, la función y los parámetros para
+     * redirigir a la página indicada.
+     * @param Request $request Objeto de tipo Request que se routeará
+     */
+    public static function route(Request $request){
+        switch ($request->getController()) {
+            case "":
+                self::redirect("landing");
+                break;
+            case "landing":
+                View::load("landing");
+                break;
+            case "home":
+                View::load("home");
+                break;
+            case "error":
+                View::error();
+                break;
+            default:
+                Maqinato::debug("Controller not detected",__FILE__,__LINE__);
+                self::redirect("error/notFound");
+                break;
+        }
+    }
+    /**
+     * Redirecciona a una URL dentro de la aplicación. La url debe ser del tipo
+     *      controller/function/parameter1/parameter2/...
+     * @param string $url La url a la que se quiere redireccionar
+     */
+    public static function redirect($url){
+        header( 'Location: /'.Maqinato::application().'/'.filter_var($url,FILTER_SANITIZE_URL));
+    }
     /**
      * Return the html includes of a JS script or an array of scripts, if is not
      * registered, search the name in js folder
