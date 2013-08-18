@@ -73,7 +73,7 @@ class Maqinato{
         self::$request=new Request(str_replace(self::$application."/","",filter_input(INPUT_SERVER,'REQUEST_URI',FILTER_SANITIZE_URL)));
         
         //Incluye los archivos de configuración
-        self::$config=self::loadConfig();
+        self::$config=Router::loadConfig();
         
         //Procesa la configuración de i18n y l10n
         self::$locale=self::i18n();
@@ -98,20 +98,6 @@ class Maqinato{
     }
     
     /**
-     * Carga los archivos de configuración en las variables de configuraión
-     * @return void
-     */
-    private static function loadConfig(){
-        return array(
-            "app"           =>  require_once 'engine/config/app.php',
-            "environment"   =>  require_once 'engine/config/environment.php',
-            "client"        =>  require_once 'engine/config/client.php',
-            "database"      =>  require_once 'engine/config/database.php',
-            "paths"         =>  require_once 'engine/config/paths.php'
-        );
-    }
-    
-    /**
      * Procesa la configuración de la internacionalización y localización
      */
     private static function i18n(){
@@ -123,7 +109,6 @@ class Maqinato{
         }else{
             $lang=self::$config["app"]["locale"];
         }
-        
         //Verifica si el directorio con utf8 existe, sino busca el directorio estándar
         //sino busca el primero que contenga el idioma sin localización, por ejemplo
         //en "es_ES", si no lo encuentra, busca el primero que empiece con "es"
@@ -154,7 +139,6 @@ class Maqinato{
         textdomain($domain);
         return $language;
     }
-
     /**
      * Carga el environment a partir de la variable $_SERVER["SERVER_NAME"]
      * @return string Nombre el environment cargado
@@ -174,59 +158,13 @@ class Maqinato{
         return $environment;
     }
     
-    /**
-     * Procesa un Request y usa el controlador, la función y los parámetros para
-     * redirigir a la página indicada.
-     * @param Request $request Objeto de tipo Request que se routeará
-     */
-//    public static function route(Request $request){
-//        switch ($request->getController()) {
-//            case "":
-//                self::redirect("landing");
-//                break;
-//            case "landing":
-//                View::load("landing");
-//                break;
-//            case "home":
-//                View::load("home");
-//                break;
-//            case "error":
-//                View::error();
-//                break;
-//            default:
-//                Maqinato::debug("Controller not detected",__FILE__,__LINE__);
-//                self::redirect("error/notFound");
-//                break;
-//        }
-//    }
-    
-    /**
-     * Redirecciona a una URL dentro de la aplicación. La url debe ser del tipo
-     *      controller/function/parameter1/parameter2/...
-     * @param string $url La url a la que se quiere redireccionar
-     */
-//    public static function redirect($url){
-//        header( 'Location: /'.self::application().'/'.filter_var($url,FILTER_SANITIZE_URL));
-//    }
-
     /**************************************************************************/
     /*************************** GETTERS AND SETTERS **************************/
     /**************************************************************************/
     public static function root(){return self::$root;}
     public static function application(){return self::$application;}
     public static function request(){return self::$request;}
-        
-    /**************************************************************************/
-    /******************** ALIAS DE FUNCIONES DE OTRAS CLASES ******************/
-    /**************************************************************************/
-    /**
-     * Retorna el path de un folder registrado en la variable self::$config
-     */
-    public static function path($folder){
-        
-    }
-
-
+    
     /**************************************************************************/
     /********************************** UTILS *********************************/
     /**************************************************************************/
@@ -263,38 +201,12 @@ class Maqinato{
         $end=microtime(true);
         array_push(self::$procTimers,array("name"=>"autoload classes","ini"=>$ini,"end"=>$end));
     }
-    
-    /**
-     * Convierte un array en un string en json, aprovechando el método jsonEncode() 
-     * de la clase Object de la que heredan todos los demás objetos.
-     * @param array $array con el contenido de los objetos
-     * @param string $name (opcional) Nombre que tiene el objeto de Json retornado
-     * @return string Cadena con los objetos convertidos a json
-     */
-    public static function arrayToJson($array,$name="array"){
-        $string='"'.$name.'":[';
-        if(is_array($array)){
-            foreach ($array as $value){
-                $string.=$value->jsonEncode().',';
-            }
-            if(count($array)>0){
-                //Elimina la última coma
-                $string=substr($string,0,-1);
-            }
-        }else{
-            $string.=$array->jsonEncode().',';
-        }
-        $string.=']';
-        return $string;
-    }
-    
     /**
      * Agrega un mensaje de error al array de debug
      */
     public static function debug($message,$file="",$line=""){
         self::$debug[]="[".date("Y-m-d H:i:s")."] - - - [".$file."] - - - [line: ".$line."] - - - [".$message.']';
     }
-    
     /**
      * Print the Maqinato information
      */

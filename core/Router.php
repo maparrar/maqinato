@@ -106,5 +106,18 @@ class Router{
         }
         echo $string;
     }
+    /**
+     * Carga los archivos de configuración en las variables de configuraión
+     * @return void
+     */
+    public static function loadConfig(){
+        return array(
+            "app"           =>  require_once 'engine/config/app.php',
+            "environment"   =>  require_once 'engine/config/environment.php',
+            "client"        =>  require_once 'engine/config/client.php',
+            "database"      =>  require_once 'engine/config/database.php',
+            "paths"         =>  require_once 'engine/config/paths.php'
+        );
+    }
 }
 ?>
