@@ -9,7 +9,7 @@
 * @package 
 * @subpackage 
 */
-class User extends Object{
+class User extends Person{
     /** 
      *  
      * 
