@@ -1,4 +1,4 @@
-Maqinato v.0.3 (pre-alpha)
+Maqinato v.0.4.0 (pre-alpha)
 ¡¡¡No es funcional. Solo disponible para pruebas hasta la versión 1.0.!!!
 
 Casi-Framework para desarrollo de aplicaciones web y backend para aplicaciones móviles. 
@@ -89,14 +89,25 @@ para mayor facilidad:
 _("Texto a traducir a diferentes idiomas");
 ```
 
+Internacionalización y Localización
+==========
+
 Cambios
 ==========
+Versión 0.4.0:
+----------
+- Clases para conexión a bases de datos
+- Manejo de una base de datos para cada Environment
+- Diferentes conexiones para cada base de datos: read, write, delete, all.
+- Agrega seguridad al mantener accesos diferentes para cada operación
+
 Versión 0.3.1:
 ----------
 - Reorganización de funciones
 - Mejoras en el Router
 - Inclusión de la clase Environment
 - Uso de Environment para almacenar las bases de datos
-Versión 0.3:
+
+Versión 0.3.0:
 ----------
 - Soporte para i18n y l10n

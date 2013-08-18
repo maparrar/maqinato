@@ -87,6 +87,10 @@ class Maqinato{
         //Pruebas con los controladores
         $controller=new TempController();
         $controller->probando(serialize(self::$request->getParameters()));
+        
+        
+        self::$environment->getDatabase()->connect();
+        
                 
         //Hace el routing del Request capturado
         Router::route(self::$request);

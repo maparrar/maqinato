@@ -40,6 +40,11 @@ class Database{
      * @var Connection[]
      */
     protected $connections;
+    /** 
+     * Variable de tipo PDO que conecta con la base de datos
+     * @var PDO
+     */
+    private $handler;
     /**
     * Constructor
     * @param string $name Nombre de la base de datos        
@@ -48,12 +53,13 @@ class Database{
     * @param string $host Host donde está alojada la base de datos        
     * @param Connection[] $connections Array de conexiones a la base de datos: read, write, delete, all        
     */
-    function __construct($name="",$driver="",$persistent=0,$host="",$connections=array()){        
+    function __construct($name="",$driver="",$persistent=true,$host="",$connections=array()){        
         $this->name=$name;
         $this->driver=$driver;
         $this->persistent=$persistent;
         $this->host=$host;
         $this->connections=$connections;
+        $this->handler=false;
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
@@ -132,6 +138,13 @@ class Database{
     public function getConnections() {
         return $this->connections;
     }
+    /**
+     * Getter: PDO handler
+     * @return PDO Object databse handler
+     */
+    public function getHandler(){
+        return $this->handler;
+    }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
      * Agrega una conexión a la base de datos
@@ -147,7 +160,7 @@ class Database{
     * @param string $name Nombre de la conexión que se quiere retornar: read, write, delete, all
     * @return Connection Conexión a partir del nombre
     */
-    public function connection($name){
+    private function connection($name){
         $response=false;
         foreach ($this->connections as $connection) {
             if($connection->getName()===$name){
@@ -156,5 +169,26 @@ class Database{
             }
         }
         return $response;
+    }
+    /**
+     * Conecta con una base de datos, si hay algún error ejecuta die() para terminar
+     * cualquier proceso.
+     * @param string $connectionName Nombre la conexión a usar: read, write, delete, all
+     */
+    function connect($connectionName="all"){
+        $conection=$this->connection($connectionName);
+        try {
+            $this->handler = new PDO(
+                $this->driver.
+                ':host='.$this->host.
+                ';dbname='.$this->name,
+                $conection->getLogin(),
+                $conection->getPassword(),
+                array(PDO::ATTR_PERSISTENT => $this->persistent)
+            );
+        } catch (PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
     }
 }

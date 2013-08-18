@@ -6,7 +6,7 @@
 $database=array(
     "name" => "maqinato",
     "driver" => "mysql",
-    "persistent" => false,
+    "persistent" => true,
     "host"=>"localhost",
     "connections" => array(
         array(
@@ -69,7 +69,7 @@ return array(
         "database"  =>  array(
             "name" => "maqinato",
             "driver" => "mysql",
-            "persistent" => false,
+            "persistent" => true,
             "host"=>"production.database.server.com",
             "connections" => array(
                 array(
