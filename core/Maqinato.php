@@ -46,7 +46,7 @@ class Maqinato{
      *  2   Muestra el nivel 1 + todos los datos de configuración de maqinato
      *  3   Muestra el nivel 2 + la lista de mensajes del debug
      */
-    private static $debugLevel=3;
+    private static $debugLevel=0;
     /**
      * Array para almacenar todos los mensajes debug que se requieran
      */
