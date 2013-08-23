@@ -46,7 +46,7 @@ class Maqinato{
      *  2   Muestra el nivel 1 + todos los datos de configuración de maqinato
      *  3   Muestra el nivel 2 + la lista de mensajes del debug
      */
-    private static $debugLevel=0;
+    private static $debugLevel=3;
     /**
      * Array para almacenar todos los mensajes debug que se requieran
      */
@@ -89,8 +89,18 @@ class Maqinato{
         $controller->probando(serialize(self::$request->getParameters()));
         
         
-        $dao=new DaoPerson();
-        $dao->create(new Person(0,"Pepito","Perez","pepito@perez.com",55555));
+        $dao=new DaoUser();
+        $user=new User("wrongUser2","anypassword","anysalt");
+        $user->setId(0);
+        $user->setName("PepitoNew");
+        $user->setLastname("PerezNew");
+        $user->setEmail("pepito@perez.com");
+        $user->setPhone("5555556");
+        Maqinato::debug(serialize($dao->create($user)));
+        
+        $user2=$dao->read(81);
+        Maqinato::debug(serialize($user2));
+        
         
         //Hace el routing del Request capturado
         Router::route(self::$request);

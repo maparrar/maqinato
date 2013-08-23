@@ -21,7 +21,7 @@ class DaoPerson{
      */
     function create($person){
         $created=false;
-        if(!$this->exist($person->getId())){    
+        if(!$this->exist($person)){    
             $handler=Maqinato::connect("write");
             $stmt = $handler->prepare("INSERT INTO Person 
                 (`id`,`name`,`lastname`,`email`,`phone`) VALUES 
@@ -49,11 +49,12 @@ class DaoPerson{
      * @return Person Person loaded
      */
     function read($id){
-        $response=null;
-        if($this->exist($id)){
-            $handler=Maqinato::connect("read");
-            $stmt = $handler->prepare("SELECT * FROM Person WHERE id= ?");
-            if ($stmt->execute(array($id))) {
+        $response=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT * FROM Person WHERE id=:id");
+        $stmt->bindParam(':id',$id);
+        if ($stmt->execute()) {
+            if($stmt->rowCount()>0){
                 $row=$stmt->fetch();
                 $person=new Person();
                 $person->setId(intval($row["id"]));
@@ -62,10 +63,10 @@ class DaoPerson{
                 $person->setEmail($row["email"]);
                 $person->setPhone($row["phone"]);
                 $response=$person;
-            }else{
-                $error=$stmt->errorInfo();
-                error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
             }
+        }else{
+            $error=$stmt->errorInfo();
+            error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
         }
         return $response;
     }
@@ -77,7 +78,7 @@ class DaoPerson{
      */
     function update($person){
         $updated=false;
-        if($this->exist($person->getId())){
+        if($this->exist($person)){
             $handler=Maqinato::connect();
             $stmt = $handler->prepare("UPDATE Person SET 
                 `name`=:name,
@@ -109,7 +110,7 @@ class DaoPerson{
      */
     function delete($person){
         $deleted=false;
-        if($this->exist($person->getId())){
+        if($this->exist($person)){
             $handler=Maqinato::connect("delete");
             $stmt = $handler->prepare("DELETE Person WHERE id=:id");
             $stmt->bindParam(':id',$person->getId());
@@ -126,19 +127,19 @@ class DaoPerson{
     }
     /**
      * Return if a Person exist in the database
-     * @param int $id Person identificator
+     * @param Person $person Person object
      * @return false if doesn't exist
      * @return true if exist
      */
-    function exist($id){
+    function exist($person){
         $exist=false;
         $handler=Maqinato::connect("read");
         $stmt = $handler->prepare("SELECT id FROM Person WHERE id=:id");
-        $stmt->bindParam(':id',$id);
+        $stmt->bindParam(':id',$person->getId());
         if ($stmt->execute()) {
             $list=$stmt->fetch();
             if($list){
-                if(intval($list["id"])===intval($id)){
+                if(intval($list["id"])===intval($person->getId())){
                     $exist=true;
                 }else{
                     $exist=false;

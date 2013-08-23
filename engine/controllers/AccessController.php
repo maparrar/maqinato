@@ -1,18 +1,6 @@
 <?php
 /** AccessController File
  * @package controllers @subpackage core */
-//namespace maqinato\application\controllers;
-//use maqinato\core\Router as Router;
-
-//if(!class_exists('Router')) require_once '../../config/Router.php';
-include_once Router::rel('models').'core/Access.php';
-include_once Router::rel('models').'organization/Organization.php';
-include_once Router::rel('models').'dal/core/DaoUser.php';
-include_once Router::rel('models').'dal/organization/DaoOrganization.php';
-include_once Router::rel('controllers').'SecurityController.php';
-include_once Router::rel('controllers').'MediaController.php';
-include_once Router::rel('controllers').'CommunicationController.php';
-include_once Router::rel('controllers').'SocialController.php';
 /**
  * AccessController Class
  *
@@ -24,22 +12,91 @@ include_once Router::rel('controllers').'SocialController.php';
  * @package controllers
  * @subpackage core
  */
-class AccessController {
-    /** Access object 
-     * @var Access
-     */
-    private $access;
+class AccessController{
     /** Max number of fails before time-blocking the IP 
      * @ int
      */
     private $maxFails;
+    /** Cantidad de minutos que debe esperar antes de poder volver a conectar luego
+     * de fallar los $maxFails intentos
+     * @ int
+     */
+    private $blockTime;
     /**
      * Constructor: Define the Access object and set the max of login fails
+     * @param int $maxFails Máximo de intentos fallidos permitidos
+     * @param int $blockTime Minutos que debe esperar antes de poder volver a conectar
      */
-    function AccessController(){
-        $this->access=new Access();
-        $this->maxFails=5;
+    function __construct($maxFails=5,$blockTime=5){
+        $this->maxFails=$maxFails;
+        $this->blockTime=$blockTime;
     }
+    /**
+     * Function that allows entry into the system
+     * @param string formated email
+     * @param string formated password
+     * @param bool to keep the session active.
+     * @return string 'logged'  if mail and password are correct
+     * @return string 'error' if the email and password are bad-formated or are wrong
+     */
+    function login($email,$password,$keep,$fromSignup=false){
+        $response=false;
+        if(SecurityController::isemail($email)&&SecurityController::ispassword($password)){
+            $user=$this->access->login($email,$password,$fromSignup);
+            if(is_object($user)){
+                //Established session length
+                if($keep){
+                    Config::$sessionLifeTime=0;
+                }
+                $this->startSession($user);
+                //Incrementa el contador de logins
+                $daoUserUpdate=new DaoUser();
+                $daoUserUpdate->incrementTimesConected($user);
+                //Envía el correo de bienvenida
+                if($daoUserUpdate->timesConected($user)==2){
+                    CommunicationController::sendAcceptanceEmail($user);
+                }
+                if($user->getType()->getName()==="nonprofit"){
+                    $response="nonprofit";
+                }else{
+                    $response="logged";
+                }
+            }else{
+                error_log("[".__FILE__.":".__LINE__."]"."Failed login");
+                $response="error";
+            }
+        }else{
+            error_log("[".__FILE__.":".__LINE__."]"."Login: Username and/or password not allowed");
+        }
+        return SecurityController::sanitizeString($response);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /** 
      * Return the active User in the Session
      * @return User active in the session
@@ -90,46 +147,7 @@ class AccessController {
         }
         return SecurityController::sanitizeString($response);
     }
-    /**
-     * Function that allows entry into the system
-     * @param string formated email
-     * @param string formated password
-     * @param bool to keep the session active.
-     * @return string 'logged'  if mail and password are correct
-     * @return string 'nonprofit'  if is an NPO
-     * @return string 'error' if the email and password are bad-formated or are wrong
-     */
-    function login($email,$password,$keep,$fromSignup=false){
-        $response=false;
-        if(SecurityController::isemail($email)&&SecurityController::ispassword($password)){
-            $user=$this->access->login($email,$password,$fromSignup);
-            if(is_object($user)){
-                //Established session length
-                if($keep){
-                    Config::$sessionLifeTime=0;
-                }
-                $this->startSession($user);
-                //Incrementa el contador de logins
-                $daoUserUpdate=new DaoUser();
-                $daoUserUpdate->incrementTimesConected($user);
-                //Envía el correo de bienvenida
-                if($daoUserUpdate->timesConected($user)==2){
-                    CommunicationController::sendAcceptanceEmail($user);
-                }
-                if($user->getType()->getName()==="nonprofit"){
-                    $response="nonprofit";
-                }else{
-                    $response="logged";
-                }
-            }else{
-                error_log("[".__FILE__.":".__LINE__."]"."Failed login");
-                $response="error";
-            }
-        }else{
-            error_log("[".__FILE__.":".__LINE__."]"."Login: Username and/or password not allowed");
-        }
-        return SecurityController::sanitizeString($response);
-    }
+    
     /**
      * Logout system, close only the specified session
      * @param string formated email (optional)

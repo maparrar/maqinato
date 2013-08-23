@@ -21,7 +21,7 @@ class DaoSession{
      */
     function create($session){
         $created=false;
-        if(!$this->exist($session->getId())){    
+        if(!$this->exist($session)){    
             $handler=Maqinato::connect("write");
             $stmt = $handler->prepare("INSERT INTO Session 
                 (`id`,`ini`,`end`,`state`,`ipIni`,`ipEnd`,`phpSession`,`user`) VALUES 
@@ -52,11 +52,12 @@ class DaoSession{
      * @return Session Session loaded
      */
     function read($id){
-        $response=null;
-        if($this->exist($id)){
-            $handler=Maqinato::connect("read");
-            $stmt = $handler->prepare("SELECT * FROM Session WHERE id= ?");
-            if ($stmt->execute(array($id))) {
+        $response=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT * FROM Session WHERE id=:id");
+        $stmt->bindParam(':id',$id);
+        if ($stmt->execute()) {
+            if($stmt->rowCount()>0){
                 $row=$stmt->fetch();
                 $session=new Session();
                 $session->setId(intval($row["id"]));
@@ -68,10 +69,10 @@ class DaoSession{
                 $session->setPhpSession($row["phpSession"]);
                 $session->setUser(intval($row["user"]));
                 $response=$session;
-            }else{
-                $error=$stmt->errorInfo();
-                error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
             }
+        }else{
+            $error=$stmt->errorInfo();
+            error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
         }
         return $response;
     }
@@ -83,7 +84,7 @@ class DaoSession{
      */
     function update($session){
         $updated=false;
-        if($this->exist($session->getId())){
+        if($this->exist($session)){
             $handler=Maqinato::connect();
             $stmt = $handler->prepare("UPDATE Session SET 
                 `ini`=:ini,
@@ -121,7 +122,7 @@ class DaoSession{
      */
     function delete($session){
         $deleted=false;
-        if($this->exist($session->getId())){
+        if($this->exist($session)){
             $handler=Maqinato::connect("delete");
             $stmt = $handler->prepare("DELETE Session WHERE id=:id");
             $stmt->bindParam(':id',$session->getId());
@@ -138,19 +139,19 @@ class DaoSession{
     }
     /**
      * Return if a Session exist in the database
-     * @param int $id Session identificator
+     * @param Session $session Session object
      * @return false if doesn't exist
      * @return true if exist
      */
-    function exist($id){
+    function exist($session){
         $exist=false;
         $handler=Maqinato::connect("read");
         $stmt = $handler->prepare("SELECT id FROM Session WHERE id=:id");
-        $stmt->bindParam(':id',$id);
+        $stmt->bindParam(':id',$session->getId());
         if ($stmt->execute()) {
             $list=$stmt->fetch();
             if($list){
-                if(intval($list["id"])===intval($id)){
+                if(intval($list["id"])===intval($session->getId())){
                     $exist=true;
                 }else{
                     $exist=false;
@@ -180,44 +181,5 @@ class DaoSession{
             error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
         }
         return $list;
-    }
-    /**
-     * Return if a session exist in the database
-     * @param string idSession
-     * @return false if doesn't exist
-     * @return true if exist
-     */
-    function sessionExist($idSession){
-        $exist=false;
-        $handler=Maqinato::connect("read");
-        $stmt = $handler->prepare("SELECT id FROM sessions WHERE id = ?");
-        if ($stmt->execute(array($idSession))) {
-            $list=$stmt->fetch();
-            if($list){
-                if(intval($list["id"])===intval($idSession)){
-                    $exist=true;
-                }else{
-                    $exist=false;
-                }
-            }
-        }
-        return $exist;
-    }
-    /**
-     * Return the last session of an user
-     * @param string user id
-     * @return false if fail
-     * @return int last session id for the user
-     */
-    function lastSession($userId){
-        $session=false;
-        $handler=Maqinato::connect("read");
-        $stmt = $handler->prepare("SELECT id FROM sessions WHERE user = ? ORDER BY id DESC LIMIT 1");
-        if ($stmt->execute(array($userId))) {
-            $list=$stmt->fetch();
-            $session=new Session();
-            $session=$this->read($list["id"]);
-        }
-        return $session;
     }
 }

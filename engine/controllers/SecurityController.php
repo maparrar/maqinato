@@ -19,7 +19,7 @@ class SecurityController {
      * @return true if is a valid email
      * @return false otherwise
      */
-    public static function isemail($string){
+    public static function isEmail($string){
         if (filter_var($string, FILTER_VALIDATE_EMAIL)) {
             return true;
         }else{
@@ -32,7 +32,7 @@ class SecurityController {
      * @return true if is a valid URL
      * @return false otherwise
      */
-    public static function isurl($url){
+    public static function isUrl($url){
         $regex="/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/";
         if (preg_match($regex,$url)){
             return true;
@@ -46,7 +46,7 @@ class SecurityController {
      * @return true if is a valid password
      * @return false otherwise
      */
-    public static function ispassword($password){
+    public static function isPassword($password){
         $regex="/^[a-zA-Z0-9@#$%._-]{6,30}$/";
         if (preg_match($regex,$password)){
             return true;
@@ -61,7 +61,7 @@ class SecurityController {
      * @return false otherwise
      * @todo implement
      */
-    public static function isint($value){
+    public static function isInt($value){
         if(is_int($value)){
             return true;
         }else{
@@ -75,7 +75,7 @@ class SecurityController {
      * @return false otherwise
      * @todo implement
      */
-    public static function isfloat($value){
+    public static function isFloat($value){
         if(is_float($value)){
             return true;
         }else{
@@ -88,7 +88,7 @@ class SecurityController {
      * @return true if is a valid value
      * @return false otherwise
      */
-    public static function isbool($value){
+    public static function isBool($value){
         if(is_bool($value)){
             return true;
         }else{
@@ -102,7 +102,7 @@ class SecurityController {
      * @return true if is a valid value
      * @return false otherwise
      */
-    public static function isclass($value,$class){
+    public static function isClass($value,$class){
         if(gettype($value)==="object"&&get_class($value)===$class){
             return true;
         }else{
@@ -126,7 +126,7 @@ class SecurityController {
      * @param string string to verify
      * @return string string sanitized (without special characters)
      */
-    public static function sanitizesql($string){
+    public static function sanitizeSql($string){
         $sanitized=filter_var($string, FILTER_SANITIZE_MAGIC_QUOTES);
         return $sanitized;
     }
@@ -135,7 +135,7 @@ class SecurityController {
      * @param string string to verify
      * @return string string sanitized (without special characters)
      */
-    public static function isdate($string){
+    public static function isDate($string){
         try{
             $fecha = new DateTime($string);
             $checkFecha=$fecha->format('Y/m/d');    
@@ -150,7 +150,7 @@ class SecurityController {
      * @return true if is a valid Credit card number
      * @return false otherwise
      */
-    public static function iscreditcard($number){
+    public static function isCreditCard($number){
         $regex="/^[0-9]{9,17}$/";
         if (preg_match($regex,$number)){
             return true;
@@ -164,7 +164,7 @@ class SecurityController {
      * @return true if is a valid Credit card validation number
      * @return false otherwise
      */
-    public static function iscreditcardcode($number){
+    public static function isCreditCardCode($number){
         $regex="/^[0-9]{2,5}$/";
         if (preg_match($regex,$number)){
             return true;

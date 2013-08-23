@@ -4,7 +4,7 @@
  * cada ambiente
  */
 $database=array(
-    "name" => "maqinatoTest",
+    "name" => "maqinato",
     "driver" => "mysql",
     "persistent" => false,
     "host"=>"localhost",
@@ -67,7 +67,7 @@ return array(
             "00.00.00.00"
         ),
         "database"  =>  array(
-            "name" => "maqinatoTest",
+            "name" => "maqinato",
             "driver" => "mysql",
             "persistent" => false,
             "host"=>"localhost",

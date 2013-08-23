@@ -11,14 +11,7 @@
  * @package models
  * @subpackage dal
  */
-class DaoUser extends Dao{
-    /**
-     * Constructor: sets the database Object and the PDO handler
-     * @param string Type of connection string to use
-     */
-    function DaoUser(){
-        parent::Dao();
-    }
+class DaoUser{
     /**
      * Create an User in the database
      * @param User $user new User
@@ -28,16 +21,20 @@ class DaoUser extends Dao{
      */
     function create($user){
         $created=false;
-        if(!$this->exist($user->getId())){    
+        if(!$this->exist($user)){    
             $handler=Maqinato::connect("write");
+            //Guarda el objeto Persona y luego el Usuario
+            $daoPerson=new DaoPerson();
+            $person=$daoPerson->create($user);
             $stmt = $handler->prepare("INSERT INTO User 
-                (`id`,`password`,`salt`) VALUES 
-                (:id,:password,:salt)");
-            $stmt->bindParam(':id',$user->getId());
+                (`id`,`username`,`password`,`salt`) VALUES 
+                (:id,:username,:password,:salt)");
+            $stmt->bindParam(':id',$person->getId());
+            $stmt->bindParam(':username',$user->getUsername());
             $stmt->bindParam(':password',$user->getPassword());
             $stmt->bindParam(':salt',$user->getSalt());
             if($stmt->execute()){
-                $user->setId(intval($handler->lastInsertID()));
+                $user->setId(intval($person->getId()));
                 $created=$user;
             }else{
                 $error=$stmt->errorInfo();
@@ -54,21 +51,29 @@ class DaoUser extends Dao{
      * @return User User loaded
      */
     function read($id){
-        $response=null;
-        if($this->exist($id)){
-            $handler=Maqinato::connect("read");
-            $stmt = $handler->prepare("SELECT * FROM User WHERE id= ?");
-            if ($stmt->execute(array($id))) {
+        $response=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT * FROM User WHERE id=:id");
+        $stmt->bindParam(':id',$id);
+        if ($stmt->execute()) {
+            if($stmt->rowCount()>0){
                 $row=$stmt->fetch();
                 $user=new User();
+                $daoPerson=new DaoPerson();
+                $person=$daoPerson->read($id);
                 $user->setId(intval($row["id"]));
+                $user->setUsername($row["username"]);
                 $user->setPassword($row["password"]);
                 $user->setSalt($row["salt"]);
+                $user->setName($person->getName());
+                $user->setLastname($person->getLastname());
+                $user->setEmail($person->getEmail());
+                $user->setPhone($person->getPhone());
                 $response=$user;
-            }else{
-                $error=$stmt->errorInfo();
-                error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
             }
+        }else{
+            $error=$stmt->errorInfo();
+            error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
         }
         return $response;
     }
@@ -80,13 +85,17 @@ class DaoUser extends Dao{
      */
     function update($user){
         $updated=false;
-        if($this->exist($user->getId())){
+        if($this->exist($user)){
             $handler=Maqinato::connect();
+            $daoPerson=new DaoPerson();
+            $daoPerson->update($user);
             $stmt = $handler->prepare("UPDATE User SET 
+                `username`=:username,
                 `password`=:password,
                 `salt`=:salt,
                 WHERE id=:id");
             $stmt->bindParam(':id',$user->getId());
+            $stmt->bindParam(':username',$user->getUsername());
             $stmt->bindParam(':password',$user->getPassword());
             $stmt->bindParam(':salt',$user->getSalt());
             if($stmt->execute()){
@@ -108,7 +117,7 @@ class DaoUser extends Dao{
      */
     function delete($user){
         $deleted=false;
-        if($this->exist($user->getId())){
+        if($this->exist($user)){
             $handler=Maqinato::connect("delete");
             $stmt = $handler->prepare("DELETE User WHERE id=:id");
             $stmt->bindParam(':id',$user->getId());
@@ -125,24 +134,28 @@ class DaoUser extends Dao{
     }
     /**
      * Return if a User exist in the database
-     * @param int $id User identificator
+     * @param User $user User object
      * @return false if doesn't exist
      * @return true if exist
      */
-    function exist($id){
+    function exist($user){
         $exist=false;
         $handler=Maqinato::connect("read");
-        $stmt = $handler->prepare("SELECT id FROM User WHERE id=:id");
-        $stmt->bindParam(':id',$id);
+        $stmt = $handler->prepare("SELECT id,username FROM User WHERE id=:id OR username=:username");
+        $stmt->bindParam(':id',$user->getId());
+        $stmt->bindParam(':username',$user->getUsername());
         if ($stmt->execute()) {
-            $list=$stmt->fetch();
-            if($list){
-                if(intval($list["id"])===intval($id)){
+            $row=$stmt->fetch();
+            if($row){
+                if(intval($row["id"])===intval($user->getId())||trim($row["username"])===trim($user->getUsername())){
                     $exist=true;
                 }else{
                     $exist=false;
                 }
             }
+        }else{
+            $error=$stmt->errorInfo();
+            error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
         }
         return $exist;
     }
