@@ -1,11 +1,31 @@
 Maqinato v.0.4.0 (pre-alpha)
+==========
 ¡¡¡No es funcional. Solo disponible para pruebas hasta la versión 1.0.!!!
 
-Casi-Framework para desarrollo de aplicaciones web y backend para aplicaciones móviles. 
+No-Framework para desarrollo de aplicaciones web y backend para aplicaciones móviles. 
 Más que un framework es una forma de organizar un proyecto de PHP basado en varias
 ideas de frameworks comerciales.
 
-Con suerte ofrecerá una API accesible para aplicaciones web nativas, web móviles y nativas móviles.
+Está basado (no estrictamente) en los patrones de diseño de software MVA 
+(Model-View-Adapter) y MVP (Model-View-Presenter)
+
+Modelo
+----------
+El enfoque del modelo es Orientado a Objetos, es decir que la mayoría de la lógica
+de la aplicación está definida en el Modelo. El Modelo también contiene la capa
+de acceso a datos DAL.
+
+Vista
+----------
+Contiene la interfaz gráfica de la aplicación, está compuesto por los contenidos
+HTML, los estilos CSS y la funcionalidad en el cliente con Javascript.
+
+Controladores (Presenter)
+----------
+Sirve de mediador entre el Modelo y la Vista. Sanitiza las entradas y salidas.
+Funciona como una API para el Modelo.
+
+En el futuro ofrecerá una API accesible para aplicaciones web nativas, web móviles y nativas móviles.
 
 
 Requisitos
