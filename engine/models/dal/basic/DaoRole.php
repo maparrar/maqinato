@@ -75,7 +75,7 @@ class DaoRole{
         if($this->exist($role)){
             $handler=Maqinato::connect();
             $stmt = $handler->prepare("UPDATE Role SET 
-                `name`=:name,
+                `name`=:name 
                 WHERE id=:id");
             $stmt->bindParam(':id',$role->getId());
             $stmt->bindParam(':name',$role->getName());

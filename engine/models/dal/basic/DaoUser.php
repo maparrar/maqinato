@@ -27,10 +27,10 @@ class DaoUser{
             $daoPerson=new DaoPerson();
             $person=$daoPerson->create($user);
             $stmt = $handler->prepare("INSERT INTO User 
-                (`id`,`username`,`password`,`salt`) VALUES 
-                (:id,:username,:password,:salt)");
-            $stmt->bindParam(':id',$person->getId());
-            $stmt->bindParam(':username',$user->getUsername());
+                (`id`,`email`,`password`,`salt`) VALUES 
+                (:id,:email,:password,:salt)");
+            $stmt->bindParam(':id',$user->getId());
+            $stmt->bindParam(':email',$user->getEmail());
             $stmt->bindParam(':password',$user->getPassword());
             $stmt->bindParam(':salt',$user->getSalt());
             if($stmt->execute()){
@@ -62,13 +62,33 @@ class DaoUser{
                 $daoPerson=new DaoPerson();
                 $person=$daoPerson->read($id);
                 $user->setId(intval($row["id"]));
-                $user->setUsername($row["username"]);
-                $user->setPassword($row["password"]);
-                $user->setSalt($row["salt"]);
+                $user->setEmail($row["email"]);
+                $user->setPassword("");
+                $user->setSalt("");
                 $user->setName($person->getName());
                 $user->setLastname($person->getLastname());
-                $user->setEmail($person->getEmail());
-                $user->setPhone($person->getPhone());
+                $response=$user;
+            }
+        }else{
+            $error=$stmt->errorInfo();
+            error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
+        }
+        return $response;
+    }
+    /**
+     * Read a User from the database
+     * @param string $email Email del usuario
+     * @return User User loaded
+     */
+    function readByEmail($email){
+        $response=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT id FROM User WHERE email=:email");
+        $stmt->bindParam(':email',$email);
+        if ($stmt->execute()) {
+            if($stmt->rowCount()>0){
+                $row=$stmt->fetch();
+                $user=$this->read(intval($row["id"]));
                 $response=$user;
             }
         }else{
@@ -90,14 +110,10 @@ class DaoUser{
             $daoPerson=new DaoPerson();
             $daoPerson->update($user);
             $stmt = $handler->prepare("UPDATE User SET 
-                `username`=:username,
-                `password`=:password,
-                `salt`=:salt,
+                `email`=:email 
                 WHERE id=:id");
             $stmt->bindParam(':id',$user->getId());
-            $stmt->bindParam(':username',$user->getUsername());
-            $stmt->bindParam(':password',$user->getPassword());
-            $stmt->bindParam(':salt',$user->getSalt());
+            $stmt->bindParam(':email',$user->getEmail());
             if($stmt->execute()){
                 $updated=true;
             }else{
@@ -141,13 +157,13 @@ class DaoUser{
     function exist($user){
         $exist=false;
         $handler=Maqinato::connect("read");
-        $stmt = $handler->prepare("SELECT id,username FROM User WHERE id=:id OR username=:username");
+        $stmt = $handler->prepare("SELECT id,email FROM User WHERE id=:id OR email=:email");
         $stmt->bindParam(':id',$user->getId());
-        $stmt->bindParam(':username',$user->getUsername());
+        $stmt->bindParam(':email',$user->getEmail());
         if ($stmt->execute()) {
             $row=$stmt->fetch();
             if($row){
-                if(intval($row["id"])===intval($user->getId())||trim($row["username"])===trim($user->getUsername())){
+                if(intval($row["id"])===intval($user->getId())||trim($row["email"])===trim($user->getEmail())){
                     $exist=true;
                 }else{
                     $exist=false;
@@ -174,5 +190,37 @@ class DaoUser{
             }
         }
         return $list;
+    }
+    /**
+     * Return the hash password stored in the database
+     * @param string user email
+     * @return string the hash password for the email
+     * @return false if doesn't exist
+     */    
+    function readPassword($email){
+        $hash=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT password FROM User WHERE email = ?");
+        if ($stmt->execute(array($email))) {
+            $list=$stmt->fetch();
+            $hash=$list["password"];
+        }
+        return $hash;
+    }
+    /**
+     * Return the salt encoder stored in the database
+     * @param string user email
+     * @return string the salt encoder for the email
+     * @return false if doesn't exist
+     */ 
+    function readSalt($email){
+        $salt=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT salt FROM User WHERE email = ?");
+        if ($stmt->execute(array($email))) {
+            $list=$stmt->fetch();
+            $salt=$list["salt"];
+        }
+        return $salt;
     }
 }

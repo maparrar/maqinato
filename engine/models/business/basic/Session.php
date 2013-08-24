@@ -60,24 +60,31 @@ class Session extends Object{
     protected $user;
     /**
     * Constructor
-    * @param int $id         
-    * @param date $ini         
-    * @param date $end         
-    * @param tinyint $state         
-    * @param string $ipIni         
-    * @param string $ipEnd         
-    * @param string $phpSession         
-    * @param int $user         
+    * @param int $user
     */
-    function __construct($id=0,$ini="",$end="",$state=0,$ipIni="",$ipEnd="",$phpSession="",$user=0){        
-        $this->id=$id;
-        $this->ini=$ini;
-        $this->end=$end;
-        $this->state=$state;
-        $this->ipIni=$ipIni;
-        $this->ipEnd=$ipEnd;
-        $this->phpSession=$phpSession;
+    function __construct($user=0){
+        $this->id=0;
+        $this->state=false;
+        $this->phpSession=session_id();
         $this->user=$user;
+    }
+    /**
+     * Start the session
+     * @param string IP where the session starts
+     */
+    function start($ip){
+        $this->ini=date('Y-m-d H:i:s');
+        $this->ipIni=$ip;
+        $this->state=true;
+    }
+    /**
+     * Stop the session
+     * @param string IP where the session stops
+     */
+    function stop($ip){
+        $this->end=date('Y-m-d H:i:s');
+        $this->ipEnd=$ip;
+        $this->state=false;
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**

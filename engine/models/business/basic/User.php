@@ -13,9 +13,15 @@ class User extends Person{
     /** 
      *  
      * 
+     * @var int
+     */
+    protected $id;
+    /** 
+     *  
+     * 
      * @var string
      */
-    protected $username;
+    protected $email;
     /** 
      *  
      * 
@@ -30,23 +36,33 @@ class User extends Person{
     protected $salt;
     /**
     * Constructor
-    * @param int         
-    * @param string         
-    * @param string         
+    * @param int $id         
+    * @param string $email         
+    * @param string $password         
+    * @param string $salt         
     */
-    function __construct($username="",$password="",$salt=""){
-        $this->username=$username;
+    function __construct($id=0,$email="",$password="",$salt=""){        
+        $this->id=$id;
+        $this->email=$email;
         $this->password=$password;
         $this->salt=$salt;
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
-    * Setter username
+    * Setter id
+    * @param int $value 
+    * @return void
+    */
+    public function setId($value) {
+        $this->id=$value;
+    }
+    /**
+    * Setter email
     * @param string $value 
     * @return void
     */
-    public function setUsername($value) {
-        $this->username=$value;
+    public function setEmail($value) {
+        $this->email=$value;
     }
     /**
     * Setter password
@@ -66,11 +82,18 @@ class User extends Person{
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
-    * Getter: username
+    * Getter: id
+    * @return int
+    */
+    public function getId() {
+        return $this->id;
+    }
+    /**
+    * Getter: email
     * @return string
     */
-    public function getUsername() {
-        return $this->username;
+    public function getEmail() {
+        return $this->email;
     }
     /**
     * Getter: password

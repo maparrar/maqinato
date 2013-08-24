@@ -24,13 +24,11 @@ class DaoPerson{
         if(!$this->exist($person)){    
             $handler=Maqinato::connect("write");
             $stmt = $handler->prepare("INSERT INTO Person 
-                (`id`,`name`,`lastname`,`email`,`phone`) VALUES 
-                (:id,:name,:lastname,:email,:phone)");
+                (`id`,`name`,`lastname`) VALUES 
+                (:id,:name,:lastname)");
             $stmt->bindParam(':id',$person->getId());
             $stmt->bindParam(':name',$person->getName());
             $stmt->bindParam(':lastname',$person->getLastname());
-            $stmt->bindParam(':email',$person->getEmail());
-            $stmt->bindParam(':phone',$person->getPhone());
             if($stmt->execute()){
                 $person->setId(intval($handler->lastInsertID()));
                 $created=$person;
@@ -60,8 +58,6 @@ class DaoPerson{
                 $person->setId(intval($row["id"]));
                 $person->setName($row["name"]);
                 $person->setLastname($row["lastname"]);
-                $person->setEmail($row["email"]);
-                $person->setPhone($row["phone"]);
                 $response=$person;
             }
         }else{
@@ -82,15 +78,11 @@ class DaoPerson{
             $handler=Maqinato::connect();
             $stmt = $handler->prepare("UPDATE Person SET 
                 `name`=:name,
-                `lastname`=:lastname,
-                `email`=:email,
-                `phone`=:phone,
+                `lastname`=:lastname 
                 WHERE id=:id");
             $stmt->bindParam(':id',$person->getId());
             $stmt->bindParam(':name',$person->getName());
             $stmt->bindParam(':lastname',$person->getLastname());
-            $stmt->bindParam(':email',$person->getEmail());
-            $stmt->bindParam(':phone',$person->getPhone());
             if($stmt->execute()){
                 $updated=true;
             }else{
@@ -137,9 +129,9 @@ class DaoPerson{
         $stmt = $handler->prepare("SELECT id FROM Person WHERE id=:id");
         $stmt->bindParam(':id',$person->getId());
         if ($stmt->execute()) {
-            $list=$stmt->fetch();
-            if($list){
-                if(intval($list["id"])===intval($person->getId())){
+            $row=$stmt->fetch();
+            if($row){
+                if(intval($row["id"])===intval($person->getId())){
                     $exist=true;
                 }else{
                     $exist=false;

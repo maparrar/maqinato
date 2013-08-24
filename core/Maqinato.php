@@ -1,6 +1,7 @@
 <?php
 /** Maqinato File
  * @package core */
+session_start();
 /**
  * Maqinato Class
  * Core class for Maqinato
@@ -85,21 +86,23 @@ class Maqinato{
         Router::css("template");
                 
         //Pruebas con los controladores
-        $controller=new TempController();
-        $controller->probando(serialize(self::$request->getParameters()));
+//        $controller=new TempController();
+//        $controller->probando(serialize(self::$request->getParameters()));
         
         
-        $dao=new DaoUser();
-        $user=new User("wrongUser2","anypassword","anysalt");
-        $user->setId(0);
-        $user->setName("PepitoNew");
-        $user->setLastname("PerezNew");
-        $user->setEmail("pepito@perez.com");
-        $user->setPhone("5555556");
-        Maqinato::debug(serialize($dao->create($user)));
         
-        $user2=$dao->read(81);
-        Maqinato::debug(serialize($user2));
+        
+        
+        
+        $controller=new AccessController();
+        $iter=15;
+        Maqinato::debug(serialize($controller->login("pepe@perez.com".$iter,"passwordPepe".$iter)));
+        
+        $controller->logout("pepe@perez.com".$iter);
+        
+        
+//        $user2=$dao->read(81);
+//        Maqinato::debug(serialize($user2));
         
         
         //Hace el routing del Request capturado

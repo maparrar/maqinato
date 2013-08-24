@@ -1,11 +1,6 @@
 <?php
 /** Access File
  * @package models @subpackage core */
-if(!class_exists('Router')) require_once '../../../config/Router.php';
-include_once Router::rel('models').'core/Crypt.php';
-include_once Router::rel('models').'core/Session.php';
-include_once Router::rel('models').'dal/core/DaoUser.php';
-include_once Router::rel('models').'dal/core/DaoSession.php';
 /**
  * Access Class
  *
@@ -35,52 +30,39 @@ class Access{
     /**
      * Create a system user with the email and the password provided, encrypts 
      * the password before storing
-     * @param string valid name
-     * @param string valid lastname
-     * @param string valid email
-     * @param string valid password
-     * @return string 'exist' if the email has already been registered
-     * @return User user object
+     * @param User $user Usuario que se quiere registrar
+     * @return mixed Objeto de tipo Usuario que se registró. Si no se pudo registrar
+     *      retorna false.
      */
-    function signup($name,$lastname,$sex,$email,$city,$password){
-        $daoUser=new DaoUser("all");
-        $daoUserType=new DaoUserType();
+    function signup($user){
+        $daoUser=new DaoUser();
         $crypt=new Crypt();
-        $crypt->encrypt($password);
-        $user=new User(0,$email,$name,$lastname);
-        $user->setSex($sex);
-        $user->setCity($city);
-        $user->setType($daoUserType->readFromName("new"));
-        $user=$daoUser->create($user,$crypt->getPassword(),$crypt->getSalt());
+        $crypt->encrypt($user->getPassword());
+        $user->setPassword($crypt->getPassword());
+        $user->setSalt($crypt->getSalt());
+        $user=$daoUser->create($user);
         return $user;
     }
     /**
      * Login a system user and creates the session maqinato
-     * @param string valid email
-     * @param string valid password
-     * @return string 'error' if the email or password are incorrect
-     * @return User user object
-     * @todo Develop the geoposition
+     * @param User $user Usuario que se quiere logear
+     * @return string 'error' if the email or password are incorrect. Si los datos
+     *          son correctos, retorna el objeto User.
      */
-    function login($email,$password,$fromSignup=false){
-        $daoUser=new DaoUser("read");
-        $hash=$daoUser->readHash($email);
-        $salt=$daoUser->readSalt($email);
-        if(!empty($hash)&&!empty($salt)){
+    function login($user){
+        $daoUser=new DaoUser();
+        $daoSession=new DaoSession();
+        $pass=$daoUser->readPassword($user->getEmail());
+        $salt=$daoUser->readSalt($user->getEmail());
+        if(!empty($pass)&&!empty($salt)){
             $crypt=new Crypt();
-            if($crypt->validate($password,$salt,$hash)){
-                $user=new User();
-                $user=$daoUser->read($email);
-                //Verifica si han pasado las 24 horas para que el usuario se pueda conectar
-//                if($daoUser->checkWaitingUser($user)||$fromSignup){
-                    //Save the start of the session
-                    $session=new Session($user->getId());
-                    $session->start($this->getIp());
-                    $user->setSessionId($this->daoSession->create($session));
-                    return $user;
-//                }else{
-//                    return 'error';
-//                }
+            if($crypt->validate($user->getPassword(),$salt,$pass)){
+                $logedUser=$daoUser->readByEmail($user->getEmail());
+                //Save the start of the session
+                $session=new Session($logedUser->getId());
+                $session->start($this->getIp());
+                $daoSession->create($session);
+                return $logedUser;
             }else{
                 return 'error';
             }
@@ -93,14 +75,12 @@ class Access{
      * @param string valid user email
      */
     function logout($email){
-        $daoUser=new DaoUser("read");
-        $user=new User();
-        $user=$daoUser->read($email);
-        $session=new Session();
-        $session=$this->daoSession->lastSession($user->getId());
+        $daoUser=new DaoUser();
+        $daoSession=new DaoSession();
+        $user=$daoUser->readByEmail($email);
+        $session=$daoSession->lastSession($user);
         $session->stop($this->getIp());
-        $user->setSessionId($session->getId());
-        $this->daoSession->update($session);
+        $daoSession->update($session);
     }
     /**
      * Return the user IP
@@ -116,44 +96,46 @@ class Access{
         }
         return $ip;
     }
-/**
-     * Login a system user and creates the session maqinato
-     * @param string valid password
-     * @param string valid password
-     * @param string valid password
-     * @return string 'error' password is incorrect
-     * @return User user object
-     * @todo Develop the geoposition
-     */
-    function changePasword($lastPwr,$newPwr,$email){
-        $pass="";
-        $saltsave="";
-        $daoUser=new DaoUser("all");
-        $hash=$daoUser->readHash($email);
-        $salt=$daoUser->readSalt($email);
-        if(!empty($hash)&&!empty($salt)){
-            $crypt=new Crypt();
-            if(!$lastPwr){
-                $validate=true;
-            }else{
-                $validate=$crypt->validate($lastPwr,$salt,$hash);
-            }
-            if($validate){
-                $crypt->encrypt($newPwr);
-                $pass=$crypt->getPassword();
-                $saltsave=$crypt->getSalt();
-                if(!$crypt->validate($newPwr,$salt,$hash)){
-                    $response=$daoUser->updatePass($email,$pass,$saltsave);
-                }else{
-                    $response="2";
-                }
-            }else{
-                $response='3';
-            }
-        }else{
-            $response='Error';
-        }
-        return $response;
-    }
+    
+    
+///**
+//     * Login a system user and creates the session maqinato
+//     * @param string valid password
+//     * @param string valid password
+//     * @param string valid password
+//     * @return string 'error' password is incorrect
+//     * @return User user object
+//     * @todo Develop the geoposition
+//     */
+//    function changePasword($lastPwr,$newPwr,$email){
+//        $pass="";
+//        $saltsave="";
+//        $daoUser=new DaoUser("all");
+//        $hash=$daoUser->readHash($email);
+//        $salt=$daoUser->readSalt($email);
+//        if(!empty($hash)&&!empty($salt)){
+//            $crypt=new Crypt();
+//            if(!$lastPwr){
+//                $validate=true;
+//            }else{
+//                $validate=$crypt->validate($lastPwr,$salt,$hash);
+//            }
+//            if($validate){
+//                $crypt->encrypt($newPwr);
+//                $pass=$crypt->getPassword();
+//                $saltsave=$crypt->getSalt();
+//                if(!$crypt->validate($newPwr,$salt,$hash)){
+//                    $response=$daoUser->updatePass($email,$pass,$saltsave);
+//                }else{
+//                    $response="2";
+//                }
+//            }else{
+//                $response='3';
+//            }
+//        }else{
+//            $response='Error';
+//        }
+//        return $response;
+//    }
 } 
 ?>

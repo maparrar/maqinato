@@ -93,7 +93,7 @@ class DaoSession{
                 `ipIni`=:ipIni,
                 `ipEnd`=:ipEnd,
                 `phpSession`=:phpSession,
-                `user`=:user,
+                `user`=:user 
                 WHERE id=:id");
             $stmt->bindParam(':id',$session->getId());
             $stmt->bindParam(':ini',$session->getIni());
@@ -181,5 +181,43 @@ class DaoSession{
             error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
         }
         return $list;
+    }
+    /**
+     * Return if a session exist in the database
+     * @param string idSession
+     * @return false if doesn't exist
+     * @return true if exist
+     */
+    function sessionExist($idSession){
+        $exist=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT id FROM Session WHERE id = ?");
+        if ($stmt->execute(array($idSession))) {
+            $list=$stmt->fetch();
+            if($list){
+                if(intval($list["id"])===intval($idSession)){
+                    $exist=true;
+                }else{
+                    $exist=false;
+                }
+            }
+        }
+        return $exist;
+    }
+    /**
+     * Return the last session of an user
+     * @param User $user Usuario del que se quiere obtener la sesión
+     * @return false if fail, int last session id for the user
+     */
+    function lastSession($user){
+        $session=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT id FROM Session WHERE user=:user ORDER BY id DESC LIMIT 1");
+        $stmt->bindParam(':user',$user->getId());
+        if ($stmt->execute()) {
+            $row=$stmt->fetch();
+            $session=$this->read($row["id"]);
+        }
+        return $session;
     }
 }
