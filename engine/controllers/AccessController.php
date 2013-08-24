@@ -53,8 +53,7 @@ class AccessController{
         return $active;
     }
     /** 
-     * Check if the user session is live. If the user need validate the account
-     * redirect to the page
+     * Check if the user session is live.
      * @return true if the session is active
      * @return false otherwise
      */
@@ -65,8 +64,6 @@ class AccessController{
             $user=unserialize($_SESSION['user']);
             if(SecurityController::isEmail($user->getEmail())){
                 $active=true;
-            }else{
-                $active=false;
             }
         }else{
             $active=false;

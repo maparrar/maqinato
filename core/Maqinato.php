@@ -39,7 +39,13 @@ class Maqinato{
      * @var Request Objeto de tipo Request
      */
     private static $request;
-    
+    /**
+     * Objeto de tipo User que almacena el usuario actual de la sesión
+     * @var User Objeto de tipo Usuario, si no hay registrado, el valor es false
+     */
+    private static $user;
+
+
     /**************************** DEBUG VARIABLES ****************************/
     /** Nivel de debug.
      *  0   No muestra ningún mensaje de maqinato
@@ -84,28 +90,14 @@ class Maqinato{
         
         //Incluye los estilos básicos de maqinato
         Router::css("template");
-                
-        //Pruebas con los controladores
-//        $controller=new TempController();
-//        $controller->probando(serialize(self::$request->getParameters()));
         
-        
-        
-        
-        
+        //Carga el usuario de la sesión, si es posible
         $controller=new AccessController();
-        $iter=14;
-        Maqinato::debug(serialize($controller->login("pepe@perez.com".$iter,"passwordPepe".$iter)));
-        
-        
-        
-        
-        Maqinato::debug(serialize($controller->getSessionUser()->getEmail()));
-        
-        
-//        $user2=$dao->read(81);
-//        Maqinato::debug(serialize($user2));
-        
+        if($controller->checkSession()){
+            self::$user=$controller->getSessionUser();
+        }else{
+            self::$user=false;
+        }
         
         //Hace el routing del Request capturado
         Router::route(self::$request);
@@ -115,7 +107,6 @@ class Maqinato{
         array_push(self::$procTimers,array("name"=>"maqinato","ini"=>$ini,"end"=>$end));
         self::info();
     }
-    
     /**
      * Procesa la configuración de la internacionalización y localización
      */
@@ -248,6 +239,11 @@ class Maqinato{
                 $info='<div class="section">';
                     $info.='<div class="title">INFO</div>';
                     $info.='<ul>';
+                        if(!self::$user){
+                            $info.='<li>user: none</li>';
+                        }else{
+                            $info.='<li>user ['.self::$user->getId().']: '.self::$user->getEmail().'</li>';
+                        }
                         $info.='<li>timers:</li>';    
                             $info.='<ul>';
                                 foreach (self::$procTimers as $timer){
