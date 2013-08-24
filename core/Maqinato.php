@@ -93,12 +93,14 @@ class Maqinato{
         
         
         
-        
         $controller=new AccessController();
-        $iter=15;
+        $iter=14;
         Maqinato::debug(serialize($controller->login("pepe@perez.com".$iter,"passwordPepe".$iter)));
         
-        $controller->logout("pepe@perez.com".$iter);
+        
+        
+        
+        Maqinato::debug(serialize($controller->getSessionUser()->getEmail()));
         
         
 //        $user2=$dao->read(81);

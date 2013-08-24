@@ -83,9 +83,9 @@ class Crypt {
     /**
      * Checks if a password encrypted with a given salt match with a hash stored
      * in the database.
-     * @param string last password by the user
-     * @param string salt stored in the database
-     * @param string hash of the encrypted password and stored in the database
+     * @param string $password last password by the user
+     * @param string $salt salt stored in the database
+     * @param string $hash hash of the encrypted password and stored in the database
      * @return true if the password match with the hash
      * @return false if not
      */

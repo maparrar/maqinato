@@ -1,4 +1,4 @@
-Maqinato v.0.4.0 (pre-alpha)
+Maqinato v.0.5.0 (pre-alpha)
 ==========
 ¡¡¡No es funcional. Solo disponible para pruebas hasta la versión 1.0.!!!
 
@@ -193,6 +193,10 @@ $database=array(
 
 Cambios
 ==========
+Versión 0.5.0:
+----------
+- Controller para signup, login y logout
+
 Versión 0.4.0:
 ----------
 - Clases para conexión a bases de datos

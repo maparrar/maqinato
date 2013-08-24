@@ -34,6 +34,45 @@ class AccessController{
             $_SESSION["fails"]=0;
         }
     }
+    /** 
+     * Return the active User in the Session
+     * @return User active in the session
+     * @return false if the session does not have an User
+     */
+    public function getSessionUser(){
+        $active=false;
+        if (isset($_SESSION["user"])){
+            $daoUser=new DaoUser();
+            $userSession=new User();
+            $userSession=unserialize($_SESSION['user']);
+            $user=$daoUser->readByEmail($userSession->getEmail());
+            $active=$user;
+        }else{
+            $active=false;
+        }
+        return $active;
+    }
+    /** 
+     * Check if the user session is live. If the user need validate the account
+     * redirect to the page
+     * @return true if the session is active
+     * @return false otherwise
+     */
+    public function checkSession(){
+        $active=false;
+        $user=new User();
+        if (isset($_SESSION["user"])){
+            $user=unserialize($_SESSION['user']);
+            if(SecurityController::isEmail($user->getEmail())){
+                $active=true;
+            }else{
+                $active=false;
+            }
+        }else{
+            $active=false;
+        }
+        return $active;
+    }
     /**
      * Create an user account on the system
      * @param string $email Email con formato de email
@@ -45,7 +84,7 @@ class AccessController{
      *      'exist' if the user already exist<br/>
      *      'error' if the email and password are bad-formated or are wrong
      */
-    function signup($email,$password,$name="",$lastname=""){
+    public function signup($email,$password,$name="",$lastname=""){
         $response='error';
         $name=SecurityController::sanitizeString($name);
         $lastname=SecurityController::sanitizeString($lastname);
@@ -72,7 +111,7 @@ class AccessController{
      *      'success'  if mail and password are correct<br/>
      *      'error' if the email and password are bad-formated or are wrong
      */
-    function login($email,$password,$keep=false){
+    public function login($email,$password,$keep=false){
         $response=false;
         if(SecurityController::isemail($email)&&SecurityController::ispassword($password)&&SecurityController::isBool($keep)){
             $access=new Access();
@@ -116,7 +155,7 @@ class AccessController{
      * Initialize the user session and start the fail counter in 0
      * @param User user object
      */
-    function startSession($user){
+    public function startSession($user){
         $_SESSION["user"]=serialize($user);
         $_SESSION["fails"]=0;
         $_SESSION["sessionLifetime"]=Maqinato::$config["client"]["sessionLifeTime"];
@@ -124,7 +163,7 @@ class AccessController{
     /** 
      * Destroy the PHP session and delete all the user variables
      */
-    function destroy(){
+    public function destroy(){
         //Destroy session variables
         $_SESSION = array();
         //Delete the session cookie
@@ -138,144 +177,22 @@ class AccessController{
         //Destroy the session
         session_destroy();
     }
-    
-    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    /** 
-//     * Return the active User in the Session
-//     * @return User active in the session
-//     * @return false if the session does not have an User
-//     */
-//    public static function getSessionUser(){
-//        $active=false;
-//        if (isset($_SESSION["user"])){
-//            $daoUser=new DaoUser();
-//            $userSession=new User();
-//            $userSession=unserialize($_SESSION['user']);
-//            $user=$daoUser->read($userSession->getEmail());
-//            $active=$user;
-//        }else{
-//            $active=false;
-//        }
-//        return $active;
-//    }
-//    
-//    
-    
-//    /**
-//     * Close all the user sessions
-//     * @param string formated email
-//     */
-//    function logoutAll($email){
-//        $this->access->logout($email);
-//        $this->destroy();
-//    }
-//    
-//    
-    
-//    /** 
-//     * Check if the user session is live. If the user need validate the account
-//     * redirect to the page
-//     * @return true if the session is active
-//     * @return false otherwise
-//     */
-//    public static function checkSession(){
-//        $active=false;
-//        $user=new User();
-//        if (isset($_SESSION["user"])){
-//            $user=unserialize($_SESSION['user']);
-//            if(SecurityController::isemail($user->getEmail())){
-//                $active=true;
-//            }else{
-//                $active=false;
-//            }
-//        }else{
-//            $active=false;
-//        }
-//        return $active;
-//    }
-//    /**
-//     * Comprueba si la clave de validación y el correo corresponden
-//     * @param string $email Email del usuario que se quiere verificar
-//     * @param string $key Clave enviada al email
-//     * @return bool True si la clave corresponde con el correo
-//     */
-//    public static function verifyValidationKey($email,$key){
-//        $response=false;
-//        $daoUser=new DaoUser();
-//        $email=SecurityController::sanitizeString($email);
-//        $key=SecurityController::sanitizeString($key);
-//        if($daoUser->verifyValidationKey($email,$key)){
-//            $user=SocialController::getUser($email);
-//            $daoUser->updateValidationState($user,true);
-//            $response=true;
-//        }
-//        return $response;
-//    }
-//    /**
-//     * Verifica si el usuario ha validado su cuenta
-//     * @param User $user Objeto de tipo usuario para el que se verifica si se ha 
-//     * validado la cuenta
-//     * @return bool True si se ha validado
-//     */
-//    public static function validatedAccount($user){
-//        $response=false;
-//        if(SecurityController::isclass($user,"User")){
-//            $daoUser=new DaoUser();
-//            $response=$daoUser->isValidated($user);
-//        }
-//        return $response;
-//    }
-    
-//    /**
-//     * Function that allows entry into the system
-//     * @param string formated email
-//     * @param string formated password
-//     * @param bool to keep the session active.
-//     * @return string 'logged'  if mail and password are correct
-//     * @return string 'nonprofit'  if is an NPO
-//     * @return string 'error' if the email and password are bad-formated or are wrong
-//     */
-//    function passwordChange($lastPwr,$newPwr,$email){
-//        $response=false;
-//        $user=AccessController::getSessionUser();
-//        if(AccessController::verifyValidationKey($email, $lastPwr)){
-//            $changed=$this->access->changePasword(false,$newPwr,$email);
-//            $response=$changed;
-//        }else if(SecurityController::ispassword($lastPwr)&&SecurityController::ispassword($newPwr)){
-//            $email=$user->getEmail();
-//            $changed=$this->access->changePasword($lastPwr,$newPwr,$email);
-//            $response=$changed;
-//        }else{
-//            error_log("[".__FILE__.":".__LINE__."]"."Password data incorrect");
-//        }
-//        return SecurityController::sanitizeString($response);
-//    }
+    /**
+     * Function that allows entry into the system
+     * @param string $email Email válido
+     * @param string $prev Password anterior
+     * @param string $new Password nuevo
+     * @return bool false if password is incorrect, true if could change the pass
+     */
+    public function changePasword($email,$prev,$new){
+        $response=false;
+        if(SecurityController::isEmail($email)&&SecurityController::isPassword($prev)&&SecurityController::isPassword($new)){
+            $access=new Access();
+            $response=$access->changePasword($email,$prev,$new);
+        }else{
+            error_log("[".__FILE__.":".__LINE__."]"."changePasword data incorrect");
+        }
+        return $response;
+    }
 }
 ?>

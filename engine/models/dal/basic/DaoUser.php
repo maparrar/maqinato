@@ -223,4 +223,31 @@ class DaoUser{
         }
         return $salt;
     }
+    /**
+     * Actualiza el password de usuario
+     * @param User $user Usuario con email, password y salt definidos para almacenar
+     * @return false if could'nt update it, true if the user was updated
+     */
+    function updatePassword($user){
+        $updated=false;
+        if($this->exist($user)){
+            $stmt = $this->handler->prepare("UPDATE User SET 
+                password=:password,
+                salt=:salt 
+                WHERE id=:id"
+            );
+            $stmt->bindParam(':password',$user->getPassword());
+            $stmt->bindParam(':salt',$user->getSalt());
+            $stmt->bindParam(':id',$user->getId());
+            if($stmt->execute()){
+                $updated=true;
+            }else{
+                $error=$stmt->errorInfo();
+                error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
+            }
+        }else{
+            $updated=false;
+        }
+        return $updated;
+    }
 }

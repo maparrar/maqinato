@@ -12,20 +12,6 @@
  * @subpackage core
  */
 class Access{
-    /** Data Access Object for sessions 
-     * @var DaoSession
-     */
-    private $daoSession;
-    /**
-     * Constructor: Set the DAO objects
-     */
-    function Access(){
-        $this->daoSession=new DaoSession();
-    }
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   GETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
      * Create a system user with the email and the password provided, encrypts 
@@ -96,46 +82,29 @@ class Access{
         }
         return $ip;
     }
-    
-    
-///**
-//     * Login a system user and creates the session maqinato
-//     * @param string valid password
-//     * @param string valid password
-//     * @param string valid password
-//     * @return string 'error' password is incorrect
-//     * @return User user object
-//     * @todo Develop the geoposition
-//     */
-//    function changePasword($lastPwr,$newPwr,$email){
-//        $pass="";
-//        $saltsave="";
-//        $daoUser=new DaoUser("all");
-//        $hash=$daoUser->readHash($email);
-//        $salt=$daoUser->readSalt($email);
-//        if(!empty($hash)&&!empty($salt)){
-//            $crypt=new Crypt();
-//            if(!$lastPwr){
-//                $validate=true;
-//            }else{
-//                $validate=$crypt->validate($lastPwr,$salt,$hash);
-//            }
-//            if($validate){
-//                $crypt->encrypt($newPwr);
-//                $pass=$crypt->getPassword();
-//                $saltsave=$crypt->getSalt();
-//                if(!$crypt->validate($newPwr,$salt,$hash)){
-//                    $response=$daoUser->updatePass($email,$pass,$saltsave);
-//                }else{
-//                    $response="2";
-//                }
-//            }else{
-//                $response='3';
-//            }
-//        }else{
-//            $response='Error';
-//        }
-//        return $response;
-//    }
+    /**
+     * Login a system user and creates the session maqinato
+     * @param string $email Email válido
+     * @param string $prev Password anterior
+     * @param string $new Password nuevo
+     * @return bool false if password is incorrect, true if could change the pass
+     */
+    function changePasword($email,$prev,$new){
+        $response=false;
+        $daoUser=new DaoUser();
+        $prevHash=$daoUser->readHash($email);
+        $prevSalt=$daoUser->readSalt($email);
+        if(!empty($prevHash)&&!empty($prevSalt)){
+            $crypt=new Crypt();
+            if($crypt->validate($prev,$prevSalt,$prevHash)){
+                $user=$daoUser->readByEmail($email);
+                $crypt->encrypt($new);
+                $user->setPassword($crypt->getPassword());
+                $user->setSalt($crypt->getSalt());
+                $response=$daoUser->updatePassword($user);
+            }
+        }
+        return $response;
+    }
 } 
 ?>
