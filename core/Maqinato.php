@@ -227,7 +227,7 @@ class Maqinato{
      * Agrega un mensaje de error al array de debug
      */
     public static function debug($message,$file="",$line=""){
-        self::$debug[]="[".date("Y-m-d H:i:s")."] - - - [".$file."] - - - [line: ".$line."] - - - [".$message.']';
+        self::$debug[]="PHP -> [".date("Y-m-d H:i:s")."] - [".$file."] - [line: ".$line."] - [".$message.']';
     }
     /**
      * Print the Maqinato information

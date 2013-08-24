@@ -11,15 +11,11 @@
  * @package config
  */
 class View{
-    public static function load($view){
-        require_once "engine/views/templates/header.php";
+    public static function render($view){
         require_once "engine/views/".$view.".php";
-        require_once "engine/views/templates/footer.php";
     }
     public static function error(){
-        require_once "engine/views/templates/header.php";
         require_once "engine/views/error.php";
-        require_once "engine/views/templates/footer.php";
     }
 }
 ?>

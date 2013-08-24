@@ -30,10 +30,13 @@ class Router{
                 self::redirect("accessing");
                 break;
             case "accessing":
-                View::load("accessing");
+                View::render("accessing");
+                break;
+            case "acceso":
+                View::render("accessing");
                 break;
             case "home":
-                View::load("home");
+                View::render("home");
                 break;
             case "error":
                 View::error();
