@@ -4,30 +4,33 @@
         <meta charset="utf-8" />
         <?php
             //Incluye los scripts
-            Router::js("jquery");
+            Router::js("basic");
         ?>
         <title><?php echo _("Accessing")." | ".ucfirst(Maqinato::application()); ?></title>
         <script type="text/javascript">
             $(document).ready(function(){
+                window.system=new System();
                 $("body").click(function(){
                     console.debug("click");
-                    $("body").css("background","lime");
+                    system.debug("test");
                 });
               });
         </script>
     </head>
     <body>
         <div id="container">
-            <?php Router::import("templates/header.php"); ?>
-            <div id="login">
+            <?php Router::import("templates/header0.php"); ?>
+            <div id="loginForm">
                 <?php echo _("Email"); ?>: <input type="text" name="email"/><br />
                 <?php echo _("Password"); ?>: <input type="password" name="password"/><br />
-                <div><?php echo _("Login"); ?></div>
+                <div id="login"><?php echo _("Login"); ?></div>
             </div>
-            <div id="signup">
-                <?php echo _("Email"); ?>: <input type="text" name="email"/><br />
-                <?php echo _("Password"); ?>: <input type="password" name="password"/><br />
-                <div><?php echo _("Login"); ?></div>
+            <div id="signupForm">
+                <?php echo _("Name"); ?>: <input id="sgn_name" type="text"/><br />
+                <?php echo _("Lastname"); ?>: <input id="sgn_lastname" type="text"/><br />
+                <?php echo _("Email"); ?>: <input id="sgn_email" type="text"/><br />
+                <?php echo _("Password"); ?>: <input id="sgn_name" type="password"/><br />
+                <div id="signup"><?php echo _("Signup"); ?></div>
             </div>
             <?php Router::import("templates/footer.php"); ?>
         </div>

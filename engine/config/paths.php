@@ -1,5 +1,15 @@
 <?php
-return array(    
+return array(
+    /**
+     * Nombre de los scripts que se deben cargar cuando se ejecuta 
+     *      Router::js("basic")
+     * Son los sripts que se cargan en todas las páginas
+     * Estos scripts deben estar en el array de "js" (definido más abajo)
+     */
+    "basic" => array(
+        "jquery",
+        "system"
+    ),
     /**
      * Directorio de scripts js
      * Lista de scripts de javascript. Incluya los scripts que desea llamar
@@ -8,7 +18,8 @@ return array(
      *      public/js/nombre_de_script.js
      */
     "js" => array(
-        "jquery"    =>  "public/js/jquery/jquery-2.0.3.min.js"
+        "jquery"    =>  "public/js/vendors/jquery/jquery-2.0.3.min.js",
+        "system"    =>  "public/js/system/System.js"
     ),
     
     /**

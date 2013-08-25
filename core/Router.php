@@ -46,27 +46,6 @@ class Router{
             Maqinato::debug('require_once "'.$path.'" -> File not found.',debug_backtrace());
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     /**
      * Procesa un Request y usa el controlador, la función y los parámetros para
      * redirigir a la página indicada.
@@ -112,6 +91,9 @@ class Router{
     public static function js(){
         $string="";
         $values = func_get_args();
+        if(array_search("basic",$values)!==false){
+            array_splice($values,array_search("basic",$values),1,Maqinato::$config["paths"]["basic"]);
+        }
         foreach ($values as $value){
             if(array_key_exists($value,Maqinato::$config["paths"]["js"])){
                 $path=self::path("root").Maqinato::$config["paths"]["js"][$value];
@@ -124,7 +106,7 @@ class Router{
                 if(file_exists(self::path("js").$value)){
                     $string.='<script class="component" type="text/javascript" src="'.self::path("js").$value.'"></script>';
                 }else{
-                    $string.='JS script NOT Found: '.$value.'<br/>';
+                    Maqinato::debug('JS script NOT Found: '.$value,debug_backtrace());
                 }
             }
         }
@@ -151,7 +133,7 @@ class Router{
                 if(file_exists(self::path("css").$value)){
                     $string.='<link rel="stylesheet" type="text/css" href="'.self::path("css").$value.'">';
                 }else{
-                    $string.='CSS script NOT Found: '.$value.'<br/>';
+                    Maqinato::debug('CSS script NOT Found: '.$value,debug_backtrace());
                 }
             }
         }
