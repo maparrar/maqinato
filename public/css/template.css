@@ -35,7 +35,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 .maqinato_debug .section{
     background: #fff;
-    /*border: 1px solid blue;*/
 }
 .maqinato_debug .section .title{
     background: green;
@@ -69,7 +68,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     height: 275px;
     overflow: hidden;
 }
-.maqinato_debug .right .section > ul{
+.maqinato_debug .right .section > ul,.maqinato_debug #mq_debug_msgs{
     height: 260px;
     margin-top: 1px;
     overflow: auto;

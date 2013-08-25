@@ -247,6 +247,110 @@ class Maqinato{
                     <div class="mq_message">'.$message.'</div>
                 </div>
             </div>';
+            self::$debug[]='
+            <div class="mq_debug_msg mq_php">
+                <div class="mq_title">
+                    <div>PHP -></div>
+                    <div class="mq_file">'.$vars["file"].'</div>
+                    <div class="mq_line">[line: '.$vars["line"].']</div>
+                    <div class="mq_time">'.date("Y-m-d H:i:s").'</div>
+                </div>
+                <div class="mq_content">
+                    <div class="mq_code"></div>
+                    <div class="mq_message">'.$message.'</div>
+                </div>
+            </div>';
+            self::$debug[]='
+            <div class="mq_debug_msg mq_php">
+                <div class="mq_title">
+                    <div>PHP -></div>
+                    <div class="mq_file">'.$vars["file"].'</div>
+                    <div class="mq_line">[line: '.$vars["line"].']</div>
+                    <div class="mq_time">'.date("Y-m-d H:i:s").'</div>
+                </div>
+                <div class="mq_content">
+                    <div class="mq_code"></div>
+                    <div class="mq_message">'.$message.'</div>
+                </div>
+            </div>';
+            self::$debug[]='
+            <div class="mq_debug_msg mq_php">
+                <div class="mq_title">
+                    <div>PHP -></div>
+                    <div class="mq_file">'.$vars["file"].'</div>
+                    <div class="mq_line">[line: '.$vars["line"].']</div>
+                    <div class="mq_time">'.date("Y-m-d H:i:s").'</div>
+                </div>
+                <div class="mq_content">
+                    <div class="mq_code"></div>
+                    <div class="mq_message">'.$message.'</div>
+                </div>
+            </div>';
+            self::$debug[]='
+            <div class="mq_debug_msg mq_php">
+                <div class="mq_title">
+                    <div>PHP -></div>
+                    <div class="mq_file">'.$vars["file"].'</div>
+                    <div class="mq_line">[line: '.$vars["line"].']</div>
+                    <div class="mq_time">'.date("Y-m-d H:i:s").'</div>
+                </div>
+                <div class="mq_content">
+                    <div class="mq_code"></div>
+                    <div class="mq_message">'.$message.'</div>
+                </div>
+            </div>';
+            self::$debug[]='
+            <div class="mq_debug_msg mq_php">
+                <div class="mq_title">
+                    <div>PHP -></div>
+                    <div class="mq_file">'.$vars["file"].'</div>
+                    <div class="mq_line">[line: '.$vars["line"].']</div>
+                    <div class="mq_time">'.date("Y-m-d H:i:s").'</div>
+                </div>
+                <div class="mq_content">
+                    <div class="mq_code"></div>
+                    <div class="mq_message">'.$message.'</div>
+                </div>
+            </div>';
+            self::$debug[]='
+            <div class="mq_debug_msg mq_php">
+                <div class="mq_title">
+                    <div>PHP -></div>
+                    <div class="mq_file">'.$vars["file"].'</div>
+                    <div class="mq_line">[line: '.$vars["line"].']</div>
+                    <div class="mq_time">'.date("Y-m-d H:i:s").'</div>
+                </div>
+                <div class="mq_content">
+                    <div class="mq_code"></div>
+                    <div class="mq_message">'.$message.'</div>
+                </div>
+            </div>';
+            self::$debug[]='
+            <div class="mq_debug_msg mq_php">
+                <div class="mq_title">
+                    <div>PHP -></div>
+                    <div class="mq_file">'.$vars["file"].'</div>
+                    <div class="mq_line">[line: '.$vars["line"].']</div>
+                    <div class="mq_time">'.date("Y-m-d H:i:s").'</div>
+                </div>
+                <div class="mq_content">
+                    <div class="mq_code"></div>
+                    <div class="mq_message">'.$message.'</div>
+                </div>
+            </div>';
+            self::$debug[]='
+            <div class="mq_debug_msg mq_php">
+                <div class="mq_title">
+                    <div>PHP -></div>
+                    <div class="mq_file">'.$vars["file"].'</div>
+                    <div class="mq_line">[line: '.$vars["line"].']</div>
+                    <div class="mq_time">'.date("Y-m-d H:i:s").'</div>
+                </div>
+                <div class="mq_content">
+                    <div class="mq_code"></div>
+                    <div class="mq_message">'.$message.'</div>
+                </div>
+            </div>';
         }
     }
     /**
