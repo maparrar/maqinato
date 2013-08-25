@@ -9,10 +9,10 @@
         <title><?php echo _("Accessing")." | ".ucfirst(Maqinato::application()); ?></title>
         <script type="text/javascript">
             $(document).ready(function(){
-                window.system=new System();
+                window.maqinato=new Maqinato();
                 $("body").click(function(){
                     console.debug("click");
-                    system.debug("test");
+                    maqinato.debug("test");
                 });
               });
         </script>

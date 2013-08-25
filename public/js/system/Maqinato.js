@@ -1,7 +1,7 @@
 /**
  * Pseudoclass to manage the common functions in javascript
  **/
-function System(){
+function Maqinato(){
     "use strict";
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ATTRIBUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -59,7 +59,7 @@ function System(){
             obj.userId=obj.config.user;
         }
         if(obj.config.server==="development"||obj.config.server==="testing"){
-            system.debug(obj.config);
+            maqinato.debug(obj.config);
         }
         //Instanciate the pseudo-class objects
         obj.ajax=new AjaxCore();
@@ -104,7 +104,7 @@ function System(){
             $("#resend").click(function(){
                 obj.ajax.sendValidationEmail(function(data){
                     if(data.response==="success"){
-                        system.message("The email was sent successfully.");
+                        maqinato.message("The email was sent successfully.");
                     }
                 });
             });
@@ -252,19 +252,19 @@ function System(){
 
 
         //Pone imágenes default a las imágenes que no pudieron ser cargadas
-        $("img").on('error',system.defaultImage);
+        $("img").on('error',maqinato.defaultImage);
         //Repite la operación pasado un segundo, luego pasados tres y luego cinco segundos
         setTimeout(function(){
-            $("img").on('error',system.defaultImage);
+            $("img").on('error',maqinato.defaultImage);
         },1000);
         setTimeout(function(){
-            $("img").on('error',system.defaultImage);
+            $("img").on('error',maqinato.defaultImage);
         },3000);
         setTimeout(function(){
-            $("img").on('error',system.defaultImage);
+            $("img").on('error',maqinato.defaultImage);
         },5000);
         setTimeout(function(){
-            $("img").on('error',system.defaultImage);
+            $("img").on('error',maqinato.defaultImage);
         },10000);
     };
     
@@ -483,7 +483,7 @@ function System(){
         if(obj.newsfeed){
             obj.newsfeed.reloadActivities();
         }else{
-            system.debug("Tratando de recargar un newsfeed que no está definido en esta página");
+            maqinato.debug("Tratando de recargar un newsfeed que no está definido en esta página");
         }
     };
 //>>>>>>>>>>>>>> FUNCIONES PARA VISUALIZACIÓN DE ACTIVIDADES <<<<<<<<<<<<<<<<<<<
@@ -535,7 +535,7 @@ function System(){
                 obj.message(error.description);
                 break;
             case "daemonError":
-                system.debug("Daemons errors");
+                maqinato.debug("Daemons errors");
                 break;
             default:
                 //
@@ -566,12 +566,12 @@ function System(){
     obj.abs=function(folder){
       var output=""; 
       var application="";
-      if(system.config.application!=""){
-         application=system.config.application+'/';
+      if(maqinato.config.application!=""){
+         application=maqinato.config.application+'/';
       }        
       for(var j in obj.config.paths){
         if(j==folder){
-            output=system.config.protocol+'://'+obj.config.location+'/'+application+obj.config.paths[j];
+            output=maqinato.config.protocol+'://'+obj.config.location+'/'+application+obj.config.paths[j];
         }
       }
       return output;
@@ -648,7 +648,7 @@ function System(){
         return dialog;
     };
     /**
-     * Cierra un diálogo a partir del elemento generado por system.dialog
+     * Cierra un diálogo a partir del elemento generado por maqinato.dialog
      **/
     obj.dialogClose=function(dialog,onClose){
         try{
@@ -707,13 +707,13 @@ function System(){
  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FACEBOOK <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  
     obj.initFacebook=function(){
-        system.facebookEmailExist=false;
+        maqinato.facebookEmailExist=false;
         //Indica si se intenta un nuevo registro con el botón de login
-        system.facebookLoginButton=false;
+        maqinato.facebookLoginButton=false;
         var appId='644033145623801';
-        if(system.config.server==="production"){
+        if(maqinato.config.server==="production"){
             appId='410665095707180';
-        }else if(system.config.server==="release"){
+        }else if(maqinato.config.server==="release"){
             appId='171864399646299';
         }
         // Additional JS functions here
@@ -732,9 +732,9 @@ function System(){
 //            });
             //Se ejecuta el login cuando se da click en el botón de Facebook
             $("#facebookLogin,#facebookSignup").click(function(){
-                system.facebookLoginButton=true;
+                maqinato.facebookLoginButton=true;
                 FB.getLoginStatus(function(response){
-                    system.debug(response.status);
+                    maqinato.debug(response.status);
                     if (response.status === 'connected') {
                         var token=response.authResponse.accessToken;
                         loginWithFacebook(token);
@@ -775,8 +775,8 @@ function System(){
                     var password=Tools.sha512(data.id+data.email);
                     obj.ajax.signup(name,lastname,sex,email,idCity,city,country,password,function(data){
                         if(data==="exist"){
-                            system.facebookEmailExist=true;
-                            system.message("The email is already registered");
+                            maqinato.facebookEmailExist=true;
+                            maqinato.message("The email is already registered");
                             //Si el usuario existe, borra la aplicación para que no aparezca como registrada
                             FB.api("/me/permissions","DELETE",function(){});
                         }
