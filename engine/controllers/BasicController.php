@@ -12,7 +12,7 @@
  */
 class BasicController {
     function __construct(){
-        Maqinato::debug("Starting BasicController",__FILE__,__LINE__);
+        Maqinato::debug("Starting BasicController");
     }
 }
 ?>

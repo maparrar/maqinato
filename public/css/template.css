@@ -8,7 +8,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     MAQINATO DEBUG STYLES
 */
 .maqinato_debug{
-    background: #a6b779;
+    /*background: #a6b779;*/
+    background: green;
     border: 1px solid green;
     color: white;
     font-size: 11px;
@@ -24,7 +25,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 .maqinato_debug > .title{
     background: green;
     font-weight: bold;
-    text-indent: 7px;
+    margin-top: 3px;
+    text-align: center;
 }
 .maqinato_debug .column{
     float: left;
@@ -32,12 +34,14 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     margin-left: 5px;
 }
 .maqinato_debug .section{
-    background: #ffff88;
-    border: 1px solid blue;
+    background: #fff;
+    /*border: 1px solid blue;*/
 }
 .maqinato_debug .section .title{
-    background: blue;
+    background: green;
     font-weight: bold;
+    height: 15px;
+    line-height: 15px;
     text-indent: 7px;
 }
 .maqinato_debug .section ul{
@@ -48,7 +52,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 .maqinato_debug .left .section{
     margin-top: 5px;
-    height: 134px;
+    height: 135px;
     overflow: hidden;
 }
 .maqinato_debug .left .section > ul{
@@ -70,6 +74,57 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     margin-top: 1px;
     overflow: auto;
 }
+.maqinato_debug #mq_debug_msgs{
+    color: #444;
+}
+
+
+
+.maqinato_debug .mq_debug_msg{
+    margin: 5px 4px;
+    padding: 1px;
+}
+.maqinato_debug .mq_debug_msg .mq_title{
+    color: #eee;
+    font-weight: bold;
+    height: 15px;
+    /*width: 100%;*/
+}
+.maqinato_debug .mq_debug_msg .mq_title div{
+    float: left;
+    margin-left: 3px;
+}
+.maqinato_debug .mq_debug_msg .mq_title .mq_time{
+    float: right;
+}
+.maqinato_debug .mq_debug_msg .mq_line{
+    font-weight: bold;
+}
+.maqinato_debug .mq_debug_msg .mq_content{
+    padding: 4px;
+}
+
+
+
+.maqinato_debug .mq_php{
+    background: #7979AC;
+}
+.maqinato_debug .mq_php .mq_content{
+    background: #BBBBDD;
+}
+
+.maqinato_debug .mq_js{
+    background: #AE4343;
+}
+.maqinato_debug .mq_js .mq_content{
+    background: #FFC0CB;
+}
+
+
+
+
+
+
 
 /**
     Maqinato default header and footer's styles

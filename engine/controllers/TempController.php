@@ -14,12 +14,12 @@ class TempController extends BasicController{
     
     function __construct() {
         parent::__construct();
-        Maqinato::debug("Starting TempController",__FILE__,__LINE__);
+        Maqinato::debug("Starting TempController");
     }
 
 
     public function probando($param){
-        Maqinato::debug("TempController::probando(".$param.")",__FILE__,__LINE__);
+        Maqinato::debug("TempController::probando(".$param.")");
     }
     
     

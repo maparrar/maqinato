@@ -13,12 +13,60 @@
 class Router{
     /**
      * Retorna la ruta a partir de su nombre y del directorio de rutas definido
-     * en config. Esta ruta funciona respecto a la pagina principal de la aplicación
-     * para escribir en los enlaces de HTML use la función link();
+     * en config. Esta función retorna enlaces del tipo:<br>
+     *      /maqinato/public/css/template.css<br>
+     *      /maqinato/public/js/jquery/jquery-2.0.3.min.js<br>
+     * que generalmente sirven para escribrir enlaces en el HTML como los de JS y
+     * CSS. Esto fue necesario desde la inclusión del htaccess que redirecciona
+     * todas las peticiones al index.php de la aplicación con mod_rewrite.<br>
+     * Si el folder no existe, se muestra un error en el debug de Maqinato.
      */
     public static function path($folder){
-        return "/".Maqinato::application()."/".Maqinato::$config["paths"]["app"][$folder];
+        $path=false;
+        if(file_exists(Maqinato::$config["paths"]["app"][$folder])||$folder==="root"){
+            $path="/".Maqinato::application()."/".Maqinato::$config["paths"]["app"][$folder];
+        }else{
+            Maqinato::debug('Router::path("'.$folder.'") -> Folder not found',debug_backtrace());
+        }
+        return $path;
     }
+    /**
+     * Función para importar scripts de PHP en otros scripts. Se usa para centralizar
+     * la forma de importar scritps, en caso de que se tengan que modificar los
+     * paths, es decir, si se soluciona el problema que generó la función ::path().<br>
+     * Si el archivo no existe, se muestra un error en el debug de Maqinato.
+     */
+    
+    public static function import($filepath){
+        $parts=pathinfo($filepath);
+        $path=Maqinato::$config["paths"]["app"][$parts["dirname"]].$parts["basename"];
+        if(file_exists($path)){
+            require_once $path;
+        }else{
+            Maqinato::debug('require_once "'.$path.'" -> File not found.',debug_backtrace());
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * Procesa un Request y usa el controlador, la función y los parámetros para
      * redirigir a la página indicada.
@@ -42,7 +90,7 @@ class Router{
                 View::error();
                 break;
             default:
-                Maqinato::debug("Controller not detected",__FILE__,__LINE__);
+                Maqinato::debug("Controller not detected");
                 self::redirect("error/notFound");
                 break;
         }
@@ -65,10 +113,9 @@ class Router{
         $string="";
         $values = func_get_args();
         foreach ($values as $value){
-            if($value=="google"){
-                $string.='<script class="component" type="text/javascript" src="'.Maqinato::$config["paths"]["js"][$value].'"></script>';
-            }elseif(array_key_exists($value,Maqinato::$config["paths"]["js"])){
-                $string.='<script class="component" type="text/javascript" src="/'.Maqinato::application()."/".Maqinato::$config["paths"]["js"][$value].'"></script>';
+            if(array_key_exists($value,Maqinato::$config["paths"]["js"])){
+                $path=self::path("root").Maqinato::$config["paths"]["js"][$value];
+                $string.='<script class="component" type="text/javascript" src="'.$path.'"></script>';
             }else{
                 $ext=pathinfo($value,PATHINFO_EXTENSION);
                 if(!$ext){
@@ -94,7 +141,8 @@ class Router{
         $values = func_get_args();
         foreach ($values as $value){
             if(array_key_exists($value,Maqinato::$config["paths"]["css"])){
-                $string.='<link rel="stylesheet" type="text/css" href="/'.Maqinato::application()."/".Maqinato::$config["paths"]["css"][$value].'">';
+                $path=self::path("root").Maqinato::$config["paths"]["css"][$value];
+                $string.='<link rel="stylesheet" type="text/css" href="'.$path.'">';
             }else{
                 $ext=pathinfo($value,PATHINFO_EXTENSION);
                 if(!$ext){

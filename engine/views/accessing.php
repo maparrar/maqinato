@@ -11,19 +11,14 @@
             $(document).ready(function(){
                 $("body").click(function(){
                     console.debug("click");
+                    $("body").css("background","lime");
                 });
               });
         </script>
     </head>
     <body>
         <div id="container">
-            <?php 
-                echo getcwd()."<br>";
-                echo Router::path("root");
-                require_once "engine/views/templates/header.php";
-            ?>
-            
-            
+            <?php Router::import("templates/header.php"); ?>
             <div id="login">
                 <?php echo _("Email"); ?>: <input type="text" name="email"/><br />
                 <?php echo _("Password"); ?>: <input type="password" name="password"/><br />
@@ -34,6 +29,7 @@
                 <?php echo _("Password"); ?>: <input type="password" name="password"/><br />
                 <div><?php echo _("Login"); ?></div>
             </div>
+            <?php Router::import("templates/footer.php"); ?>
         </div>
     </body>
 </html>

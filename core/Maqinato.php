@@ -226,8 +226,28 @@ class Maqinato{
     /**
      * Agrega un mensaje de error al array de debug
      */
-    public static function debug($message,$file="",$line=""){
-        self::$debug[]="PHP -> [".date("Y-m-d H:i:s")."] - [".$file."] - [line: ".$line."] - [".$message.']';
+    public static function debug($message,$backtrace=false){
+        if(self::$debugLevel>=3){
+            if($backtrace){
+                $vars=array_shift($backtrace);
+            }else{
+                $bt=debug_backtrace($options=DEBUG_BACKTRACE_IGNORE_ARGS);
+                $vars=array_shift($bt);
+            }
+            self::$debug[]='
+            <div class="mq_debug_msg mq_php">
+                <div class="mq_title">
+                    <div>PHP -></div>
+                    <div class="mq_file">'.$vars["file"].'</div>
+                    <div class="mq_line">[line: '.$vars["line"].']</div>
+                    <div class="mq_time">'.date("Y-m-d H:i:s").'</div>
+                </div>
+                <div class="mq_content">
+                    <div class="mq_code"></div>
+                    <div class="mq_message">'.$message.'</div>
+                </div>
+            </div>';
+        }
     }
     /**
      * Print the Maqinato information
@@ -301,15 +321,15 @@ class Maqinato{
             if(self::$debugLevel>=3){
                 $debug='<div class="section">';
                     $debug.='<div class="title">DEBUG</div>';
-                    $debug.='<ul>';
+                    $debug.='<div id="mq_debug_msgs">';
                         foreach (self::$debug as $key => $message){
-                            $debug.='<li>'.$message.'</li>';
+                            $debug.=$message;
                         }
-                    $debug.='</ul>';
+                    $debug.='</div>';
                 $debug.='</div>';
             }
             $output='<div class="maqinato_debug">';
-            $output.='<div class=title>MAQINATO</div>';
+            $output.='<div class=title>MAQINATO -> DEBUG LEVEL: '.self::$debugLevel.'</div>';
             $output.='<div class="column left">';
                 $output.=$info;
                 $output.=$config;

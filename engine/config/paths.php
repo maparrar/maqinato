@@ -38,6 +38,9 @@ return array(
             'tests'         =>'engine/tests/',
             'vendors'       =>'engine/vendors/',
             'views'         =>'engine/views/',
-        'public'        =>'public/'
+                'templates'     =>'engine/views/templates/',
+        'public'        =>'public/',
+            'css'           =>'public/css/',
+            'js'            =>'public/js/'
     )
 );
