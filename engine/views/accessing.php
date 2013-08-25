@@ -18,7 +18,7 @@
     </head>
     <body>
         <div id="container">
-            <?php Router::import("templates/headeru.php"); ?>
+            <?php Router::import("templates/header.php"); ?>
             <div id="login">
                 <?php echo _("Email"); ?>: <input type="text" name="email"/><br />
                 <?php echo _("Password"); ?>: <input type="password" name="password"/><br />
