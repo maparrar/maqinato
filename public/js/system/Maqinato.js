@@ -40,7 +40,8 @@ function Maqinato(){
     //  - false: no se está visualizando
     //  - otro caso: debe contener on elemento de clase .activity
     obj.activityDialog=false;
-    
+    //Create the exist() function for any selector. I.E: $("selector").exist()
+    $.fn.exist=function(){return this.length>0;}
     
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> METHODS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
@@ -683,26 +684,28 @@ function Maqinato(){
      **/
     obj.debug=function(message){
         console.debug(message);
-        var n = new Date();
-        var d = n.getDate();
-        var m = n.getMonth()+1;
-        var y = n.getFullYear();
-        var h=n.getHours();
-        var i=n.getMinutes();
-        var s=n.getSeconds();
-        var string='<div class="mq_debug_msg mq_js">'+
-                '<div class="mq_title">'+
-                    '<div>JS -></div>'+
-                    '<div class="mq_file">file</div>'+
-                    '<div class="mq_line">[line: 9]</div>'+
-                    '<div class="mq_time">'+y+'-'+m+'-'+d+' '+h+':'+i+':'+s+'</div>'+
-                '</div>'+
-                '<div class="mq_content">'+
-                    '<div class="mq_code"></div>'+
-                    '<div class="mq_message">'+message+'</div>'+
-                '</div>'+
-            '</div>';
-        $("#mq_debug_msgs").append(string);
+        if($("#mq_debug_msgs").exist()){
+            var n = new Date();
+            var d = n.getDate();
+            var m = n.getMonth()+1;
+            var y = n.getFullYear();
+            var h=n.getHours();
+            var i=n.getMinutes();
+            var s=n.getSeconds();
+            var string='<div class="mq_debug_msg mq_js">'+
+                    '<div class="mq_title">'+
+                        '<div>JS -></div>'+
+                        '<div class="mq_file">file</div>'+
+                        '<div class="mq_line">[line: 9]</div>'+
+                        '<div class="mq_time">'+y+'-'+m+'-'+d+' '+h+':'+i+':'+s+'</div>'+
+                    '</div>'+
+                    '<div class="mq_content">'+
+                        '<div class="mq_code"></div>'+
+                        '<div class="mq_message">'+message+'</div>'+
+                    '</div>'+
+                '</div>';
+            $("#mq_debug_msgs").append(string);
+        }
     };
  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FACEBOOK <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  

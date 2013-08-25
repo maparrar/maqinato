@@ -11,7 +11,6 @@
             $(document).ready(function(){
                 window.maqinato=new Maqinato();
                 $("body").click(function(){
-                    console.debug("click");
                     maqinato.debug("test");
                 });
               });
@@ -19,7 +18,7 @@
     </head>
     <body>
         <div id="container">
-            <?php Router::import("templates/header0.php"); ?>
+            <?php Router::import("templates/header.php"); ?>
             <div id="loginForm">
                 <?php echo _("Email"); ?>: <input type="text" name="email"/><br />
                 <?php echo _("Password"); ?>: <input type="password" name="password"/><br />
