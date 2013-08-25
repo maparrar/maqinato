@@ -196,6 +196,8 @@ Cambios
 Versión 0.5.0:
 ----------
 - Controller para signup, login y logout
+- Inclusión de scripts con import
+- Nueva versión de debug
 
 Versión 0.4.0:
 ----------
