@@ -12,7 +12,6 @@ function Maqinato(){
     obj.options=null;
     
     obj.ajax=null;                  //Ajax class to load data from server
-    obj.ajaxSocial=null;            //Ajax class to load social data from server
     
     obj.daemonsInterval=1000;       //The interval for the daemons in milliseconds
     obj.daemons=null;               //Daemons object
@@ -31,15 +30,6 @@ function Maqinato(){
     //para verificar que se cargaron los componentes especificados
     obj.googleApi=false;
     
-    /************** Variables de asistencia para los componentes **************/
-    //Indica si hay algún newsfeed cargado en la página actual, si lo hay, está 
-    //cargado en esta variable.
-    obj.newsfeed=false;
-    
-    //Indica si se está visualizando alguna actividad en el modal de actividades
-    //  - false: no se está visualizando
-    //  - otro caso: debe contener on elemento de clase .activity
-    obj.activityDialog=false;
     //Create the exist() function for any selector. I.E: $("selector").exist()
     $.fn.exist=function(){return this.length>0;}
     
@@ -50,8 +40,6 @@ function Maqinato(){
      * Configure and init the systems Scripts 
      **/
     obj.init=function(options){
-        //Create the exist() function for any selector. I.E: $("selector").exist()
-        $.fn.exist=function(){return this.length>0;}
         //Set the input options
         obj.options=options;        
         //Load the configuration information from the server
@@ -59,12 +47,11 @@ function Maqinato(){
         if($("#userId").val()!=undefined){
             obj.userId=obj.config.user;
         }
-        if(obj.config.server==="development"||obj.config.server==="testing"){
+        if(obj.config.server==="development"){
             maqinato.debug(obj.config);
         }
         //Instanciate the pseudo-class objects
         obj.ajax=new AjaxCore();
-        obj.ajaxSocial=new AjaxSocial();
         obj.security=new Security();
         
         obj.security.init();
@@ -80,193 +67,11 @@ function Maqinato(){
             obj.initDaemons();
         }
         
-        //Configure the components defined in the user options
-        if(obj.options.access){
-            var signupFunction=obj.ajax.signup;
-            if(obj.options.coming){
-                signupFunction=obj.ajax.signupReserve;
-                $(".logo").click(function(e){
-                    e.preventDefault();
-                });
-            }
-            obj.access=new Access({
-                signupForm:     $(".user-registry"),
-                signupCallback: signupFunction,
-                loginForm:      $("#login-form"),
-                loginCallback:  obj.ajax.login,
-                logoutButton:   $("#logout"),
-                logoutCallback: obj.ajax.logout
-            });
-            obj.access.init();
-        }
-        
-        //Start the validate email events
-        if(obj.options.validate&&obj.config.user){
-            $("#resend").click(function(){
-                obj.ajax.sendValidationEmail(function(data){
-                    if(data.response==="success"){
-                        maqinato.message("The email was sent successfully.");
-                    }
-                });
-            });
-        }
-        
         
         //Start the lifetime session manager function if the option is active
         if(obj.options.session&&obj.config.user){
             obj.lifetimeSession();
         }
-        
-        //Start the notifications functions
-        if(obj.options.notifications&&obj.config.user){
-            obj.notifications=new Notifications();
-            obj.notifications.init({
-                indicator:$("header").find(".notifications"),
-                content:$("header").find(".user-notification-content"),
-                activityViewer:$("#activitiesViewer")
-            });
-        }
-        
-        //Start the landing functions
-        if(obj.options.landing){
-            obj.ajaxRecoveryPassword= new AjaxRecoveryPassword();
-            obj.ajaxNonprofits= new AjaxNonprofits();
-            obj.landing=new Landing();
-            obj.landing.init({
-                isInvitation:obj.options.isInvitation
-            });
-            obj.initFacebook();
-        }
-                
-        //Start the home functions
-        if(obj.options.home&&obj.config.user){
-            obj.home=new Home();
-            obj.home.init();
-            //Registra el newsfeed en el  sistema
-            obj.newsfeed=obj.home.newsfeed;
-            obj.initFacebook();
-            //Si recibe el id de una actividad, la muestra
-            if(obj.options.externalActivityId!==0){
-                obj.showActivity(obj.options.externalActivityId);
-            }
-            //si recibe el id de un nuevo uesuario
-            
-            
-        }
-        //Start the friends functions
-        if(obj.options.friends&&obj.config.user){
-            obj.initFacebook();
-            obj.friends=new Friends();
-            obj.friends.init({
-                profileId:obj.options.profileId,
-                frienship:obj.options.frienship
-            });
-            //si recibe el id de un nuevo uesuario
-        }
-        
-        //Start the giving functions
-        if(obj.options.giving&&obj.config.user){
-            obj.ajaxDonation=new AjaxDonation();
-            obj.giving=new Giving();
-            obj.giving.init({
-                regive:obj.options.regive,
-                folioIdInGiving:obj.options.folioIdInGiving,
-                amountMin:obj.config.bonfolio.amountMin,
-                amountDefault:obj.config.bonfolio.amountDefault,
-                amountIncrement:obj.config.bonfolio.amountIncrement,
-                lastPayment:obj.options.lastPayment,
-                tagToLoad:obj.options.tagToLoad                         //Si existe un tag en la URL para cargar
-            });
-        }
-        //Start the folio functions
-        if(obj.options.folio&&obj.config.user){
-            obj.ajaxDonation=new AjaxDonation();
-            obj.folio=new Folio();
-            obj.folio.init({
-                folio:obj.options.idFolio,
-                combination:obj.options.combination,
-                amountMin:obj.config.bonfolio.amountMin,
-                amountDefault:obj.config.bonfolio.amountDefault,
-                amountIncrement:obj.config.bonfolio.amountIncrement,
-                lastPayment:obj.options.lastPayment
-            });
-            //Registra el newsfeed en el  sistema
-            obj.newsfeed=obj.folio.newsfeed;
-            obj.initFacebook();
-        }
-        
-        //Start the settings functions
-        if(obj.options.profile&&obj.config.user){
-            obj.initFacebook();
-            obj.profile=new Profile();
-            obj.profile.init({
-                profileId:obj.options.profileId,
-                frienship:obj.options.frienship
-            });
-            //Registra el newsfeed en el  sistema
-            obj.newsfeed=obj.profile.newsfeed;
-        }
-        //Start the profile functions
-        if(obj.options.settings){
-            obj.settings=new Settings({
-                passwordCallback:  obj.ajax.changePassword
-            });
-            obj.settings.init();
-        }
-        //Start the contact us email events
-        if(obj.options.contactus){
-            var contact=$(".contact-form");
-            contact.find(".btn-enviar-feedback").click(function(e){
-                e.preventDefault();
-                var email=contact.find("#email").val();
-                var message=contact.find("#message").val();
-                if(message!==""){
-                    obj.ajax.contactUs(email,message,function(data){
-                        if(data.response==="success"){
-                            contact.find(".response").removeClass("error").addClass("response").html("Thank you for your message, we received it and will get back to you as soon as possible.");
-                            contact.find("#message").val("");
-                        }
-                    });
-                }else{
-                    contact.find(".response").removeClass("response").addClass("error").html("The message can not be empty.");
-                } 
-            });
-        }
-        
-        
-        //Inicia el loop para verificar si se cargaron los compnentes de Google
-        //en caso de que obj.googleApi=true
-        obj.googleApi=obj.options.googleApi;
-        if(obj.googleApi&&obj.config.user){
-            var interval=setInterval(function(){
-                if(googleCharts){
-                    obj.profile.startCharts();
-                    window.clearInterval(interval);
-                }
-            },1000);
-        }
-        
-        try{
-            //Inserta el placeholder (porque en IE9 no funcionan!) cuando el navegador no lo soporta
-            $('input, textarea').placeholder();
-        }catch(e){}
-
-
-        //Pone imágenes default a las imágenes que no pudieron ser cargadas
-        $("img").on('error',maqinato.defaultImage);
-        //Repite la operación pasado un segundo, luego pasados tres y luego cinco segundos
-        setTimeout(function(){
-            $("img").on('error',maqinato.defaultImage);
-        },1000);
-        setTimeout(function(){
-            $("img").on('error',maqinato.defaultImage);
-        },3000);
-        setTimeout(function(){
-            $("img").on('error',maqinato.defaultImage);
-        },5000);
-        setTimeout(function(){
-            $("img").on('error',maqinato.defaultImage);
-        },10000);
     };
     
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SYSTEM <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -344,29 +149,6 @@ function Maqinato(){
     obj.gotoProfile=function(userId){
         window.location=obj.rel('views')+"profile/index.php?userid="+userId;
     };
-    //Go to the donation page
-    obj.gotoCombination=function(combination,folio){
-        var givingPage=obj.rel("views")+'giving/';
-        if(combination){
-            window.location.replace(givingPage+"index.php?combination="+combination);
-        }else if(folio){
-            window.location.replace(givingPage+"index.php?folio="+folio);
-        }else{
-            window.location.replace(givingPage);
-        }
-    };
-    //Go to the donation page, con solo un tag
-    obj.gotoGivingTag=function(tagId){
-        var givingPage=obj.rel("views")+'giving/';
-        if(tagId){
-            window.location.replace(givingPage+"index.php?tag="+tagId);
-        }else{
-            window.location.replace(givingPage);
-        }
-    };
-    obj.gotoFolio=function(folioId){
-        window.location=obj.rel('views')+"folio/index.php?folio="+folioId;
-    };
     /**
      * Redirige hacia una página enviando datos por post
      * @param {string} url de la página a la que se quieren enviar los datos
@@ -389,52 +171,6 @@ function Maqinato(){
             });
         }
         form.appendTo('body').submit();
-    };
-    //Send a friend request
-    obj.friendRequest=function(friendId,friendName,callback){
-        obj.ajaxSocial.requestFriend(friendId,function(data){
-            if(data.request==="request"){
-                obj.message("Friend request sent to "+friendName);
-            }else if(data.request==="resend"){
-                obj.message("Friend request sent again to "+friendName);
-            }else if(data.request==="friend"){
-                obj.message(friendName+" and you are now friends");
-                obj.reloadNewsfeed();
-            }
-            if(callback){callback(data.request);}
-        });
-    };
-    //Elimina un amigo del usuario actual
-    obj.friendDelete=function(friendId,friendName,callback){
-        obj.ajaxSocial.deleteFriend(friendId,function(data){
-            if(data.deleted){
-                obj.message(friendName+" is no longer your friend");
-                if(callback){callback(data.request);}
-            }
-        });
-    };
-    //Función para invitar a amigos fuera de bonfolio (que se haya verificado que no existen)
-    obj.friendIvite=function(email){
-        
-    };
-    //Función que llena con una imagen por default un elemento img  que no cargó 
-    //correctamente su imagen.
-    obj.defaultImage=function(){
-        if(!$(this).attr("autoDefault")){
-            var src=$(this).attr("src");
-            var path=src.substring(src.indexOf("data/"),src.lastIndexOf("/")+1).replace("data/","");
-            $(this).attr("src",obj.abs("img")+"default/"+path+"default.jpg");
-            $(this).attr("autoDefault",true);
-        }
-    };
-    
-    //Actualiza todas las imágenes visibles de un usuario determinado
-    obj.updateUserImage=function(userId,path){
-        $(".user").each(function(){
-            if($(this).attr("id")==="user"+userId&&$(this).find("img").length>0){
-                $(this).find("img").attr("src",path);
-            }
-        });
     };
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SESSIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     obj.lifetimeSession=function(){
@@ -477,47 +213,6 @@ function Maqinato(){
      **/
     obj.forceDaemons=function(){
         obj.daemons.process();
-    };
-//>>>>>>>>>>>>>>>>>>> FUNCIONES ESPECIALES DEL NEWSFEED <<<<<<<<<<<<<<<<<<<<<<<<
-    //Recarga las actividades del newsfeed si el newsfeed está cargado
-    obj.reloadNewsfeed=function(){
-        if(obj.newsfeed){
-            obj.newsfeed.reloadActivities();
-        }else{
-            maqinato.debug("Tratando de recargar un newsfeed que no está definido en esta página");
-        }
-    };
-//>>>>>>>>>>>>>> FUNCIONES PARA VISUALIZACIÓN DE ACTIVIDADES <<<<<<<<<<<<<<<<<<<
-    //Recarga las actividades del newsfeed si el newsfeed está cargado
-    obj.showActivity=function(idActivity){
-               
-//        var activityContent=obj.activityViewer.find("#activityContent");
-        obj.ajaxSocial.loadActivity(idActivity,function(htmlActivity){
-            if(htmlActivity!='false'){ 
-                  //Crea el modal del checkout
-                var html=$("#commonModals").find("#modalActivity").html();
-                obj.activityDialog=obj.dialog({
-                    html:html,
-                    height:'auto',
-                    width:'auto',
-
-                    onClose:function(){
-                        obj.activityDialog=false;
-                        obj.newsfeed.resetParameters();
-                    },
-                    onOpen:function(){
-                        //borrar x del dialogo de actividad
-                       $(".ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close span").css("display","none");
-                    }
-                });
-               
-                var content=obj.activityDialog.find(".activityContainer");
-                content.append(htmlActivity);
-                obj.newsfeed.activitiesEvents(content.find(".activity"));
-                obj.activityDialog.dialog({position:{ my: "center", at: "center", of: window }});                
-                obj.newsfeed.resetParameters();
-            }
-        });
     };
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ERRORS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
@@ -706,113 +401,6 @@ function Maqinato(){
                 '</div>';
             $("#mq_debug_msgs").append(string);
         }
-    };
- //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FACEBOOK <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
- 
-    obj.initFacebook=function(){
-        maqinato.facebookEmailExist=false;
-        //Indica si se intenta un nuevo registro con el botón de login
-        maqinato.facebookLoginButton=false;
-        var appId='644033145623801';
-        if(maqinato.config.server==="production"){
-            appId='410665095707180';
-        }else if(maqinato.config.server==="release"){
-            appId='171864399646299';
-        }
-        // Additional JS functions here
-        window.fbAsyncInit = function(){
-            FB.init({
-                appId      : appId, // App ID
-                channelUrl : '//www.bonfolio.co/vendors/facebook/channel.html', // Channel File
-                status     : true, // check login status
-                cookie     : true, // enable cookies to allow the server to access the session
-                xfbml      : true,  // parse XFBML
-                frictionlessRequests: true
-            });
-            //Se ejecuta el registro cuando se da click en el botón de Facebook
-//            $("#facebookSignup").click(function(){
-//                FB.login(function(){},{scope:'email'});
-//            });
-            //Se ejecuta el login cuando se da click en el botón de Facebook
-            $("#facebookLogin,#facebookSignup").click(function(){
-                maqinato.facebookLoginButton=true;
-                FB.getLoginStatus(function(response){
-                    maqinato.debug(response.status);
-                    if (response.status === 'connected') {
-                        var token=response.authResponse.accessToken;
-                        loginWithFacebook(token);
-                    }else{
-                        FB.login(function(){},{scope:'email'});
-                    }
-                });
-            });
-            //Verifica cuando cambia el estado de la sesión en Facebook
-            FB.Event.subscribe('auth.authResponseChange', function(response){
-                if (response.status === 'connected'&&obj.options.landing){
-                    //La persona está registrada en FB y agrega la app por primera vez
-                    var token=response.authResponse.accessToken;
-                    signinWithFacebook(token);
-                }
-            });
-        };
-        // Load the SDK Asynchronously
-        (function(d){
-            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement('script'); js.id = id; js.async = true;
-            js.src = "//connect.facebook.net/en_US/all.js";
-            ref.parentNode.insertBefore(js, ref);
-        }(document));
-        //Función para registro en bonfolio
-        function signinWithFacebook(token){
-            if(obj.options.landing){
-                var url = '/me';
-                FB.api(url, function(data){
-                    var email=data.email;
-                    var name=data.name.split(" ")[0];
-                    var lastname=data.name.split(" ")[1];
-                    var sex="I";
-                    var country="USA";
-                    var idCity=3805;
-                    var city="San Francisco";
-                    var password=Tools.sha512(data.id+data.email);
-                    obj.ajax.signup(name,lastname,sex,email,idCity,city,country,password,function(data){
-                        if(data==="exist"){
-                            maqinato.facebookEmailExist=true;
-                            maqinato.message("The email is already registered");
-                            //Si el usuario existe, borra la aplicación para que no aparezca como registrada
-                            FB.api("/me/permissions","DELETE",function(){});
-                        }
-                    },"facebook",data.id,token);
-                });
-            }
-        }
-        function loginWithFacebook(token){
-            if(obj.options.landing){
-                var url = '/me';
-                FB.api(url, function(data){
-                    var email=data.email;
-                    var password=Tools.sha512(data.id+data.email);
-                    if(!obj.config.user){
-                        obj.ajax.login(email,password,true,function(data){
-                            if(data==="error"){
-                                signinWithFacebook(token);
-                            }
-                        },"facebook",token);
-                    }
-                });
-            }
-        }
-    };
-    obj.initTwitter=function(){
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
-            if(!d.getElementById(id)){
-                js=d.createElement(s);js.id=id;
-                js.src="https://platform.twitter.com/widgets.js";
-                fjs.parentNode.insertBefore(js,fjs);
-            }
-        }
-        (document,"script","twitter-wjs");
     };
 }
 
