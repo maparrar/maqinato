@@ -10,7 +10,7 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 window.maqinato=new Maqinato();
-                $("body").click(function(){
+                $("#login").click(function(){
                     maqinato.debug("test");
                 });
               });

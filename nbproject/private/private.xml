@@ -3,6 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/var/www/maqinato/engine/views/accessing.php</file>
+            <file>file:/var/www/maqinato/core/Maqinato.php</file>
+            <file>file:/var/www/maqinato/public/js/system/Maqinato.js</file>
+            <file>file:/var/www/maqinato/core/Router.php</file>
+            <file>file:/var/www/maqinato/engine/config/paths.php</file>
+            <file>file:/var/www/maqinato/public/css/template.css</file>
+        </group>
     </open-files>
 </project-private>
