@@ -7,32 +7,14 @@ function Maqinato(){
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ATTRIBUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     var obj=this;
-    obj.application="";             //Detect the application name
-    obj.server="development";       //Detect the type of server
     obj.options=null;
-    
     obj.ajax=null;                  //Ajax class to load data from server
-    
     obj.daemonsInterval=1000;       //The interval for the daemons in milliseconds
     obj.daemons=null;               //Daemons object
-    
     //Security
     obj.security=null;
-    
-    //User data
-    obj.userId=false;
-    
-    //Indica al evento onbeforeunload que se trata del logout para permitir cerrar la sesión
-    obj.isLogout=false;
-    
-    //Third party
-    //Indica si se cargó el API de Google, si es true, se inicia el loop 
-    //para verificar que se cargaron los componentes especificados
-    obj.googleApi=false;
-    
     //Create the exist() function for any selector. I.E: $("selector").exist()
     $.fn.exist=function(){return this.length>0;}
-    
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> METHODS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -76,25 +58,6 @@ function Maqinato(){
     
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SYSTEM <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     obj.events=function(){
-        /**
-         * Solución temporal para ocultar las sugerencias
-         * TODO: Arreglar todo el sistema de sugerencias
-         * */
-        $(document).click(function(e){
-            var deed=$(e.target).closest("#good-deed-generator");
-            if(deed.length>0){
-                deed.find(".suggestion").each(function(){
-                    $(this).suggestions("markRead");
-                });
-            }else{
-                var buttonDeed=$(e.target).closest(".btn-good-deeds");
-                if(buttonDeed.length===0){
-                    $(".suggestion:visible").each(function(){
-                        $(this).suggestions("markRead");
-                    });
-                }
-            }
-        });
         //Reset the limit time for the session when the user click or press any key
         $(document).click(function(){
             obj.resetTimeSession();
@@ -111,7 +74,6 @@ function Maqinato(){
                 obj.gotoProfile(id);
             }
         });
-        
         //Evento de click para los folios
         $(document).on("click",".folio",function(e){
             e.stopPropagation();
@@ -119,31 +81,8 @@ function Maqinato(){
             var id=parseInt($(this).attr("id").replace("folio",""));
             obj.gotoFolio(id);
         });
-        
-        //Set the goto giving
-        $("#know").click(function(e){
-            var box=$(this).closest(".box");
-            e.preventDefault();
-            e.stopPropagation();
-            var combinationId=box.attr("combination");
-            obj.gotoCombination(combinationId);
-        });
-                
-        $(".btn_start_giving").click(function(e){
-            e.preventDefault();
-            obj.gotoCombination();
-        });
-        
         //Asigna el evento de verificar la carga de imágenes a todas las etiquetas img
         $('img').on('error',obj.defaultImage);
-        
-        //Evento para el click de "Invite Friends" del header
-        $("#headerInviteFriends").click(function(e){
-            e.preventDefault();
-            var invite=new Invite();
-            invite.init();
-            invite.show('','home');
-        });
     };
     
     obj.gotoProfile=function(userId){
