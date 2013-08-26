@@ -24,11 +24,11 @@
             <?php Router::import("templates/accessHeader.php"); ?>
             <section class="content">
                 <div id="signupForm">
-                    <?php echo _("Name"); ?>: <input id="sgn_name" type="text"/><br />
-                    <?php echo _("Lastname"); ?>: <input id="sgn_lastname" type="text"/><br />
-                    <?php echo _("Email"); ?>: <input id="sgn_email" type="text"/><br />
-                    <?php echo _("Password"); ?>: <input id="sgn_name" type="password"/><br />
-                    <div id="signup"><?php echo _("Signup"); ?></div>
+                    <input id="sgn_name" type="text" placeholder="<?php echo _("Name"); ?>"/><br />
+                    <input id="sgn_lastname" type="text" placeholder="<?php echo _("Lastname"); ?>"/><br />
+                    <input id="sgn_email" type="text" placeholder="<?php echo _("Email"); ?>"/><br />
+                    <input id="sgn_name" type="password" placeholder="<?php echo _("Password"); ?>"/><br />
+                    <div id="signup" class="button"><?php echo _("Signup"); ?></div>
                 </div>
             </section>
             <?php Router::import("templates/footer.php"); ?>
