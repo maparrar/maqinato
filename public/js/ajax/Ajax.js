@@ -5,7 +5,7 @@ function Ajax(){
     
     /*METHODS*/
     //TODO: pass the error to the system object
-    obj.signup=function(email,password,name,lastname){
+    obj.signup=function(email,password,name,lastname,callback){
         $.ajax({
             type:"POST",
             async:false,

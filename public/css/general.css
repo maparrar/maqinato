@@ -52,6 +52,9 @@ body{
 input[type="text"], input[type="password"]{
     
 }
+.errorPlaceholder{
+    color: red;
+}
 .button {
     -moz-box-shadow:inset 0px 1px 0px 0px #caefab;
     -webkit-box-shadow:inset 0px 1px 0px 0px #caefab;

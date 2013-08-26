@@ -1,6 +1,5 @@
 header #loginForm{
     font-size: 0.6em;
-    height: 50px;
     position: absolute;
     right: 0;
 }
@@ -15,6 +14,10 @@ header #loginForm .field .name{
 header #loginForm #login{
     height:24px;
     line-height:24px;
+}
+
+#signupForm input{
+    width: 250px;
 }
 
 

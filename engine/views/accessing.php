@@ -20,7 +20,10 @@
                 
                 //Script propio de la página
                 accessing=new Accessing();
-                accessing.init();
+                accessing.init({
+                    signupForm:$("#signupForm"),
+                    loginForm:$("#loginForm")
+                });
               });
         </script>
     </head>
