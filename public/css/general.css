@@ -3,20 +3,38 @@ Estilos generales de la aplicación, que puedan ser usados en todas las páginas
 Por ejemplo: fuentes, colores de fondo "corporativos", headers y footers.
 */
 header{
-    background: #999;
+    background: #E9E4F7;
     font-size: 20px;
     height: 50px;
     text-align: center;
 }
+header .logo{
+    float: left;
+    font-size: 1.9em;
+    height: 40px;
+    text-indent: 10px;
+    line-height: 40px;
+    padding: 5px;
+}
+header .logo a{
+    color: #696576;
+    text-decoration: none;
+}
 footer{
-    background: #999;
+    background: #5F528A;
     font-size: 10px;
     height: 30px;
     line-height: 30px;
     text-align: center;
 }
+footer .field{
+    float: left;
+}
+body{
+    color: #898596;
+}
 input[type="text"], input[type="password"]{
-    background: #ddd;
+    
 }
 .button {
     -moz-box-shadow:inset 0px 1px 0px 0px #f5978e;
