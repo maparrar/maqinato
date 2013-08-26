@@ -18,8 +18,8 @@ return array(
      *      public/js/nombre_de_script.js
      */
     "js" => array(
-        "jquery"    =>  "public/js/vendors/jquery/jquery-2.0.3.min.js",
-        "maqinato"  =>  "public/js/system/Maqinato.js"
+        "jquery"    =>  "public/js/jquery/jquery-2.0.3.min.js",
+        "maqinato"  =>  "core/js/Maqinato.js"
     ),
     
     /**
