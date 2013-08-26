@@ -89,7 +89,7 @@ class Maqinato{
         self::$environment=self::loadEnvironment();
         
         //Incluye los estilos básicos de maqinato
-        Router::css("template");
+        Router::css("maqinato");
         
         //Carga el usuario de la sesión, si es posible
         $controller=new AccessController();
