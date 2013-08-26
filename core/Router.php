@@ -130,7 +130,7 @@ class Router{
                 if(!$ext){
                     $value.=".css";
                 }
-                if(file_exists(self::path("css").$value)){
+                if(file_exists(Maqinato::$config["paths"]["app"]["css"].$value)){
                     $string.='<link rel="stylesheet" type="text/css" href="'.self::path("css").$value.'">';
                 }else{
                     Maqinato::debug('CSS script NOT Found: '.$value,debug_backtrace());

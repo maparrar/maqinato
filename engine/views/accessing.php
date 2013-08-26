@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8" />
         <?php
+            //Incluye los CSS
+            Router::css("general");
             //Incluye los scripts
             Router::js("basic");
         ?>
@@ -17,13 +19,8 @@
         </script>
     </head>
     <body>
-        <div id="container">
-            <?php Router::import("templates/header.php"); ?>
-            <div id="loginForm">
-                <?php echo _("Email"); ?>: <input type="text" name="email"/><br />
-                <?php echo _("Password"); ?>: <input type="password" name="password"/><br />
-                <div id="login"><?php echo _("Login"); ?></div>
-            </div>
+        <div class="container">
+            <?php Router::import("templates/accessHeader.php"); ?>
             <div id="signupForm">
                 <?php echo _("Name"); ?>: <input id="sgn_name" type="text"/><br />
                 <?php echo _("Lastname"); ?>: <input id="sgn_lastname" type="text"/><br />
