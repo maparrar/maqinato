@@ -1,0 +1,21 @@
+/*header .logo{
+    background: green;
+    float: left;
+}*/
+header #loginForm{
+    font-size: 0.6em;
+    height: 50px;
+    position: absolute;
+    right: 0;
+}
+header #loginForm .field{
+    float: left;
+    margin: 3px;
+}
+header #loginForm .field .name{
+    height: 16px;
+    text-align: left;
+}
+header #loginForm #login{
+    margin-top: 5px;
+}

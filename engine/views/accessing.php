@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <?php
             //Incluye los CSS
-            Router::css("general");
+            Router::css("general","accessing");
             //Incluye los scripts
             Router::js("basic");
         ?>

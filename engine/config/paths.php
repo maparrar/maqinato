@@ -30,7 +30,9 @@ return array(
      *      public/css/nombre_de_script.css
      */
     "css" => array(
-        "maqinato"  =>  "public/css/maqinato.css"
+        "maqinato"  =>  "core/css/maqinato.css",
+        "general"   =>  "public/css/general.css",
+        "accessing" =>  "public/css/accessing.css"
     ),
     
     /**
