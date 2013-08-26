@@ -25,35 +25,32 @@ function Maqinato(){
         //Set the input options
         obj.options=options;        
         //Load the configuration information from the server
-        obj.config=JSON.parse($("#config").val());
-        if($("#userId").val()!=undefined){
-            obj.userId=obj.config.user;
+        if($("#config").exist()){
+            obj.config=JSON.parse($("#config").val());
+            if($("#userId").val()!=undefined){
+                obj.userId=obj.config.user;
+            }
+            if(obj.config.server==="development"){
+                maqinato.debug(obj.config);
+            }
         }
-        if(obj.config.server==="development"){
-            maqinato.debug(obj.config);
-        }
-        //Instanciate the pseudo-class objects
-        obj.ajax=new AjaxCore();
-        obj.security=new Security();
-        
-        obj.security.init();
-        
+               
         
         //Define the main events
         obj.events();
         
         
         //Start the daemons execution
-        obj.daemonsInterval=obj.config.daemonsInterval;
-        if(obj.config.user){
-            obj.initDaemons();
-        }
+//        obj.daemonsInterval=obj.config.daemonsInterval;
+//        if(obj.config.user){
+//            obj.initDaemons();
+//        }
         
         
         //Start the lifetime session manager function if the option is active
-        if(obj.options.session&&obj.config.user){
-            obj.lifetimeSession();
-        }
+//        if(obj.options.session&&obj.config.user){
+//            obj.lifetimeSession();
+//        }
     };
     
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SYSTEM <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -64,29 +61,6 @@ function Maqinato(){
         }).keypress(function(){
             obj.resetTimeSession();
         });
-        //Users click event
-        $(document).on("click",".user",function(e){
-            //Prevent the redirection when click on friend button
-            e.stopPropagation();
-            e.preventDefault();
-            if($(e.target).attr("class")!="friend"){
-                var id=parseInt($(this).attr("id").replace("user",""));
-                obj.gotoProfile(id);
-            }
-        });
-        //Evento de click para los folios
-        $(document).on("click",".folio",function(e){
-            e.stopPropagation();
-            e.preventDefault();
-            var id=parseInt($(this).attr("id").replace("folio",""));
-            obj.gotoFolio(id);
-        });
-        //Asigna el evento de verificar la carga de imágenes a todas las etiquetas img
-        $('img').on('error',obj.defaultImage);
-    };
-    
-    obj.gotoProfile=function(userId){
-        window.location=obj.rel('views')+"profile/index.php?userid="+userId;
     };
     /**
      * Redirige hacia una página enviando datos por post
@@ -153,64 +127,7 @@ function Maqinato(){
     obj.forceDaemons=function(){
         obj.daemons.process();
     };
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ERRORS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /**
-     * Recives an error from the server and redirect to an convenient use
-     * @param error: Error Object
-     **/
-    obj.error=function(error){
-        switch(error.name){
-            case "noSession":
-                //TODO: Delete the session and close the system
-                break;
-            case "formatImage":
-                obj.message(error.description);
-                break;
-            case "maxSize":
-                obj.message(error.description);
-                break;
-            case "daemonError":
-                maqinato.debug("Daemons errors");
-                break;
-            default:
-                //
-        }
-    };
-
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> UTILS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /**
-     * Return the relative path for a folder from the caller file
-     **/
-    obj.rel=function(folder){
-        var current=window.location.pathname;
-        var outs=current.split("/").length-3;
-        if(obj.config.server==="release"||obj.config.server==="production"){
-            outs=current.split("/").length-2;
-        }
-        var output='';
-        for(var i=0;i<outs;i++){
-            output+='../';
-        }
-        for(var j in obj.config.paths){
-            if(j==folder){
-                output+=obj.config.paths[j];
-            }
-        }
-        return output;
-    };
-    obj.abs=function(folder){
-      var output=""; 
-      var application="";
-      if(maqinato.config.application!=""){
-         application=maqinato.config.application+'/';
-      }        
-      for(var j in obj.config.paths){
-        if(j==folder){
-            output=maqinato.config.protocol+'://'+obj.config.location+'/'+application+obj.config.paths[j];
-        }
-      }
-      return output;
-    };
     /**
      * Show an auxiliar message in the top of page
      * @param message to show 
@@ -292,26 +209,6 @@ function Maqinato(){
             dialog.dialog('destroy');
             dialog.remove();
         }catch(err){}
-    };
-    /**
-     * Extrae una url de una cadena de texto, retorna la primera que encuentra
-     * */
-    obj.getUrl=function(text){
-        var urlRegex=/(https?:\/\/[^\s]+)/g;
-        var urls=text.match(urlRegex);
-        var response=false;
-        if(urls!==null){
-            response=urls[0];
-        }
-        return response;
-    };
-    /**
-     * Retorna uno de los parámetros de la URL
-     * */
-    obj.getURLParameter=function(name) {
-        return decodeURI(
-            (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
-        );
     };
     /**
      * Handler for the console.debug function, avoiding the problem of IE
