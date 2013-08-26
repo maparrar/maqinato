@@ -199,6 +199,7 @@ Versión 0.5.0:
 - Inclusión de scripts con import
 - Nueva versión de debug
 - Estilos básicos y MediaQueries en los CSS
+- Responsive design
 
 Versión 0.4.0:
 ----------

@@ -44,7 +44,6 @@ body{
 */
 .container{
     min-width: 300px;
-    overflow: auto;
 }
 .content{
     background: #fff;
@@ -105,16 +104,28 @@ input[type="text"], input[type="password"]{
 /* ESTILOS ADICIONALES PARA TABLETS */
 @media screen and (max-width: 800px){
     header{
-        background: blue;
+        /*background: blue;*/
     }
 }
 /* ESTILOS ADICIONALES PARA MÓVILES */
 @media screen and (max-width: 639px){
     header{
-        background: green;
+        /*background: green;*/
+        height: 85px;
+    }
+    header .logo{
+        float: none;
+        font-size: 1.5em;
+        height: 25px;
+        line-height: 25px;
+    }
+    .content{
+        margin-top: 85px;
     }
     footer{
         font-size: 0.5em;
+        height: 20px;
+        line-height: 20px;
     }
 }
 /* ESTILOS ADICIONALES PARA DISPOSITIVOS PEQUEÑOS (TELÉFONOS PEQUEÑOS) */
