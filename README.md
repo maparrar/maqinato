@@ -201,6 +201,7 @@ Versión 0.5.0:
 - Estilos básicos y MediaQueries en los CSS
 - Responsive design
 - Carga de configuración desde el servidor
+- Refresco de sesión automático
 
 Versión 0.4.0:
 ----------

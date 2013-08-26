@@ -8,6 +8,7 @@ return array(
      */
     "basic" => array(
         "jquery",
+        "jquery-ui",
         "maqinato",
         "ajax"
     ),
@@ -20,8 +21,11 @@ return array(
      */
     "js" => array(
         "jquery"    =>  "public/js/jquery/jquery-2.0.3.min.js",
+        "jquery-ui" =>  "public/js/jquery/jquery-ui-1.10.3.custom.min.js",
         "maqinato"  =>  "core/js/Maqinato.js",
-        "ajax"      =>  "public/js/ajax/Ajax.js"
+        "ajax"      =>  "public/js/ajax/Ajax.js",
+        
+        "accessing" =>  "public/js/views/Accessing.js"
     ),
     
     /**
@@ -33,6 +37,7 @@ return array(
      */
     "css" => array(
         "maqinato"  =>  "core/css/maqinato.css",
+        "jquery-ui" =>  "public/css/jquery/jquery-ui-1.10.3.custom.min.css",
         "general"   =>  "public/css/general.css",
         "accessing" =>  "public/css/accessing.css"
     ),

@@ -376,6 +376,11 @@ class Maqinato{
         foreach (self::$config["paths"]["app"] as $key => $path) {
             $paths["$key"]=str_replace(self::root(),"",$path);
         }
+        //Retorna el request
+        $request["uri"]=self::$request->getUri();
+        $request["controller"]=self::$request->getController();
+        $request["function"]=self::$request->getFunction();
+        $request["parameters"]=self::$request->getParameters();
         $data=array(
             "application"=>self::application(),
             "protocol"=>self::$config["app"]["protocol"],
@@ -385,7 +390,8 @@ class Maqinato{
             "environment"=>self::$environment->getName(),
             "sessionLifetime"=>$_SESSION["sessionLifetime"],
             "sessionCheckTime"=>self::$config["client"]["sessionCheckTime"],
-            "daemonsInterval"=>self::$config["client"]["daemonsInterval"]
+            "daemonsInterval"=>self::$config["client"]["daemonsInterval"],
+            "request"=>$request
         );
         $html=
             "<!--Configuration data-->

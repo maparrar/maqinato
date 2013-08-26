@@ -5,21 +5,22 @@
         <meta name="viewport" content="width = device-width, initial-scale=1, maximum-scale=1"/>
         <?php
             //Incluye los CSS
-            Router::css("general","accessing");
-            //Incluye los scripts
-            Router::js("basic");
+            Router::css("general","jquery-ui","accessing");
+            //Incluye los scripts de JS
+            Router::js("basic","accessing");
             //Incluye los parámetros de la aplicación para ser leídos desde JS
             Maqinato::configInHtml();
         ?>
         <title><?php echo _("Accessing")." | ".ucfirst(Maqinato::application()); ?></title>
         <script type="text/javascript">
             $(document).ready(function(){
+                //Script que controla la inicialización de todo el sistema
                 window.maqinato=new Maqinato();
                 maqinato.init();
                 
-                $("#login").click(function(){
-                    maqinato.debug('Document: ['+$(document).height()+','+$(document).width()+'] - Window: ['+$(window).height()+','+$(window).width()+']');
-                });
+                //Script propio de la página
+                accessing=new Accessing();
+                accessing.init();
               });
         </script>
     </head>

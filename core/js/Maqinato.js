@@ -13,8 +13,6 @@ function Tools(){};Tools.properties=function(e){var t=new Array;for(var n in e){
  *      Security.isemail();
  * */
 function Security(){};Security.isEmail=function(e){var t=new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);return t.test(e)};Security.isPassword=function(e){var t=new RegExp(/^[a-zA-Z0-9@#$%._-]{6,30}$/);return t.test(e)};Security.isUrl=function(e){var t=new RegExp(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);return t.test(e)};Security.isFloat=function(e){return!isNaN(parseFloat(e))&&isFinite(e)};Security.isInt=function(e){return typeof e==="number"&&parseFloat(e)==parseInt(e,10)&&!isNaN(e)};Security.secureString=function(e){if(e){return e.replace(/[^\w\s.,áéíóúAÉÍÓÚÑñ@:)(!/\]\[]/gi,"")}else{return""}};Security.isDate=function(e){var t=e.split("/");var n=t[0];var r=t[1];var i=t[2];var s=new Date(i,n-1,r);if(!s||s.getFullYear()==i&&s.getMonth()==n-1&&s.getDate()==r&&i<2100&&i>1900){return true}else{return false}};Security.isCreditCard=function(e){var t=new RegExp(/^[0-9]{9,17}$/);return t.test(e)};Security.isCreditCardCode=function(e){var t=new RegExp(/^[0-9]{2,5}$/);return t.test(e)};
-
-
 /**
  * Pseudoclass to manage the common functions in javascript
  **/
@@ -209,6 +207,7 @@ function Maqinato(){
             onOpen:false,
             position:null,
             resizable:false,
+            title:"",
             width:200
         };
         var opts=$.extend(def,optsUser);
@@ -222,6 +221,7 @@ function Maqinato(){
             resizable:opts.resizable,
             width:opts.width,
             position:opts.position,
+            title:opts.title,
             open:function(){
                 if(opts.onOpen){
                     opts.onOpen();
