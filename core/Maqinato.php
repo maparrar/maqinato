@@ -357,5 +357,41 @@ class Maqinato{
         }
         return $output; 
     }
-    
+    /**
+     * Write the main configuration variables in html to be readed from JS
+     * @return string Write the variables in html
+     */
+    public static function configInHtml(){
+        $user=false;
+        $id=0;
+        $name="";
+        if(AccessController::checkSession()){
+            $user=AccessController::getSessionUser();
+            $id=$user->getId();
+            $name=$user->name();
+        }else{
+            $_SESSION["sessionLifetime"]=self::$config["client"]["sessionLifeTime"];
+        }
+        //Create the paths array to JS
+        foreach (self::$config["paths"]["app"] as $key => $path) {
+            $paths["$key"]=str_replace(self::root(),"",$path);
+        }
+        $data=array(
+            "application"=>self::application(),
+            "protocol"=>self::$config["app"]["protocol"],
+            "user"=>$id,
+            "userName"=>$name,
+            "paths"=>$paths,
+            "environment"=>self::$environment->getName(),
+            "sessionLifetime"=>$_SESSION["sessionLifetime"],
+            "sessionCheckTime"=>self::$config["client"]["sessionCheckTime"],
+            "daemonsInterval"=>self::$config["client"]["daemonsInterval"]
+        );
+        $html=
+            "<!--Configuration data-->
+            <input type='hidden' id='mq_config' 
+                value='".json_encode($data)."'
+            />";
+        echo $html;
+    }
 }

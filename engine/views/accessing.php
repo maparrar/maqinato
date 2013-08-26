@@ -8,6 +8,8 @@
             Router::css("general","accessing");
             //Incluye los scripts
             Router::js("basic");
+            //Incluye los parámetros de la aplicación para ser leídos desde JS
+            Maqinato::configInHtml();
         ?>
         <title><?php echo _("Accessing")." | ".ucfirst(Maqinato::application()); ?></title>
         <script type="text/javascript">

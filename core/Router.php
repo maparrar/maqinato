@@ -97,14 +97,14 @@ class Router{
         foreach ($values as $value){
             if(array_key_exists($value,Maqinato::$config["paths"]["js"])){
                 $path=self::path("root").Maqinato::$config["paths"]["js"][$value];
-                $string.='<script class="component" type="text/javascript" src="'.$path.'"></script>';
+                $string.='<script type="text/javascript" src="'.$path.'"></script>';
             }else{
                 $ext=pathinfo($value,PATHINFO_EXTENSION);
                 if(!$ext){
                     $value.=".js";
                 }
                 if(file_exists(self::path("js").$value)){
-                    $string.='<script class="component" type="text/javascript" src="'.self::path("js").$value.'"></script>';
+                    $string.='<script type="text/javascript" src="'.self::path("js").$value.'"></script>';
                 }else{
                     Maqinato::debug('JS script NOT Found: '.$value,debug_backtrace());
                 }

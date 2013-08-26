@@ -110,4 +110,11 @@ class User extends Person{
         return $this->salt;
     }    
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /**
+     * Return the name and lastname in a string
+     * @return string Name and lastname
+     */
+    public function name(){
+        return $this->name." ".$this->lastname;
+    }
 }

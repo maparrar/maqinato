@@ -25,13 +25,13 @@ function Maqinato(){
         //Set the input options
         obj.options=options;        
         //Load the configuration information from the server
-        if($("#config").exist()){
-            obj.config=JSON.parse($("#config").val());
-            if($("#userId").val()!=undefined){
+        if($("#mq_config").exist()){
+            obj.config=JSON.parse($("#mq_config").val());
+            if($("#userId").val()!==undefined){
                 obj.userId=obj.config.user;
             }
-            if(obj.config.server==="development"){
-                maqinato.debug(obj.config);
+            if(obj.config.environment==="development"){
+                maqinato.debug(obj.config,true);
             }
         }
                
@@ -41,16 +41,16 @@ function Maqinato(){
         
         
         //Start the daemons execution
-//        obj.daemonsInterval=obj.config.daemonsInterval;
-//        if(obj.config.user){
-//            obj.initDaemons();
-//        }
+        obj.daemonsInterval=obj.config.daemonsInterval;
+        if(obj.config.user){
+            obj.initDaemons();
+        }
         
         
         //Start the lifetime session manager function if the option is active
-//        if(obj.options.session&&obj.config.user){
-//            obj.lifetimeSession();
-//        }
+        if(obj.options.session&&obj.config.user){
+            obj.lifetimeSession();
+        }
     };
     
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SYSTEM <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -213,9 +213,9 @@ function Maqinato(){
     /**
      * Handler for the console.debug function, avoiding the problem of IE
      **/
-    obj.debug=function(message){
+    obj.debug=function(message,onlyConsole){
         console.debug(message);
-        if($("#mq_debug_msgs").exist()){
+        if($("#mq_debug_msgs").exist()&&!onlyConsole){
             var n = new Date();
             var d = n.getDate();
             var m = n.getMonth()+1;
