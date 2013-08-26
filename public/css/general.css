@@ -3,7 +3,7 @@ Estilos generales de la aplicación, que puedan ser usados en todas las páginas
 Por ejemplo: fuentes, colores de fondo "corporativos", headers y footers.
 */
 header{
-    background: #E9E4F7;
+    background: #E9E4F7;    /* Color: primary-4*/
     font-size: 20px;
     height: 50px;
     text-align: center;
@@ -17,22 +17,27 @@ header .logo{
     padding: 5px;
 }
 header .logo a{
-    color: #696576;
+    color: #696576;         /* Color: primary-2*/
     text-decoration: none;
 }
 footer{
-    background: #5F528A;
-    font-size: 10px;
+    background: #5F528A;    /* Color: primary-3*/
+    bottom: 0;
+    color: #CCC;
+    font-size: 0.6em;
     height: 30px;
     line-height: 30px;
+    position: fixed;
     text-align: center;
-}
-footer .field{
-    float: left;
+    width: 100%;
 }
 body{
-    color: #898596;
+    background: #F2F0F7;    /* Color: primary-5*/
+    color: #898596;         /* Color: primary-2*/
 }
+/* COSAS SELECCIONADAS */   /* Color: primary-1*/
+
+
 input[type="text"], input[type="password"]{
     
 }

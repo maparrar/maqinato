@@ -10,6 +10,6 @@
  */
  ?>
 <footer>
-    <div class="field">© <?php echo date("Y")." ".ucfirst(Maqinato::application()); ?></div>
     <div class="mq_powered"><a href="https://github.com/maparrar/maqinato" target="_blank">powered by maqinato</a></div>
+    <div class="field">© <?php echo date("Y")." ".ucfirst(Maqinato::application()); ?></div>
 </footer>
