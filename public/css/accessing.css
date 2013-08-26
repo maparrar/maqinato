@@ -13,7 +13,8 @@ header #loginForm .field .name{
     text-align: left;
 }
 header #loginForm #login{
-    margin-top: 5px;
+    height:24px;
+    line-height:24px;
 }
 
 
@@ -40,9 +41,6 @@ header #loginForm #login{
         width: 100%;
     }
     header #loginForm #login{
-        height:24px;
-        line-height:24px;
-        margin-top: 19px;
         width: 25%;
     }
 }
