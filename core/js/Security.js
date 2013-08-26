@@ -1,13 +1,13 @@
 function Security(){}
-Security.isemail=function(string){
+Security.isEmail=function(string){
     var pattern = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
     return pattern.test(string);
 };
-Security.ispassword=function(string){
+Security.isPassword=function(string){
     var pattern=new RegExp(/^[a-zA-Z0-9@#$%._-]{6,30}$/);
     return pattern.test(string);
 };
-Security.isurl=function(string){
+Security.isUrl=function(string){
     var pattern=new RegExp(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
     return pattern.test(string);
 };
@@ -39,8 +39,8 @@ Security.isDate=function(string){
 Security.isCreditCard=function(number){
     var pattern=new RegExp(/^[0-9]{9,17}$/);
     return pattern.test(number);
-}
+};
 Security.isCreditCardCode=function(number){
     var pattern=new RegExp(/^[0-9]{2,5}$/);
     return pattern.test(number);
-}
+};

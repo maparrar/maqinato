@@ -1,7 +1,7 @@
-function AjaxCore(){
+function Ajax(){
     var obj=this;
-    obj.path=system.rel('ajax');
-    obj.root=system.rel('root');
+    obj.path=maqinato.rel('ajax');
+    obj.root=maqinato.rel('root');
     
     /*METHODS*/
     //TODO: pass the error to the system object
@@ -11,22 +11,15 @@ function AjaxCore(){
             async:false,
             url: obj.path+"core/jxSignup.php",
             data: {
-                name:name,
-                lastname:lastname,
-                sex:sex,
                 email:email,
-                idCity:idCity,
-                city:city,
-                country:country,
                 password:password,
-                provider:provider,
-                providerId:providerId,
-                token1:token1,
-                token2:token2
+                name:name,
+                lastname:lastname
             }
             }).done(function(response) {
                 if(response==="logged"){
-                    window.location=obj.root+"views/home/index.php?user=new";
+                    maqinato.debug("REGISTRADO Y LOGUEADO");
+//                    window.location=obj.root+"views/home/index.php?user=new";
                 }else if(response==="error"){
                     callback(false);
                 }else if(response==="exist"){
@@ -62,32 +55,7 @@ function AjaxCore(){
         );
     };
     //TODO: pass the error to the system object
-    obj.signupNop=function(name,responsible,email,password,callback){
-        $.post(
-            obj.path+"core/jxSignupNop.php",{
-                name:name,
-                responsible:responsible,
-                email:email,
-                password:password
-            },
-            function(response){
-                if(response==="logged"){
-                    window.location=obj.root+"views/nonprofit/";
-                }else if(response==="error"){
-                    callback(false);
-                }else if(response==="exist"){
-                    callback("exist");
-                }
-            }
-        );
-    };
-    //TODO: pass the error to the system object
     obj.login=function(email,password,keep,callback,provider,token1,token2){
-        if(!provider){
-            provider="bonfolio";
-            token1="";
-            token2="";
-        }
         $.post(
             obj.path+"core/jxLogin.php",{
                 email:email,

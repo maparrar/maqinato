@@ -8,7 +8,8 @@ return array(
      */
     "basic" => array(
         "jquery",
-        "maqinato"
+        "maqinato",
+        "ajax"
     ),
     /**
      * Directorio de scripts js
@@ -19,7 +20,8 @@ return array(
      */
     "js" => array(
         "jquery"    =>  "public/js/jquery/jquery-2.0.3.min.js",
-        "maqinato"  =>  "core/js/Maqinato.js"
+        "maqinato"  =>  "core/js/Maqinato.js",
+        "ajax"      =>  "public/js/ajax/Ajax.js"
     ),
     
     /**

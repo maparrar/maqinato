@@ -1,4 +1,21 @@
 /**
+ * Carga de scripts minificados: Se puede modificar el script, luego minificar y 
+ * pegar aquí. La idea es reducir la cantidad de archivos que se cargan en cada 
+ * página.
+ * */
+/**
+ * Funciones del script Tools. Se debe usar:
+ *      Tools.time();
+ * */
+function Tools(){};Tools.properties=function(e){var t=new Array;for(var n in e){if(e.hasOwnProperty(n)){t.push(n)}}return t};Tools.time=function(){var e=new Date;return e.getHours()+":"+e.getMinutes()+":"+e.getSeconds()};Tools.date=function(){var e=new Date;return e.getFullYear()+"-"+(e.getMonth()+1)+"-"+e.getDate()};Tools.now=function(){return Tools.date()+" "+Tools.time()};Tools.addMinutes=function(e,t){return new Date(e.getTime()+t*6e4)};Tools.round=function(e,t){if(!t){t=0}var n=Math.round(e*Math.pow(10,t))/Math.pow(10,t);return n};Tools.currency=function(e,t){if(t){return parseFloat(Math.round(e*100)/100).toFixed(t)}else{return Tools.formatNumber(Tools.round(e,0))}};Tools.formatNumber=function(e,t){t=t||"";e+="";var n=e.split(".");var r=n[0];var i=n.length>1?"."+n[1]:"";var s=/(\d+)(\d{3})/;while(s.test(r)){r=r.replace(s,"$1"+","+"$2")}return t+r+i};Tools.replace=function(e,t,n){var r=new RegExp(e,"g");return n.replace(r,t)};Tools.capitalize=function(e){return e.charAt(0).toUpperCase()+e.slice(1)};Tools.css=function(e){var t=document.styleSheets,n={};for(var r in t){var i=t[r].rules||t[r].cssRules;for(var s in i){if(e.is(i[s].selectorText)){n=$.extend(n,Tools.css2json(i[s].style),Tools.css2json(e.attr("style")))}}}return n};Tools.css2json=function(e){var t={};if(!e)return t;if(e instanceof CSSStyleDeclaration){for(var n in e){if(e[n].toLowerCase){t[e[n].toLowerCase()]=e[e[n]]}}}else if(typeof e=="string"){e=e.split("; ");for(var r in e){var i=e[r].split(": ");t[i[0].toLowerCase()]=i[1]}}return t};
+/**
+ * Funciones del script Security. Se debe usar:
+ *      Security.isemail();
+ * */
+function Security(){};Security.isEmail=function(e){var t=new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);return t.test(e)};Security.isPassword=function(e){var t=new RegExp(/^[a-zA-Z0-9@#$%._-]{6,30}$/);return t.test(e)};Security.isUrl=function(e){var t=new RegExp(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);return t.test(e)};Security.isFloat=function(e){return!isNaN(parseFloat(e))&&isFinite(e)};Security.isInt=function(e){return typeof e==="number"&&parseFloat(e)==parseInt(e,10)&&!isNaN(e)};Security.secureString=function(e){if(e){return e.replace(/[^\w\s.,áéíóúAÉÍÓÚÑñ@:)(!/\]\[]/gi,"")}else{return""}};Security.isDate=function(e){var t=e.split("/");var n=t[0];var r=t[1];var i=t[2];var s=new Date(i,n-1,r);if(!s||s.getFullYear()==i&&s.getMonth()==n-1&&s.getDate()==r&&i<2100&&i>1900){return true}else{return false}};Security.isCreditCard=function(e){var t=new RegExp(/^[0-9]{9,17}$/);return t.test(e)};Security.isCreditCardCode=function(e){var t=new RegExp(/^[0-9]{2,5}$/);return t.test(e)};
+
+
+/**
  * Pseudoclass to manage the common functions in javascript
  **/
 function Maqinato(){
@@ -11,9 +28,7 @@ function Maqinato(){
     obj.ajax=null;                  //Ajax class to load data from server
     obj.daemonsInterval=1000;       //The interval for the daemons in milliseconds
     obj.daemons=null;               //Daemons object
-    //Security
-    obj.security=null;
-    //Create the exist() function for any selector. I.E: $("selector").exist()
+    //Create the exist() function for any selector. i.e.: $("selector").exist()
     $.fn.exist=function(){return this.length>0;}
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> METHODS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
@@ -34,10 +49,12 @@ function Maqinato(){
                 maqinato.debug(obj.config,true);
             }
         }
-               
         
         //Define the main events
         obj.events();
+        
+        //Script de operaciones básicas de Ajax
+        obj.ajax=new Ajax();
         
         
         //Start the daemons execution
@@ -48,7 +65,7 @@ function Maqinato(){
         
         
         //Start the lifetime session manager function if the option is active
-        if(obj.options.session&&obj.config.user){
+        if(obj.config.user){
             obj.lifetimeSession();
         }
     };
@@ -92,7 +109,7 @@ function Maqinato(){
         setInterval(
             function(){
                 //If the lifetime=0 keep the session alive
-                if(obj.config.sessionLifetime==0){
+                if(parseInt(obj.config.sessionLifetime)===0){
                     obj.resetTimeSession(60);
                 }
                 if(new Date<obj.timeEndSession){
@@ -128,6 +145,26 @@ function Maqinato(){
         obj.daemons.process();
     };
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> UTILS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /**
+     * Return the relative path for a folder from the caller file
+     **/
+    obj.rel=function(folder){
+        var current=window.location.pathname;
+        var outs=current.split("/").length-3;
+        if(obj.config.application===""){
+            outs=current.split("/").length-2;
+        }
+        var output='';
+        for(var i=0;i<outs;i++){
+            output+='../';
+        }
+        for(var j in obj.config.paths){
+            if(j===folder){
+                output+=obj.config.paths[j];
+            }
+        }
+        return output;
+    };
     /**
      * Show an auxiliar message in the top of page
      * @param message to show 

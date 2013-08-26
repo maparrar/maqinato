@@ -200,6 +200,7 @@ Versión 0.5.0:
 - Nueva versión de debug
 - Estilos básicos y MediaQueries en los CSS
 - Responsive design
+- Carga de configuración desde el servidor
 
 Versión 0.4.0:
 ----------
