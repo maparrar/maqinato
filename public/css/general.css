@@ -3,10 +3,13 @@ Estilos generales de la aplicación, que puedan ser usados en todas las páginas
 Por ejemplo: fuentes, colores de fondo "corporativos", headers y footers.
 */
 header{
-    background: #E9E4F7;    /* Color: primary-4*/
+    background: #ADB6B6;    /* Color: primary-4*/
     font-size: 20px;
     height: 50px;
+    position: fixed;
     text-align: center;
+    top: 0;
+    width: 100%;
 }
 header .logo{
     float: left;
@@ -17,11 +20,11 @@ header .logo{
     padding: 5px;
 }
 header .logo a{
-    color: #696576;         /* Color: primary-2*/
+    color: #595B5B;         /* Color: primary-2*/
     text-decoration: none;
 }
 footer{
-    background: #5F528A;    /* Color: primary-3*/
+    background: #003737;    /* Color: primary-3*/
     bottom: 0;
     color: #CCC;
     font-size: 0.6em;
@@ -32,23 +35,32 @@ footer{
     width: 100%;
 }
 body{
-    background: #F2F0F7;    /* Color: primary-5*/
-    color: #898596;         /* Color: primary-2*/
+    /*background: #F2F0F7;     Color: primary-5*/
+    color: #595B5B;         /* Color: primary-2*/
 }
-/* COSAS SELECCIONADAS */   /* Color: primary-1*/
-
-
+/* COSAS SELECCIONADAS
+    #ADB6B6                        /* Color: primary-1*
+                            
+*/
+.container{
+    min-width: 300px;
+    overflow: auto;
+}
+.content{
+    background: #fff;
+    margin-top: 50px;
+}
 input[type="text"], input[type="password"]{
     
 }
 .button {
-    -moz-box-shadow:inset 0px 1px 0px 0px #f5978e;
-    -webkit-box-shadow:inset 0px 1px 0px 0px #f5978e;
-    box-shadow:inset 0px 1px 0px 0px #f5978e;
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f24537), color-stop(1, #c62d1f) );
-    background:-moz-linear-gradient( center top, #f24537 5%, #c62d1f 100% );
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24537', endColorstr='#c62d1f');
-    background-color:#f24537;
+    -moz-box-shadow:inset 0px 1px 0px 0px #caefab;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #caefab;
+    box-shadow:inset 0px 1px 0px 0px #caefab;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
+    background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
+    background-color:#77d42a;
     -webkit-border-top-left-radius:6px;
     -moz-border-radius-topleft:6px;
     border-top-left-radius:6px;
@@ -62,9 +74,9 @@ input[type="text"], input[type="password"]{
     -moz-border-radius-bottomleft:6px;
     border-bottom-left-radius:6px;
     text-indent:0;
-    border:1px solid #d02718;
+    border:1px solid #268a16;
     display:inline-block;
-    color:#ffffff;
+    color:#306108;
     cursor: pointer;
     font-family:Arial;
     font-size:15px;
@@ -75,14 +87,39 @@ input[type="text"], input[type="password"]{
     width:100px;
     text-decoration:none;
     text-align:center;
-    text-shadow:1px 1px 0px #810e05;
+    text-shadow:1px 1px 0px #aade7c;
 }
 .button:hover {
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24537) );
-    background:-moz-linear-gradient( center top, #c62d1f 5%, #f24537 100% );
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24537');
-    background-color:#c62d1f;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a) );
+    background:-moz-linear-gradient( center top, #5cb811 5%, #77d42a 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a');
+    background-color:#5cb811;
 }.button:active {
     position:relative;
     top:1px;
+}
+
+/******************************************************************************/
+/******************************* MEDIA QUERIES ********************************/
+/******************************************************************************/
+/* ESTILOS ADICIONALES PARA TABLETS */
+@media screen and (max-width: 800px){
+    header{
+        background: blue;
+    }
+}
+/* ESTILOS ADICIONALES PARA MÓVILES */
+@media screen and (max-width: 639px){
+    header{
+        background: green;
+    }
+    footer{
+        font-size: 0.5em;
+    }
+}
+/* ESTILOS ADICIONALES PARA DISPOSITIVOS PEQUEÑOS (TELÉFONOS PEQUEÑOS) */
+@media screen and (max-width: 359px){
+    header{
+        background: yellow;
+    }
 }
