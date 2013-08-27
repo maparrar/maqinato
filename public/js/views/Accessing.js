@@ -8,7 +8,7 @@ function Accessing(){
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ATTRIBUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     var obj=this;
-    
+    obj.currentForm="login";
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> METHODS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -31,9 +31,24 @@ function Accessing(){
         });
         parameters.signupForm.find("input").click(function(){
             $(this).removeClass("errorPlaceholder")
+        }).focus(function(){
+            obj.currentForm="signup";
         });
         parameters.loginForm.find("input").click(function(){
             $(this).removeClass("errorPlaceholder")
+        }).focus(function(){
+            obj.currentForm="login";
+        });
+        parameters.loginForm.find("input").first().focus();
+        //Cuando se hace click en enter
+        $(document).keypress(function(e) {
+            if(e.which===13) {
+                if(obj.currentForm==="login"){
+                    obj.login(parameters.loginForm);
+                }else{
+                    obj.signup(parameters.signupForm);
+                }
+            }
         });
     };
     /**
@@ -44,9 +59,6 @@ function Accessing(){
         form.find("input").val("");
         form.find("input").first().val("").focus();
     };
-    
-    
-    
     /**
      *  Main method to signup, executed when the signup event is executed
      *  @param {Object} form Formulario de registro
@@ -135,31 +147,6 @@ function Accessing(){
             });
             obj.formReset(form);
         }
-        
-        
-        
-//        var loginForm=opts.loginForm;
-//        var email=loginForm.find("#email").val();
-//        var password=loginForm.find("#password").val();
-//        var keep=loginForm.find("#keep").is(':checked');
-//        if(system.security.isemail(email)){
-//            if(system.security.ispassword(password)){
-//                opts.loginCallback(email,password,keep,function(access){
-//                    obj.loginReset();
-//                    if(access=="fails"){
-//                        system.message("Many failed attempts. The system will be locked to that IP for a few minutes.","",false);
-//                    }else if(access=="error"){
-//                        obj.loginReset();
-//                        loginForm.find("#email").addClass("errorForm").attr("Placeholder","Invalid email or password. Try again.");
-//                        loginForm.find("#password").addClass("errorForm");
-//                    }
-//                });
-//            }else{
-//                loginForm.find("#password").val("").addClass("errorForm").attr("Placeholder","Must be between 6 and 18 characters.");
-//            }
-//        }else{
-//            loginForm.find("#email").val("").addClass("errorForm").attr("Placeholder","Should be formatted: something@example.com.");
-//        }
     };
     /**
      * Valida los campos del formulario de login
