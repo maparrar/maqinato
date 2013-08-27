@@ -66,7 +66,7 @@ class Router{
                 View::render("home");
                 break;
             case "error":
-                View::error();
+                View::render("error");
                 break;
             default:
                 Maqinato::debug("Controller not detected");

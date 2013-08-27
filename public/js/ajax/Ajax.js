@@ -2,14 +2,13 @@ function Ajax(){
     var obj=this;
     obj.path=maqinato.rel('ajax');
     obj.root=maqinato.rel('root');
-    
     /*METHODS*/
     //TODO: pass the error to the system object
     obj.signup=function(email,password,name,lastname,callback){
         $.ajax({
             type:"POST",
             async:false,
-            url: obj.path+"core/jxSignup.php",
+            url: obj.path+"accessing/jxSignup.php",
             data: {
                 email:email,
                 password:password,
@@ -24,32 +23,6 @@ function Ajax(){
                     callback(false);
                 }else if(response==="exist"){
                     callback("exist");
-                }
-            }
-        );
-    };
-    obj.signupReserve=function(name,lastname,sex,email,city,password,callback){
-        $.ajax({
-            type:"POST",
-            async:false,
-            url: obj.path+"core/jxSignupReserve.php",
-            data: {
-                name:name,
-                lastname:lastname,
-                sex:sex,
-                email:email,
-                city:city,
-                password:password
-            }
-            }).done(function(response) {
-                if(callback){
-                    if(response==="logged"){
-                        callback("registered");
-                    }else if(response==="error"){
-                        callback(false);
-                    }else if(response==="exist"){
-                        callback("exist");
-                    }
                 }
             }
         );

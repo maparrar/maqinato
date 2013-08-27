@@ -12,6 +12,8 @@
  */
 class View{
     public static function render($view){
+        //Incluye los estilos básicos de maqinato
+        Router::css("maqinato");
         require_once "engine/views/".$view.".php";
     }
     public static function error(){

@@ -53,6 +53,7 @@ return array(
         'api'           =>'api/',
         'core'          =>'core/',
         'engine'        =>'engine/',
+            'ajax'          =>'engine/ajax/',
             'controllers'   =>'engine/controllers/',
             'models'        =>'engine/models/',
             'tests'         =>'engine/tests/',

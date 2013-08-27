@@ -54,17 +54,18 @@ function Accessing(){
      **/
     obj.signup=function(form){
         var fields=obj.signupValidate(form);
-        if(fields){
-            
-            maqinato.debug(fields);
-            
-//            maqinato.ajax.signup(email,password,name,lastname,function(joined){
-//                if(!joined){
+        if(!fields){
+            maqinato.ajax.signup(fields.email,fields.password,fields.name,fields.lastname,function(response){
+                
+                maqinato.debug(response);
+                
+                
+//                if(!response){
 //                    signupForm.find("#new-password, #confirm").val("").addClass("errorSignup").attr("Placeholder","Or password.");
 //                    signupForm.find("#email").val("").addClass("errorSignup").attr("Placeholder","Invalid email.");
-//                }else if(joined==="exist"){
+//                }else if(response==="exist"){
 //                    signupForm.find("#email").val("").addClass("errorSignup").attr("Placeholder","The email is already registered");
-//                }else if(joined==="registered"){
+//                }else if(response==="registered"){
 //                    var html='<div id="coming_modal">'+
 //                                '<img src="'+system.rel("img")+'coming_modal.png" />'+
 //                                '<div id="coming_modal_text">Welcome, you are now one of our first users.</div>'+
@@ -82,9 +83,9 @@ function Accessing(){
 //                    });
 //                    obj.signupReset();
 //                }
-//            });
-//            
-//            obj.formReset(form);
+            });
+            
+            obj.formReset(form);
         }
     };
     /**

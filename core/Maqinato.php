@@ -1,7 +1,6 @@
 <?php
 /** Maqinato File
  * @package core */
-session_start();
 /**
  * Maqinato Class
  * Core class for Maqinato
@@ -68,29 +67,21 @@ class Maqinato{
 
     /**
      * Ejecuta todos los procesos necesarios para cada request hecho por el cliente
-     * @param string $root Root path in the system. Ie. /var/www/maqinato
-     * @param string $application Name of the application folder. Ie. maqinato
      */
-    public static function exec($root,$application){
+    public static function exec(){
         $ini=microtime(true);
         //Registra la función que carga las clases cuando no están include o require
         self::autoload();
-        self::$root=$root;
-        self::$application=$application;
+        self::$root=$_SESSION["root"];
+        self::$application=$_SESSION["application"];
+        //Captura el request a partir de la URL actual
         self::$request=new Request(str_replace(self::$application."/","",filter_input(INPUT_SERVER,'REQUEST_URI',FILTER_SANITIZE_URL)));
-        
         //Incluye los archivos de configuración
         self::$config=Router::loadConfig();
-        
         //Procesa la configuración de i18n y l10n
         self::$locale=self::i18n();
-        
         //Detecta el nombre del servidor y selecciona el ambiente
         self::$environment=self::loadEnvironment();
-        
-        //Incluye los estilos básicos de maqinato
-        Router::css("maqinato");
-        
         //Carga el usuario de la sesión, si es posible
         $controller=new AccessController();
         if($controller->checkSession()){
@@ -98,14 +89,9 @@ class Maqinato{
         }else{
             self::$user=false;
         }
-        
-        //Hace el routing del Request capturado
-        Router::route(self::$request);
-        
-        //Calcula el tiempo que toma procesar el request y muestra el debug
+        //Calcula el tiempo que toma exec()
         $end=microtime(true);
         array_push(self::$procTimers,array("name"=>"maqinato","ini"=>$ini,"end"=>$end));
-        self::info();
     }
     /**
      * Procesa la configuración de la internacionalización y localización
@@ -185,8 +171,14 @@ class Maqinato{
     public static function connect($connectionName="all"){
         return self::$environment->getDatabase()->connect($connectionName);
     }
-
-
+    /**
+     * Rutea el request de la URL
+     */
+    public static function route(){
+        //Hace el routing del Request capturado
+        Router::route(self::$request);
+    }
+    
     /**************************************************************************/
     /********************************** UTILS *********************************/
     /**************************************************************************/

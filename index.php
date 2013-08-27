@@ -11,11 +11,15 @@
 /**
  * Get the application and the root folder
  */
-$root=dirname(__FILE__);
-$application=basename(dirname(__FILE__));
+session_start();
+$_SESSION["root"]=dirname(__FILE__);
+$_SESSION["application"]=basename(dirname(__FILE__));
 
 //Includes the Maqinato class
 include_once 'core/Maqinato.php';
-
-//Inicializa maqinato con los datos de root y aplicación
-Maqinato::exec($root, $application);
+//Inicializa maqinato
+Maqinato::exec();
+//Hace el router del request de la URL de entrada
+Maqinato::route();
+//Muestra la información de Maqinato (si debugLevel>0)
+Maqinato::info();
