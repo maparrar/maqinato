@@ -156,9 +156,10 @@ class Maqinato{
     /**************************************************************************/
     /*************************** GETTERS AND SETTERS **************************/
     /**************************************************************************/
-    public static function root(){return self::$root;}
     public static function application(){return self::$application;}
     public static function request(){return self::$request;}
+    public static function root(){return self::$root;}
+    public static function user(){return self::$user;}
     
     /**************************************************************************/
     /********************************* METHODS ********************************/

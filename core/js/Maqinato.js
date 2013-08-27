@@ -89,6 +89,10 @@ function Maqinato(){
         }).keypress(function(){
             obj.resetTimeSession();
         });
+        //Botón de logout
+        $("#logout").click(function(){
+            maqinato.logout();
+        });
     };
     /**
      * Redirecciona a una URL dentro de la aplicación. La url debe ser del tipo
@@ -126,9 +130,9 @@ function Maqinato(){
      * */
     obj.logout=function(){
         maqinato.ajax.logout(function(){
-            maqinato.redirect("root");
+            maqinato.redirect("");
         });
-    }
+    };
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SESSIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     obj.lifetimeSession=function(){
         obj.resetTimeSession();

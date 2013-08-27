@@ -23,6 +23,11 @@ header .logo a{
     color: #595B5B;         /* Color: primary-2*/
     text-decoration: none;
 }
+header .link{
+    background: red;
+    color: #eee;
+    cursor: pointer;
+}
 footer{
     background: #003737;    /* Color: primary-3*/
     bottom: 0;
@@ -96,7 +101,8 @@ input[type="text"], input[type="password"]{
     background:-moz-linear-gradient( center top, #5cb811 5%, #77d42a 100% );
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a');
     background-color:#5cb811;
-}.button:active {
+}
+.button:active {
     position:relative;
     top:1px;
 }
