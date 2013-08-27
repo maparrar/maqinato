@@ -145,10 +145,10 @@ class Router{
      */
     public static function loadConfig(){
         return array(
-            "app"           =>  require_once 'engine/config/app.php',
-            "environments"  =>  require_once 'engine/config/environment.php',
-            "client"        =>  require_once 'engine/config/client.php',
-            "paths"         =>  require_once 'engine/config/paths.php'
+            "app"           =>  require_once Maqinato::root().'/engine/config/app.php',
+            "environments"  =>  require_once Maqinato::root().'/engine/config/environment.php',
+            "client"        =>  require_once Maqinato::root().'/engine/config/client.php',
+            "paths"         =>  require_once Maqinato::root().'/engine/config/paths.php'
         );
     }
 }

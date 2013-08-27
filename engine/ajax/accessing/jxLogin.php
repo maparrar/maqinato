@@ -1,10 +1,14 @@
 <?php
+/** jxRefreshSession File
+ * @package controllers @subpackage core */
 /**
- * jxLogin ajax File
+ * jxRefreshSession
  *
- * @author bonfolio.co
- * @author Alejandro Parra <alejandro.parra@bonfolio.co> - @author Juan Cárdenas <juan.cardenas@bonfolio.co>
- * @package web
+ * Actualiza la sesión y genera un nuevo id en cada intento
+ *
+ * @author https://github.com/maparrar/maqinato
+ * @author Alejandro Parra <maparrar@gmail.com> 
+ * @package engine
  * @subpackage ajax
  */
 session_start();

@@ -54,7 +54,7 @@ function Accessing(){
      **/
     obj.signup=function(form){
         var fields=obj.signupValidate(form);
-        if(!fields){
+        if(fields){
             maqinato.ajax.signup(fields.email,fields.password,fields.name,fields.lastname,function(response){
                 
                 maqinato.debug(response);

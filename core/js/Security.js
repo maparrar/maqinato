@@ -1,6 +1,6 @@
 function Security(){}
 Security.isEmail=function(string){
-    var pattern = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+    var pattern = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,4}$/);
     return pattern.test(string);
 };
 Security.isPassword=function(string){

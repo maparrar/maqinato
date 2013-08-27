@@ -1,6 +1,7 @@
 <?php
 /** Maqinato File
  * @package core */
+@session_start();
 /**
  * Maqinato Class
  * Core class for Maqinato
@@ -354,13 +355,11 @@ class Maqinato{
      * @return string Write the variables in html
      */
     public static function configInHtml(){
-        $user=false;
         $id=0;
         $name="";
-        if(AccessController::checkSession()){
-            $user=AccessController::getSessionUser();
-            $id=$user->getId();
-            $name=$user->name();
+        if(self::$user){
+            $id=self::$user->getId();
+            $name=self::$user->name();
         }else{
             $_SESSION["sessionLifetime"]=self::$config["client"]["sessionLifeTime"];
         }
