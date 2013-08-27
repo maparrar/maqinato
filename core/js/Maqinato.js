@@ -14,6 +14,19 @@ function Tools(){};Tools.properties=function(e){var t=new Array;for(var n in e){
  * */
 function Security(){};Security.isEmail=function(e){var t=new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,4}$/);return t.test(e)};Security.isPassword=function(e){var t=new RegExp(/^[a-zA-Z0-9@#$%._-]{6,30}$/);return t.test(e)};Security.isUrl=function(e){var t=new RegExp(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);return t.test(e)};Security.isFloat=function(e){return!isNaN(parseFloat(e))&&isFinite(e)};Security.isInt=function(e){return typeof e==="number"&&parseFloat(e)==parseInt(e,10)&&!isNaN(e)};Security.secureString=function(e){if(e){return e.replace(/[^\w\s.,áéíóúAÉÍÓÚÑñ@:)(!/\]\[]/gi,"")}else{return""}};Security.isDate=function(e){var t=e.split("/");var n=t[0];var r=t[1];var i=t[2];var s=new Date(i,n-1,r);if(!s||s.getFullYear()==i&&s.getMonth()==n-1&&s.getDate()==r&&i<2100&&i>1900){return true}else{return false}};Security.isCreditCard=function(e){var t=new RegExp(/^[0-9]{9,17}$/);return t.test(e)};Security.isCreditCardCode=function(e){var t=new RegExp(/^[0-9]{2,5}$/);return t.test(e)};
 /**
+ * Función para usar en i18n, para hacer traducciones. Por ahora no hace nada, 
+ * pero en el futuro permitirá traducir cadenas usadas en Javascript. Por ahora
+ * solo se usa como "recopiladora" para luego traducir.
+ * Posibles librerías:
+ *  - http://slexaxton.github.io/Jed/
+ *  - http://jsgettext.berlios.de/
+ * @param {string} string Cadena que se quiere traducir
+ * @return {string} Cadena traducida
+ * */
+function _(string){
+    return string;
+};
+/**
  * Pseudoclass to manage the common functions in javascript
  **/
 function Maqinato(){
@@ -60,7 +73,6 @@ function Maqinato(){
         if(obj.config.user){
 //            obj.initDaemons();
         }
-        
         
         //Start the lifetime session manager function if the option is active
         if(obj.config.user){

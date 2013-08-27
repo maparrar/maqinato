@@ -67,18 +67,18 @@ function Accessing(){
             maqinato.ajax.signup(fields.email,fields.password,fields.name,fields.lastname,function(response){
                 if(response==="exist"){
                     maqinato.dialog({
-                        title:"Already registered",
-                        html:"The email is already registered, please try again."
+                        title:_("Already registered"),
+                        html:_("The email is already registered, please try again.")
                     });
                 }else if(response==="success"){
                     maqinato.dialog({
-                        title:"Welcome",
-                        html:"Redirencting..."
+                        title:_("Welcome"),
+                        html:_("Redirecting...")
                     });
                 }else{
                     maqinato.dialog({
-                        title:"Invalid email or password",
-                        html:"Verify the data and try again."
+                        title:_("Invalid email or password"),
+                        html:_("Verify the data and try again.")
                     });
                 }
             });
@@ -108,23 +108,23 @@ function Accessing(){
                         if($.trim(password.val())===$.trim(confirm.val())){
                             fields.password=$.trim(password.val());
                         }else{
-                            confirm.val("").addClass("errorPlaceholder").attr("Placeholder","The password and confirmation does not match.");
+                            confirm.val("").addClass("errorPlaceholder").attr("Placeholder",_("No coincide con el password"));
                             fields=false;
                         }
                     }else{
-                        password.val("").addClass("errorPlaceholder").attr("Placeholder","Password must be between 6 and 18 characters. Only accept special characters: @#$%_-.");
+                        password.val("").addClass("errorPlaceholder").attr("Placeholder",_("Entre 6 and 18 characters: @#$%_-."));
                         fields=false;
                     }
                 }else{
-                    email.val("").addClass("errorPlaceholder").attr("Placeholder","Type: something@example.com.");
+                    email.val("").addClass("errorPlaceholder").attr("Placeholder",_("correo@ejemplo.com"));
                     fields=false;
                 }
             }else{
-                lastname.val("").addClass("errorPlaceholder").attr("Placeholder","The lastname can not be empty.");
+                lastname.val("").addClass("errorPlaceholder").attr("Placeholder",_("El apellido no puede estar vacío"));
                 fields=false;
             }
         }else{
-            name.val("").addClass("errorPlaceholder").attr("Placeholder","The name can not be empty.");
+            name.val("").addClass("errorPlaceholder").attr("Placeholder",_("El nombre no puede estar vacío"));
             fields=false;
         }
         return fields;
@@ -180,11 +180,11 @@ function Accessing(){
             if(Security.isPassword($.trim(password.val()))){
                 fields.password=$.trim(password.val());
             }else{
-                password.val("").addClass("errorPlaceholder").attr("Placeholder","Password must be between 6 and 18 characters. Only accept special characters: @#$%_-.");
+                password.val("").addClass("errorPlaceholder").attr("Placeholder",_("Entre 6 and 18 characters: @#$%_-."));
                 fields=false;
             }
         }else{
-            email.val("").addClass("errorPlaceholder").attr("Placeholder","Type: something@example.com.");
+            email.val("").addClass("errorPlaceholder").attr("Placeholder",_("correo@ejemplo.com"));
             fields=false;
         }
         return fields;
