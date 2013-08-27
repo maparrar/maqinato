@@ -211,6 +211,7 @@ Cambios
 Versión 0.6.0 (alpha):
 ----------
 - Completo el sistema de login y signup
+- Sistema de demonios disponible
 
 Versión 0.5.0:
 ----------

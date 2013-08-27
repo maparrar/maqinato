@@ -1,8 +1,8 @@
 <?php
-/** jxRefreshSession File
+/** jxLogout File
  * @package controllers @subpackage core */
 /**
- * jxRefreshSession
+ * jxLogout
  *
  * Actualiza la sesión y genera un nuevo id en cada intento
  *

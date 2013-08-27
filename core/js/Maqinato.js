@@ -14,7 +14,11 @@ function Tools(){};Tools.properties=function(e){var t=new Array;for(var n in e){
  * */
 function Security(){};Security.isEmail=function(e){var t=new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,4}$/);return t.test(e)};Security.isPassword=function(e){var t=new RegExp(/^[a-zA-Z0-9@#$%._-]{6,30}$/);return t.test(e)};Security.isUrl=function(e){var t=new RegExp(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);return t.test(e)};Security.isFloat=function(e){return!isNaN(parseFloat(e))&&isFinite(e)};Security.isInt=function(e){return typeof e==="number"&&parseFloat(e)==parseInt(e,10)&&!isNaN(e)};Security.secureString=function(e){if(e){return e.replace(/[^\w\s.,áéíóúAÉÍÓÚÑñ@:)(!/\]\[]/gi,"")}else{return""}};Security.isDate=function(e){var t=e.split("/");var n=t[0];var r=t[1];var i=t[2];var s=new Date(i,n-1,r);if(!s||s.getFullYear()==i&&s.getMonth()==n-1&&s.getDate()==r&&i<2100&&i>1900){return true}else{return false}};Security.isCreditCard=function(e){var t=new RegExp(/^[0-9]{9,17}$/);return t.test(e)};Security.isCreditCardCode=function(e){var t=new RegExp(/^[0-9]{2,5}$/);return t.test(e)};
 /**
- * Función para usar en i18n, para hacer traducciones. Por ahora no hace nada, 
+ * Funciones para el manejo de los demonios
+ * */
+function Daemon(e,t,n){"use strict";var r=this;r.name=e;r.callback=t;r.params=new Array;if(!n){n=2}r.cycles=n}; function Daemons(e){"use strict";var t=this;t.counter=0;t.timer=null;t.daemons=new Array;t.daemonsInterval=e;t.ajaxFunction=null;t.exec=function(){t.process();t.timer=setTimeout(t.exec,t.daemonsInterval)};t.process=function(){if(t.daemons.length>0){var e=new Array;for(var n in t.daemons){var r=t.counter%t.daemons[n].cycles;if(r==0){e.push(t.daemons[n])}}if(e.length>0){t.ajaxFunction(e)}t.counter++}};t.add=function(e){var n=false;if(t.daemons.length>0){for(var r in t.daemons){if(t.daemons[r].name===e.name){n=true;break}}}if(!n){t.daemons.push(e);if(t.daemons.length===1){t.exec()}}};t.remove=function(e){for(var n in t.daemons){if(t.daemons[n].name==e){t.daemons.splice(n,1);break}}if(t.daemons.length==0){clearTimeout(t.timer)}};t.response=function(e){var n=e.daemons;for(var r in n){var i=t.getDaemon(n[r].name);if(i){i.callback(n[r].data)}}};t.getDaemon=function(e){var n=null;if(t.daemons.length>0){for(var r in t.daemons){if(t.daemons[r].name==e){n=t.daemons[r];break}}}return n};t.parameterizeDaemon=function(e,n){if(t.daemons.length>0){for(var r in t.daemons){if(t.daemons[r].name==e){t.daemons[r].params=n;break}}}}};
+/**
+ * Función globa para usar en i18n, para hacer traducciones. Por ahora no hace nada, 
  * pero en el futuro permitirá traducir cadenas usadas en Javascript. Por ahora
  * solo se usa como "recopiladora" para luego traducir.
  * Posibles librerías:
@@ -72,7 +76,7 @@ function Maqinato(){
         //Start the daemons execution
         obj.daemonsInterval=obj.config.daemonsInterval;
         if(obj.config.user){
-//            obj.initDaemons();
+            obj.initDaemons();
         }
         
         //Start the lifetime session manager function if the option is active

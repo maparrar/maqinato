@@ -71,21 +71,17 @@ function Ajax(){
     obj.daemons=function(daemons){
         $.ajax({
             type: "POST",
-            url: obj.path+"core/jxDaemons.php",
+            url: obj.path+"system/jxDaemons.php",
             data: {daemons:JSON.stringify(daemons)},
             timeout: 10000,
             success: function(response){
                 var data=JSON.parse(response);
-                if(data.type==="Error"){
-                    system.error(data);
-                }else{
-                    system.daemons.response(data);
-                }
+                maqinato.daemons.response(data);
             },
             error: function(){
                 var error;
                 error.name="daemonError";
-                system.error(error);
+                maqinato.debug(error);
             }
         });
     };
