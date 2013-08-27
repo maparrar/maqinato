@@ -59,40 +59,29 @@ function Accessing(){
     
     /**
      *  Main method to signup, executed when the signup event is executed
+     *  @param {Object} form Formulario de registro
      **/
     obj.signup=function(form){
         var fields=obj.signupValidate(form);
         if(fields){
             maqinato.ajax.signup(fields.email,fields.password,fields.name,fields.lastname,function(response){
-                
-                maqinato.debug(response);
-                
-                
-//                if(!response){
-//                    signupForm.find("#new-password, #confirm").val("").addClass("errorSignup").attr("Placeholder","Or password.");
-//                    signupForm.find("#email").val("").addClass("errorSignup").attr("Placeholder","Invalid email.");
-//                }else if(response==="exist"){
-//                    signupForm.find("#email").val("").addClass("errorSignup").attr("Placeholder","The email is already registered");
-//                }else if(response==="registered"){
-//                    var html='<div id="coming_modal">'+
-//                                '<img src="'+system.rel("img")+'coming_modal.png" />'+
-//                                '<div id="coming_modal_text">Welcome, you are now one of our first users.</div>'+
-//                                '<div id="coming_modal_text">For now, follow us on <a id="coming_facebook" href="https://www.facebook.com/bonfolio" target="_blank">Facebook</a> and <a id="coming_twitter" href="https://twitter.com/bonfolio" target="_blank">Twitter</a> until you can start doing good.</div>'+
-//                            '</div>';
-//                    system.dialog({
-//                        html:html,
-//                        height:218,
-//                        width:630,
-//                        position:{
-//                            my: "center top",
-//                            at: "center top",
-//                            of: $(".highlights").find("img")
-//                        }
-//                    });
-//                    obj.signupReset();
-//                }
+                if(response==="exist"){
+                    maqinato.dialog({
+                        title:"Already registered",
+                        html:"The email is already registered, please try again."
+                    });
+                }else if(response==="success"){
+                    maqinato.dialog({
+                        title:"Welcome",
+                        html:"Redirencting..."
+                    });
+                }else{
+                    maqinato.dialog({
+                        title:"Invalid email or password",
+                        html:"Verify the data and try again."
+                    });
+                }
             });
-            
             obj.formReset(form);
         }
     };
