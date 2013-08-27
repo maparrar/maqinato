@@ -15,13 +15,12 @@
 include_once '../../../core/Maqinato.php';
 //Inicializa maqinato
 Maqinato::exec();
-
+//Se capturan los datos del POST
 $email=$_POST['email'];
 $password=$_POST['password'];
 $name=$_POST['name'];
 $lastname=$_POST['lastname'];
-
-$accessController = new AccessController();
 //Se hace el registro
-echo $accessController->signup($email, $password, $name, $lastname);
+$accessController = new AccessController();
+echo $accessController->signup($email,$password,$name,$lastname);
 ?>

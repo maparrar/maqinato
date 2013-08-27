@@ -27,6 +27,14 @@ function Accessing(){
             obj.signup(parameters.signupForm);
         });
         parameters.loginForm.find(".button").click(function(){
+            
+            
+            var ira=maqinato.path('root');
+//            var ira="/maqinato/home/";
+//            var ira=maqinato.rel('root')+"home/";
+            maqinato.debug(ira);
+//            window.location=ira;
+            
             obj.login(parameters.loginForm);
         });
         parameters.signupForm.find("input").click(function(){

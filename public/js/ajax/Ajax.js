@@ -1,7 +1,7 @@
 function Ajax(){
     var obj=this;
-    obj.path=maqinato.rel('ajax');
-    obj.root=maqinato.rel('root');
+    obj.path=maqinato.path('ajax');
+    obj.root=maqinato.path('root');
     /*METHODS*/
     //TODO: pass the error to the system object
     obj.signup=function(email,password,name,lastname,callback){
@@ -16,9 +16,8 @@ function Ajax(){
                 lastname:lastname
             }
             }).done(function(response) {
-                if(response==="logged"){
-                    maqinato.debug("REGISTRADO Y LOGUEADO");
-//                    window.location=obj.root+"views/home/index.php?user=new";
+                if(response==="success"){
+                    maqinato.redirect("home");
                 }else if(response==="error"){
                     callback(false);
                 }else if(response==="exist"){

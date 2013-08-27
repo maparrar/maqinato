@@ -58,7 +58,7 @@ function Maqinato(){
         //Start the daemons execution
         obj.daemonsInterval=obj.config.daemonsInterval;
         if(obj.config.user){
-            obj.initDaemons();
+//            obj.initDaemons();
         }
         
         
@@ -76,6 +76,14 @@ function Maqinato(){
         }).keypress(function(){
             obj.resetTimeSession();
         });
+    };
+    /**
+     * Redirecciona a una URL dentro de la aplicación. La url debe ser del tipo
+     *      controller/function/parameter1/parameter2/...
+     * @param {string} url La url a la que se quiere redireccionar
+     * */
+    obj.redirect=function(url){
+        window.location=obj.path("root")+url;
     };
     /**
      * Redirige hacia una página enviando datos por post
@@ -143,6 +151,22 @@ function Maqinato(){
         obj.daemons.process();
     };
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> UTILS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /**
+     * Retorna el path de un folder en la aplicación, busca en la lista de paths
+     * de parámetros
+     **/
+    obj.path=function(folder){
+        var path="/";
+        if(obj.config.application!==""){
+            path+=obj.config.application+"/";
+        }
+        for(var j in obj.config.paths){
+            if(j===folder){
+                path+=obj.config.paths[j];
+            }
+        }
+        return path;
+    };
     /**
      * Return the relative path for a folder from the caller file
      **/
