@@ -221,7 +221,7 @@ function Maqinato(){
             position:null,
             resizable:false,
             title:"",
-            width:300
+            width:400
         };
         var opts=$.extend(def,optsUser);
         var dialogName="dialog"+new Date().getTime();

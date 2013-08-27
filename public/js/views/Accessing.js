@@ -27,14 +27,6 @@ function Accessing(){
             obj.signup(parameters.signupForm);
         });
         parameters.loginForm.find(".button").click(function(){
-            
-            
-            var ira=maqinato.path('root');
-//            var ira="/maqinato/home/";
-//            var ira=maqinato.rel('root')+"home/";
-            maqinato.debug(ira);
-//            window.location=ira;
-            
             obj.login(parameters.loginForm);
         });
         parameters.signupForm.find("input").click(function(){
@@ -44,8 +36,6 @@ function Accessing(){
             $(this).removeClass("errorPlaceholder")
         });
     };
-    
-    
     /**
      * Clear the fields of a form
      * @param {Object} form Formulario para limpiar
@@ -71,10 +61,7 @@ function Accessing(){
                         html:_("The email is already registered, please try again.")
                     });
                 }else if(response==="success"){
-                    maqinato.dialog({
-                        title:_("Welcome"),
-                        html:_("Redirecting...")
-                    });
+                    maqinato.redirect("home");
                 }else{
                     maqinato.dialog({
                         title:_("Invalid email or password"),
@@ -136,7 +123,16 @@ function Accessing(){
     obj.login=function(form){
         var fields=obj.validateLogin(form);
         if(fields){
-            maqinato.debug(fields);
+            maqinato.ajax.login(fields.email,fields.password,fields.keep,function(response){
+                if(response==="success"){
+                    maqinato.redirect("home");
+                }else{
+                    maqinato.dialog({
+                        title:_("Invalid email or password"),
+                        html:_("Verify the data and try again.")
+                    });
+                }
+            });
             obj.formReset(form);
         }
         
@@ -174,11 +170,13 @@ function Accessing(){
     obj.validateLogin=function(form){
         var email=form.find("#email");
         var password=form.find("#password");
+        var keep=form.find("#keep").is(':checked');
         var fields={};
         if(Security.isEmail($.trim(email.val()))){
             fields.email=$.trim(email.val());
             if(Security.isPassword($.trim(password.val()))){
                 fields.password=$.trim(password.val());
+                fields.keep=true;
             }else{
                 password.val("").addClass("errorPlaceholder").attr("Placeholder",_("Entre 6 and 18 characters: @#$%_-."));
                 fields=false;

@@ -11,16 +11,18 @@
  * @package engine
  * @subpackage ajax
  */
-session_start();
-if(!class_exists('Router')) require_once '../../../config/Router.php';
-include_once Router::rel('controllers').'AccessController.php';
+//Includes the Maqinato class
+include_once '../../../core/Maqinato.php';
+//Inicializa maqinato
+Maqinato::exec();
+//Se capturan los datos del POST
 $email=$_POST['email'];
 $password=$_POST['password'];
 $keep=false;
 if($_POST['keep']==="true"){
     $keep=true;
 }
-$access = new AccessController();
-$response=$access->login($email,$password,$keep);
-echo $response;
+//Se hace el registro
+$accessController = new AccessController();
+echo $accessController->login($email,$password,$keep);
 ?>

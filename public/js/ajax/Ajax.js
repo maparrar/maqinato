@@ -15,34 +15,21 @@ function Ajax(){
                 name:name,
                 lastname:lastname
             }
-            }).done(function(response) {
-                if(response==="success"){
-                    maqinato.redirect("home");
-                }else if(response==="error"){
-                    callback(false);
-                }else if(response==="exist"){
-                    callback("exist");
-                }
+            }).done(function(response){
+                callback(Security.secureString(response));
             }
         );
     };
     //TODO: pass the error to the system object
-    obj.login=function(email,password,keep,callback,provider,token1,token2){
+    obj.login=function(email,password,keep,callback){
         $.post(
-            obj.path+"core/jxLogin.php",{
+            obj.path+"accessing/jxLogin.php",{
                 email:email,
                 password:password,
-                keep:keep,
-                provider:provider,
-                token1:token1,
-                token2:token2
+                keep:keep
             },
             function(response){
-                if(response==="logged"){
-                    window.location=obj.root+"views/home/";
-                }else if(response==="error"){
-                    callback(response);
-                }
+                callback(Security.secureString(response));
             }
         );
     };
