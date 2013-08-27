@@ -14,6 +14,7 @@ function Accessing(){
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
      * Configure and init the systems Scripts 
+     * @param {Object} parameters Objeto que contiene los parámetros del script
      **/
     obj.init=function(parameters){
         //Genera los eventos para los objetos del home
@@ -21,6 +22,7 @@ function Accessing(){
     };
     /**
      * Set the login, logout and signup events
+     * @param {Object} parameters Objeto que contiene los parámetros del script
      **/
     obj.events=function(parameters){
         parameters.signupForm.find(".button").click(function(){
@@ -30,12 +32,12 @@ function Accessing(){
             obj.login(parameters.loginForm);
         });
         parameters.signupForm.find("input").click(function(){
-            $(this).removeClass("errorPlaceholder")
+            $(this).removeClass("errorPlaceholder");
         }).focus(function(){
             obj.currentForm="signup";
         });
         parameters.loginForm.find("input").click(function(){
-            $(this).removeClass("errorPlaceholder")
+            $(this).removeClass("errorPlaceholder");
         }).focus(function(){
             obj.currentForm="login";
         });
@@ -69,15 +71,15 @@ function Accessing(){
             maqinato.ajax.signup(fields.email,fields.password,fields.name,fields.lastname,function(response){
                 if(response==="exist"){
                     maqinato.dialog({
-                        title:_("Already registered"),
-                        html:_("The email is already registered, please try again.")
+                        title:_("Correo ya existe"),
+                        html:_("El correo ya está registrado, por favor intente de nuevo")
                     });
                 }else if(response==="success"){
-                    maqinato.redirect("home");
+                    maqinato.redirect("main");
                 }else{
                     maqinato.dialog({
-                        title:_("Invalid email or password"),
-                        html:_("Verify the data and try again.")
+                        title:_("Correo o contraseña erroneos"),
+                        html:_("Por favor verifique los datos e intente de nuevo")
                     });
                 }
             });
@@ -131,17 +133,18 @@ function Accessing(){
     
     /**
      *  Main method to login, executed when the login event is executed
+     *  @param {Object} form Formulario de login
      **/
     obj.login=function(form){
         var fields=obj.validateLogin(form);
         if(fields){
             maqinato.ajax.login(fields.email,fields.password,fields.keep,function(response){
                 if(response==="success"){
-                    maqinato.redirect("home");
+                    maqinato.redirect("main");
                 }else{
                     maqinato.dialog({
-                        title:_("Invalid email or password"),
-                        html:_("Verify the data and try again.")
+                        title:_("Correo o contraseña erroneos"),
+                        html:_("Por favor verifique los datos e intente de nuevo")
                     });
                 }
             });

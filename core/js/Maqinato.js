@@ -121,6 +121,14 @@ function Maqinato(){
         }
         form.appendTo('body').submit();
     };
+    /**
+     * Sale del sistema, destruye la sesión y redirecciona al root
+     * */
+    obj.logout=function(){
+        maqinato.ajax.logout(function(){
+            maqinato.redirect("root");
+        });
+    }
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SESSIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     obj.lifetimeSession=function(){
         obj.resetTimeSession();

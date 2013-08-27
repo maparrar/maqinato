@@ -217,6 +217,7 @@ Versión 0.5.0:
 - Responsive design
 - Carga de configuración desde el servidor
 - Refresco de sesión automático
+- main es la página principal de acceso
 
 Versión 0.4.0:
 ----------

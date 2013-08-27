@@ -22,7 +22,7 @@ $keep=false;
 if($_POST['keep']==="true"){
     $keep=true;
 }
-//Se hace el registro
 $accessController = new AccessController();
+//Se hace el login
 echo $accessController->login($email,$password,$keep);
 ?>

@@ -11,17 +11,17 @@
  * @package engine
  * @subpackage ajax
  */
-session_start();
-if(!class_exists('Router')) require_once '../../../config/Router.php';
-include_once Router::rel('controllers').'AccessController.php';
-include_once Router::rel('models').'core/User.php';
+//Includes the Maqinato class
+include_once '../../../core/Maqinato.php';
+//Inicializa maqinato
+Maqinato::exec();
+$accessController = new AccessController();
 //Close the session if the email is passed
-if(AccessController::checkSession()){
-    $user=new User();
+$user=new User();
+if($accessController->checkSession()){
     $user=unserialize($_SESSION['user']);
-    $access = new AccessController();
-    $access->logout($user->getEmail(),$user->getSessionId());
+    $accessController->logout($user->getEmail());
 }else{
-    AccessController::destroy();
+    $accessController->destroy();
 }
 ?>

@@ -5,7 +5,7 @@
  * Header template
  * 
  * @author https://github.com/maparrar/maqinato
- * @package web
+ * @package views
  * @subpackage templates
  */
  ?>

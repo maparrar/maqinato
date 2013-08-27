@@ -5,10 +5,13 @@
  * Header template
  * 
  * @author https://github.com/maparrar/maqinato
- * @package web
+ * @package views
  * @subpackage templates
  */
  ?>
 <header>
-    <h1><a class="logo" href="<?php echo Router::path('root'); ?>">maqinato</a></h1>
+    <h1 class="logo"><a href="<?php echo Router::path('root'); ?>">maqinato</a></h1>
+    <div id="links">
+        <div id="logout"><?php echo _("Logout"); ?></div>
+    </div>
 </header>

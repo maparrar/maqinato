@@ -62,8 +62,11 @@ class Router{
             case "acceso":
                 View::render("accessing");
                 break;
-            case "home":
-                View::render("home");
+            case "main":
+                View::render("main");
+                break;
+            case "principal":
+                View::render("main");
                 break;
             case "error":
                 View::render("error");
