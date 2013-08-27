@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: maqinato\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-26 21:15-0500\n"
-"PO-Revision-Date: 2013-08-26 21:16-0500\n"
+"POT-Creation-Date: 2013-08-27 01:07-0500\n"
+"PO-Revision-Date: 2013-08-27 01:07-0500\n"
 "Last-Translator: maparrar <maparrar@gmail.com>\n"
 "Language-Team: maqinato <maparrar@gmail.com>\n"
 "Language: \n"
@@ -29,12 +29,12 @@ msgid "Lastname"
 msgstr "Apellido"
 
 #: /var/www/maqinato/engine/views/accessing.php:37
-#: /var/www/maqinato/engine/views/templates/accessHeader.php:15
+#: /var/www/maqinato/engine/views/templates/accessHeader.php:19
 msgid "Email"
 msgstr "Correo"
 
 #: /var/www/maqinato/engine/views/accessing.php:38
-#: /var/www/maqinato/engine/views/templates/accessHeader.php:16
+#: /var/www/maqinato/engine/views/templates/accessHeader.php:20
 msgid "Password"
 msgstr "Contraseña"
 
@@ -46,7 +46,15 @@ msgstr "Confirmar contraseña"
 msgid "Signup"
 msgstr "Registro"
 
-#: /var/www/maqinato/engine/views/templates/accessHeader.php:17
+#: /var/www/maqinato/engine/views/main.php:14
+msgid "Main"
+msgstr "Principal"
+
+#: /var/www/maqinato/engine/views/templates/header.php:19
+msgid "logout"
+msgstr "salir"
+
+#: /var/www/maqinato/engine/views/templates/accessHeader.php:21
 msgid "Login"
 msgstr "Ingresar"
 

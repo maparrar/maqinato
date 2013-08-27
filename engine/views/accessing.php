@@ -28,7 +28,7 @@
         </script>
     </head>
     <body>
-        <section class="container">
+        <section id="accessing" class="container">
             <?php Router::import("templates/accessHeader.php"); ?>
             <section class="content">
                 <div id="signupForm">

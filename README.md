@@ -1,4 +1,4 @@
-Maqinato v.0.5.0 (pre-alpha)
+Maqinato v.0.6.0 (alpha)
 ==========
 ¡¡¡No es funcional. Solo disponible para pruebas hasta la versión 1.0.!!!
 
@@ -208,6 +208,10 @@ ALTER TABLE Role_User ADD INDEX FKRole_User569933 (Userid), ADD CONSTRAINT FKRol
 
 Cambios
 ==========
+Versión 0.6.0 (alpha):
+----------
+- Completo el sistema de login y signup
+
 Versión 0.5.0:
 ----------
 - Controller para signup, login y logout
@@ -233,6 +237,6 @@ Versión 0.3.1:
 - Inclusión de la clase Environment
 - Uso de Environment para almacenar las bases de datos
 
-Versión 0.3.0:
+Versión 0.3.0 (pre-alpha):
 ----------
 - Soporte para i18n y l10n

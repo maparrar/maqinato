@@ -21,7 +21,7 @@
         </script>
     </head>
     <body>
-        <section class="container">
+        <section id="main" class="container">
             <?php Router::import("templates/header.php"); ?>
             <section class="content">
                 MAIN PAGE
