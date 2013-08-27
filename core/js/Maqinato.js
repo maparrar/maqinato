@@ -7,7 +7,7 @@
  * Funciones del script Tools. Se debe usar:
  *      Tools.time();
  * */
-function Tools(){};Tools.properties=function(e){var t=new Array;for(var n in e){if(e.hasOwnProperty(n)){t.push(n)}}return t};Tools.time=function(){var e=new Date;return e.getHours()+":"+e.getMinutes()+":"+e.getSeconds()};Tools.date=function(){var e=new Date;return e.getFullYear()+"-"+(e.getMonth()+1)+"-"+e.getDate()};Tools.now=function(){return Tools.date()+" "+Tools.time()};Tools.addMinutes=function(e,t){return new Date(e.getTime()+t*6e4)};Tools.round=function(e,t){if(!t){t=0}var n=Math.round(e*Math.pow(10,t))/Math.pow(10,t);return n};Tools.currency=function(e,t){if(t){return parseFloat(Math.round(e*100)/100).toFixed(t)}else{return Tools.formatNumber(Tools.round(e,0))}};Tools.formatNumber=function(e,t){t=t||"";e+="";var n=e.split(".");var r=n[0];var i=n.length>1?"."+n[1]:"";var s=/(\d+)(\d{3})/;while(s.test(r)){r=r.replace(s,"$1"+","+"$2")}return t+r+i};Tools.replace=function(e,t,n){var r=new RegExp(e,"g");return n.replace(r,t)};Tools.capitalize=function(e){return e.charAt(0).toUpperCase()+e.slice(1)};Tools.css=function(e){var t=document.styleSheets,n={};for(var r in t){var i=t[r].rules||t[r].cssRules;for(var s in i){if(e.is(i[s].selectorText)){n=$.extend(n,Tools.css2json(i[s].style),Tools.css2json(e.attr("style")))}}}return n};Tools.css2json=function(e){var t={};if(!e)return t;if(e instanceof CSSStyleDeclaration){for(var n in e){if(e[n].toLowerCase){t[e[n].toLowerCase()]=e[e[n]]}}}else if(typeof e=="string"){e=e.split("; ");for(var r in e){var i=e[r].split(": ");t[i[0].toLowerCase()]=i[1]}}return t};
+function Tools(){};Tools.properties=function(e){var t=new Array;for(var n in e){if(e.hasOwnProperty(n)){t.push(n)}}return t};Tools.time=function(){var e=new Date;return e.getHours()+":"+e.getMinutes()+":"+e.getSeconds()};Tools.date=function(){var e=new Date;return e.getFullYear()+"-"+(e.getMonth()+1)+"-"+e.getDate()};Tools.now=function(){return Tools.date()+" "+Tools.time()};Tools.addMinutes=function(e,t){return new Date(e.getTime()+t*6e4)};Tools.round=function(e,t){if(!t){t=0}var n=Math.round(e*Math.pow(10,t))/Math.pow(10,t);return n};Tools.currency=function(e,t){if(t){return parseFloat(Math.round(e*100)/100).toFixed(t)}else{return Tools.formatNumber(Tools.round(e,0))}};Tools.formatNumber=function(e,t){t=t||"";e+="";var n=e.split(".");var r=n[0];var i=n.length>1?"."+n[1]:"";var s=/(\d+)(\d{3})/;while(s.test(r)){r=r.replace(s,"$1"+","+"$2")}return t+r+i};Tools.replace=function(e,t,n){var r=new RegExp(e,"g");return n.replace(r,t)};Tools.capitalize=function(e){return e.charAt(0).toUpperCase()+e.slice(1)};Tools.css=function(e){var t=document.styleSheets,n={};for(var r in t){var i=t[r].rules||t[r].cssRules;for(var s in i){if(e.is(i[s].selectorText)){n=$.extend(n,Tools.css2json(i[s].style),Tools.css2json(e.attr("style")))}}}return n};Tools.css2json=function(e){var t={};if(!e)return t;if(e instanceof CSSStyleDeclaration){for(var n in e){if(e[n].toLowerCase){t[e[n].toLowerCase()]=e[e[n]]}}}else if(typeof e=="string"){e=e.split("; ");for(var r in e){var i=e[r].split(": ");t[i[0].toLowerCase()]=i[1]}}return t;};
 /**
  * Funciones del script Security. Se debe usar:
  *      Security.isemail();
@@ -40,12 +40,13 @@ function Maqinato(){
     obj.daemonsInterval=1000;       //The interval for the daemons in milliseconds
     obj.daemons=null;               //Daemons object
     //Create the exist() function for any selector. i.e.: $("selector").exist()
-    $.fn.exist=function(){return this.length>0;}
+    $.fn.exist=function(){return this.length>0;};
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> METHODS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
      * Configure and init the systems Scripts 
+     * @param {Object} options Objeto de opciones para inicializar Maqinato
      **/
     obj.init=function(options){
         //Set the input options
@@ -142,6 +143,7 @@ function Maqinato(){
     /**
      * Add the lifetimeSession (in minutes) defined in the configuration file to
      * the current time. Set the new time limit to the session.
+     * @param {int} addMinutes Cantidad de minutos a agregar al tiempo de sesión
      **/
     obj.resetTimeSession=function(addMinutes){
         if(!addMinutes){
@@ -166,6 +168,8 @@ function Maqinato(){
     /**
      * Retorna el path de un folder en la aplicación, busca en la lista de paths
      * de parámetros
+     * @param {string} folder Nombre del folder para hallar la ruta
+     * @return {string} Ruta del folder
      **/
     obj.path=function(folder){
         var path="/";
@@ -181,6 +185,8 @@ function Maqinato(){
     };
     /**
      * Return the relative path for a folder from the caller file
+     * @param {string} folder Nombre del folder para hallar la ruta relativa
+     * @return {string} Ruta del folder
      **/
     obj.rel=function(folder){
         var current=window.location.pathname;
@@ -200,37 +206,8 @@ function Maqinato(){
         return output;
     };
     /**
-     * Show an auxiliar message in the top of page
-     * @param message to show 
-     * @param elementToFocus to focus after close the dialog
-     **/
-    obj.message=function(message,elementToFocus,title){
-        $("#dialogMessage").dialog( "close" );
-        $("#dialogMessage").remove();
-        if(title==true){
-            var mtitle="";
-        }else{
-            mtitle="dialogNoTitle";
-        };
-        $("body").append('<div id="dialogMessage">'+message+'</div>');
-        $("#dialogMessage").dialog({
-            modal: true,
-            resizable: false,
-            closeOnEscape: true,
-            draggable: false,
-            zIndex: 9999,
-            height: "auto",
-            dialogClass:"messageFormat "+mtitle,
-            close:function(){
-                if(elementToFocus){
-                    elementToFocus.focus();
-                }
-            }
-        });
-    };
-    /**
-     * Muestra un diálogo de JQuery-UI sin título
-     * @param optsUser
+     * Muestra un diálogo de JQuery-UI
+     * @param {Object} optsUser Opciones del diálogo
      * @return elemento del DOM con el diálogo
      **/
     obj.dialog=function(optsUser){
@@ -244,7 +221,7 @@ function Maqinato(){
             position:null,
             resizable:false,
             title:"",
-            width:200
+            width:300
         };
         var opts=$.extend(def,optsUser);
         var dialogName="dialog"+new Date().getTime();
@@ -274,6 +251,8 @@ function Maqinato(){
     };
     /**
      * Cierra un diálogo a partir del elemento generado por maqinato.dialog
+     * @param {element} dialog Un elemento de diálogo generado por Maqinato.dialog
+     * @param {function} onClose función que se ejecuta cuando se cierra el diálogo
      **/
     obj.dialogClose=function(dialog,onClose){
         try{
@@ -284,7 +263,12 @@ function Maqinato(){
         }catch(err){}
     };
     /**
-     * Handler for the console.debug function, avoiding the problem of IE
+     * Muestra un mensaje en la consola y en el cuadro de debug de Maqinato si
+     * está disponible.
+     * @param {string} message Mensaje que se quiere mostrar
+     * @param {bool} onlyConsole Si es false, se muestra el mensaje en la consola
+     *      y en el debug de Maqinato, si está disponible. Si es false solo se 
+     *      muestra en la consola.
      **/
     obj.debug=function(message,onlyConsole){
         console.debug(message);
@@ -312,4 +296,3 @@ function Maqinato(){
         }
     };
 }
-
