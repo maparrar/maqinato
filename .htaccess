@@ -1,0 +1,23 @@
+#maqinato .htaccess file
+#ServerSignature EMail
+#SetEnv SERVER_ADMIN https://github.com/maparrar/maqinato
+
+#Hide the files in all folders
+IndexIgnore *
+
+#Avoid vulnerability by no GET or POST requests
+<LimitExcept GET POST>
+    Order Allow,Deny
+    Deny from all
+</LimitExcept>
+
+#Compress sending data
+SetOutputFilter DEFLATE
+
+#Redirecciona todas las peticiones al index de la aplicación
+<IfModule mod_rewrite.c>
+    Options -MultiViews
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>

@@ -1,0 +1,53 @@
+header #loginForm{
+    font-size: 0.6em;
+    position: absolute;
+    right: 0;
+}
+header #loginForm .field{
+    float: left;
+    margin: 3px;
+}
+header #loginForm .field .name{
+    height: 16px;
+    text-align: left;
+}
+header #loginForm #login{
+    height:24px;
+    line-height:24px;
+}
+
+#signupForm input{
+    width: 250px;
+}
+
+
+/******************************************************************************/
+/******************************* MEDIA QUERIES ********************************/
+/******************************************************************************/
+/* ESTILOS ADICIONALES PARA TABLETS */
+@media screen and (max-width: 800px){
+    header #loginForm .field input{
+        width: 140px;
+    }
+}
+/* ESTILOS ADICIONALES PARA MÓVILES */
+@media screen and (max-width: 639px){
+    header #loginForm{
+        float: none;
+        font-size: 0.7em;
+        position: static;
+    }
+    header #loginForm .field{
+        width: 33%;
+    }
+    header #loginForm .field input{
+        width: 100%;
+    }
+    header #loginForm #login{
+        width: 25%;
+    }
+}
+/* ESTILOS ADICIONALES PARA DISPOSITIVOS PEQUEÑOS (TELÉFONOS PEQUEÑOS) */
+@media screen and (max-width: 359px){
+    
+}

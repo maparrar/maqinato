@@ -1,0 +1,130 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,/*ol,ul,li,*/ fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0;}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:none;}table{border-collapse:collapse;border-spacing:0;}
+
+/**
+    MAQINATO DEBUG STYLES
+*/
+.maqinato_debug{
+    /*background: #a6b779;*/
+    background: green;
+    border: 1px solid green;
+    color: white;
+    font-size: 11px;
+    height: 300px;
+    margin: 10px 0;
+}
+.maqinato_debug ul{
+    list-style: upper-roman inside;
+}
+.maqinato_debug li{
+    list-style: circle outside;
+}
+.maqinato_debug > .title{
+    background: green;
+    font-weight: bold;
+    margin-top: 3px;
+    text-align: center;
+}
+.maqinato_debug .column{
+    float: left;
+    height: 284px;
+    margin-left: 5px;
+}
+.maqinato_debug .section{
+    background: #fff;
+}
+.maqinato_debug .section .title{
+    background: green;
+    font-weight: bold;
+    height: 15px;
+    line-height: 15px;
+    text-indent: 7px;
+}
+.maqinato_debug .section ul{
+    color: blue;
+}
+.maqinato_debug .left{
+    width: 30%;
+}
+.maqinato_debug .left .section{
+    margin-top: 5px;
+    height: 135px;
+    overflow: hidden;
+}
+.maqinato_debug .left .section > ul{
+    height: 120px;
+    margin-top: 1px;
+    overflow: auto;
+}
+.maqinato_debug .right{
+    float: left;
+    width: 60%;
+}
+.maqinato_debug .right .section{
+    margin-top: 5px;
+    height: 275px;
+    overflow: hidden;
+}
+.maqinato_debug .right .section > ul,.maqinato_debug #mq_debug_msgs{
+    height: 260px;
+    margin-top: 1px;
+    overflow: auto;
+}
+.maqinato_debug #mq_debug_msgs{
+    color: #444;
+}
+
+
+
+.maqinato_debug .mq_debug_msg{
+    margin: 5px 4px;
+    padding: 1px;
+}
+.maqinato_debug .mq_debug_msg .mq_title{
+    color: #eee;
+    font-weight: bold;
+    height: 15px;
+    /*width: 100%;*/
+}
+.maqinato_debug .mq_debug_msg .mq_title div{
+    float: left;
+    margin-left: 3px;
+}
+.maqinato_debug .mq_debug_msg .mq_title .mq_time{
+    float: right;
+}
+.maqinato_debug .mq_debug_msg .mq_line{
+    font-weight: bold;
+}
+.maqinato_debug .mq_debug_msg .mq_content{
+    padding: 4px;
+}
+/* Erorres de PHP */
+.maqinato_debug .mq_php{
+    background: #7979AC;
+}
+.maqinato_debug .mq_php .mq_content{
+    background: #BBBBDD;
+}
+/* Erorres de JS */
+.maqinato_debug .mq_js{
+    background: #AE4343;
+}
+.maqinato_debug .mq_js .mq_content{
+    background: #FFC0CB;
+}
+
+
+
+.mq_powered{
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+}
+.mq_powered a{
+    color: #ccc;
+    text-decoration: none;
+}
