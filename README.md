@@ -208,6 +208,10 @@ ALTER TABLE Role_User ADD INDEX FKRole_User569933 (Userid), ADD CONSTRAINT FKRol
 
 Cambios
 ==========
+Versión 0.6.1:
+----------
+- Carga de roles de usuario
+
 Versión 0.6.0 (alpha):
 ----------
 - Completo el sistema de login y signup
