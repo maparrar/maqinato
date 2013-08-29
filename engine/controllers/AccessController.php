@@ -86,10 +86,12 @@ class AccessController{
         $name=SecurityController::sanitizeString($name);
         $lastname=SecurityController::sanitizeString($lastname);
         if(SecurityController::isemail($email)&&SecurityController::ispassword($password)){
+            $daoRole=new DaoRole();
             $access=new Access();
             $user=new User(0,$email,$password);
             $user->setName($name);
             $user->setLastname($lastname);
+            $user->setRole($daoRole->find("user"));
             $response=$access->signup($user);
             if(SecurityController::isClass($response,"User")){
                 $response=$this->login($email,$password,false);
