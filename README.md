@@ -1,4 +1,4 @@
-Maqinato v.0.6.0 (alpha)
+Maqinato v.0.6.1 (alpha)
 ==========
 ¡¡¡No es funcional. Solo disponible para pruebas hasta la versión 1.0.!!!
 
