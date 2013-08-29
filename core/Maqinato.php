@@ -257,6 +257,7 @@ class Maqinato{
                             $info.='<li>user: none</li>';
                         }else{
                             $info.='<li>user ['.self::$user->getId().']: '.self::$user->getEmail().'</li>';
+                            $info.='<li>role: '.self::$user->getRole()->getName().'</li>';
                         }
                         $info.='<li>timers:</li>';    
                             $info.='<ul>';

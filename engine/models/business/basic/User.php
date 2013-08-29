@@ -34,6 +34,12 @@ class User extends Person{
      * @var string
      */
     protected $salt;
+    /** 
+     *  
+     * 
+     * @var Role
+     */
+    protected $role;
     /**
     * Constructor
     * @param int $id         
@@ -41,11 +47,13 @@ class User extends Person{
     * @param string $password         
     * @param string $salt         
     */
-    function __construct($id=0,$email="",$password="",$salt=""){        
+    function __construct($id=0,$email="",$password="",$salt=""){  
+        parent::__construct();
         $this->id=$id;
         $this->email=$email;
         $this->password=$password;
         $this->salt=$salt;
+        $this->role=new Role();
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
@@ -80,6 +88,14 @@ class User extends Person{
     public function setSalt($value) {
         $this->salt=$value;
     }
+    /**
+    * Setter role
+    * @param Role $value 
+    * @return void
+    */
+    public function setRole($value) {
+        $this->role=$value;
+    }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
     * Getter: id
@@ -108,7 +124,14 @@ class User extends Person{
     */
     public function getSalt() {
         return $this->salt;
-    }    
+    }
+    /**
+    * Getter: role
+    * @return Role
+    */
+    public function getRole() {
+        return $this->role;
+    }  
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
      * Return the name and lastname in a string
