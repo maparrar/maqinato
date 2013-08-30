@@ -16,4 +16,3 @@ session_start();
 if(rand(1,10)==1){
     session_regenerate_id();
 }
-?>
