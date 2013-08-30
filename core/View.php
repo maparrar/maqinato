@@ -32,4 +32,3 @@ class View{
         self::render("error");
     }
 }
-?>
