@@ -8,6 +8,10 @@
             Router::css("general","jquery-ui");
             //Incluye los scripts de JS
             Router::js("basic");
+            //Verifica si hay usuario registrado, sino, elimina la sesión y vuelve al root
+            if(!Maqinato::user()){
+                Router::redirect("");
+            }
             //Incluye los parámetros de la aplicación para ser leídos desde JS
             Maqinato::configInHtml();
         ?>

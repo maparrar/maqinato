@@ -53,7 +53,7 @@ class Maqinato{
      *  2   Muestra el nivel 1 + todos los datos de configuración de maqinato
      *  3   Muestra el nivel 2 + la lista de mensajes del debug
      */
-    private static $debugLevel=0;
+    private static $debugLevel=3;
     /**
      * Array para almacenar todos los mensajes debug que se requieran
      */
@@ -257,6 +257,7 @@ class Maqinato{
                             $info.='<li>user: none</li>';
                         }else{
                             $info.='<li>user ['.self::$user->getId().']: '.self::$user->getEmail().'</li>';
+                            $info.='<li>role: '.self::$user->getRole()->getName().'</li>';
                         }
                         $info.='<li>timers:</li>';    
                             $info.='<ul>';

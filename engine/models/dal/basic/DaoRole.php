@@ -158,4 +158,25 @@ class DaoRole{
         }
         return $list;
     }
+    /**
+     * Retorna un rol a partir de su nombre
+     * @param string $name Nombre del rol que se quiere retornar
+     * @return Role Objeto de tipo Role
+     */
+    function find($name){
+        $response=false;
+        $handler=Maqinato::connect("read");
+        $stmt = $handler->prepare("SELECT id FROM Role WHERE LOWER(name)=:name");
+        $stmt->bindParam(':name',strtolower($name));
+        if ($stmt->execute()) {
+            if($stmt->rowCount()>0){
+                $row=$stmt->fetch();
+                $response=$this->read(intval($row["id"]));
+            }
+        }else{
+            $error=$stmt->errorInfo();
+            error_log("[".__FILE__.":".__LINE__."]"."Mysql: ".$error[2]);
+        }
+        return $response;
+    }
 }

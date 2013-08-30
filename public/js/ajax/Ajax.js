@@ -61,7 +61,7 @@ function Ajax(){
      * Function that refresh the session
      **/
     obj.refreshSession=function(){
-        $.post(obj.path+"core/jxRefreshSession.php");
+        $.post(obj.path+"accessing/jxRefreshSession.php");
     };
     /**
      * Function that load the system data.

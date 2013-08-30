@@ -65,8 +65,10 @@ class Access{
         $daoSession=new DaoSession();
         $user=$daoUser->readByEmail($email);
         $session=$daoSession->lastSession($user);
-        $session->stop($this->getIp());
-        $daoSession->update($session);
+        if($session){
+            $session->stop($this->getIp());
+            $daoSession->update($session);
+        }
     }
     /**
      * Return the user IP

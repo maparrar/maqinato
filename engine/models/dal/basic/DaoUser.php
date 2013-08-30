@@ -27,12 +27,13 @@ class DaoUser{
             $daoPerson=new DaoPerson();
             $person=$daoPerson->create($user);
             $stmt = $handler->prepare("INSERT INTO User 
-                (`id`,`email`,`password`,`salt`) VALUES 
-                (:id,:email,:password,:salt)");
+                (`id`,`email`,`password`,`salt`,`role`) VALUES 
+                (:id,:email,:password,:salt,:role)");
             $stmt->bindParam(':id',$user->getId());
             $stmt->bindParam(':email',$user->getEmail());
             $stmt->bindParam(':password',$user->getPassword());
             $stmt->bindParam(':salt',$user->getSalt());
+            $stmt->bindParam(':role',$user->getRole()->getId());
             if($stmt->execute()){
                 $user->setId(intval($person->getId()));
                 $created=$user;
@@ -51,6 +52,7 @@ class DaoUser{
      * @return User User loaded
      */
     function read($id){
+        $daoRole=new DaoRole();
         $response=false;
         $handler=Maqinato::connect("read");
         $stmt = $handler->prepare("SELECT * FROM User WHERE id=:id");
@@ -67,6 +69,7 @@ class DaoUser{
                 $user->setSalt("");
                 $user->setName($person->getName());
                 $user->setLastname($person->getLastname());
+                $user->setRole($daoRole->read(intval($row["role"])));
                 $response=$user;
             }
         }else{
@@ -110,10 +113,11 @@ class DaoUser{
             $daoPerson=new DaoPerson();
             $daoPerson->update($user);
             $stmt = $handler->prepare("UPDATE User SET 
-                `email`=:email 
+                `email`=:email,`role`=:role  
                 WHERE id=:id");
             $stmt->bindParam(':id',$user->getId());
             $stmt->bindParam(':email',$user->getEmail());
+            $stmt->bindParam(':role',$user->getRole()->getId());
             if($stmt->execute()){
                 $updated=true;
             }else{
