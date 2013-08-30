@@ -9,7 +9,7 @@
             //Incluye los scripts de JS
             Router::js("basic");
             //Verifica si hay usuario registrado, sino, elimina la sesión y vuelve al root
-            if(!Maqinato::user()){
+            if(!Maqinato::checkSession()){
                 Router::redirect("");
             }
             //Incluye los parámetros de la aplicación para ser leídos desde JS
