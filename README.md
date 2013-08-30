@@ -27,6 +27,25 @@ Funciona como una API para el Modelo.
 
 En el futuro ofrecerá una API accesible para aplicaciones web nativas, web móviles y nativas móviles.
 
+Características:
+==========
+- Usa PDO para la interfaz con la base de datos, evitando SQLInjection
+- Hay una clase Crypt que codifica passwords con un algoritmo digestivo y con demora intencional para evitar ataques de fuerza bruta.
+- Hace include dinámico de Clases, así no hay que poner [include directorio/NombreDeClase.php] cuando se necesita una clase, el solo las incluye
+- Usa ModRewrite para definir como único punto de Request el index.php de la raíz del proyecto
+- Permite la creación de URL's amigables, lo que beneficia si se necesitan estrategias de SEO. Las URL son de la forma: www.miaplicacion.com/nombreControlador/nombreFuncion/parametro1/parametro2/.../parametroN
+- Está centralizado el control de Request a la aplicación, de esa manera solo pueden existir las redirecciones definidas por uno mismo, en caso de un acceso a otra, redirige a la página de error
+- Sistema de internacionalización con gettext [https://www.gnu.org/software/gettext/], para hacer sitios "traducibles", por ahora solo disponible en PHP, en el futuro la idea es que funcione en JS.
+- Manejo de varios ambientes para no tener que reconfigurar cada que se pone en producción o en pruebas. Por ejemplo, se define el ambiente de desarrollo, el de pruebas y el de producción. Automáticamente se configura de acuerdo a la IP donde se esté ejecutando.
+- Tiene un sistema que puede regenerar la ID de sesión cada X minutos con probabilidad 0.1, para "despistar al enemigo".
+- Es fácil configurarlo para https.
+- Soporta Ajax
+- El acceso a la base de datos se puede hacer con cuatro diferentes usuarios, uno para leer, un para escribir, uno para borrar y uno para todas las operaciones con registros. Así, una función de la capa de acceso a datos, que sea de consultas, solo puede leer, no puede escribir ni borrar, lo que aumenta un tris la seguridad
+- En este momento incluye el sistema de registro y login de usuarios.
+- Tiene un sistema de demonios (como los demonios de UNIX) en JS, con Ajax, que permite la consulta al servidor cada X tiempo y evita montones de request aislados. Eso mejora el rendimiento cuando el sistema requiere consulta constante al servidor.
+- Archivos de configuración para parametrizar la aplicación.
+- Debug centralizado para PHP y JS, con tres niveles de detalle.
+- Existe un proyecto [https://github.com/maparrar/maqinatools] que sirve para generar las clases y las clases de acceso a datos automáticamente a partir de un archivo .sql con la definición de las tablas (solo genera clases para las entidades con una PK). Crea la clase MyClass con los campos de la tabla y crea una clase DaoMyClass con el CRUD (con PDO) para acceder a la base de datos.
 
 Requisitos
 ==========

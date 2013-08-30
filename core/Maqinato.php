@@ -180,7 +180,17 @@ class Maqinato{
         //Hace el routing del Request capturado
         Router::route(self::$request);
     }
-    
+    /**
+     * Verifica que haya un usuario conectado
+     * @return bool True si hay un usuario válido registrado, false en otro caso
+     */
+    public static function checkSession(){
+        $status=false;
+        if(self::$user&&get_class(self::$user)==="User"&&SecurityController::isEmail(self::$user->getEmail())){
+            $status=true;
+        }
+        return $status;
+    }
     /**************************************************************************/
     /********************************** UTILS *********************************/
     /**************************************************************************/
