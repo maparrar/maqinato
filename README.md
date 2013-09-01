@@ -37,7 +37,7 @@ Características:
 - Está centralizado el control de Request a la aplicación, de esa manera solo pueden existir las redirecciones definidas por uno mismo, en caso de un acceso a otra, redirige a la página de error
 - Sistema de internacionalización con gettext [https://www.gnu.org/software/gettext/], para hacer sitios "traducibles", por ahora solo disponible en PHP, en el futuro la idea es que funcione en JS.
 - Manejo de varios ambientes para no tener que reconfigurar cada que se pone en producción o en pruebas. Por ejemplo, se define el ambiente de desarrollo, el de pruebas y el de producción. Automáticamente se configura de acuerdo a la IP donde se esté ejecutando.
-- Tiene un sistema que puede regenerar la ID de sesión cada X minutos con probabilidad 0.1, para "despistar al enemigo".
+- Tiene un sistema que puede regenerar la ID de sesión cada X minutos con probabilidad 0.1.
 - Es fácil configurarlo para https.
 - Soporta Ajax
 - El acceso a la base de datos se puede hacer con cuatro diferentes usuarios, uno para leer, un para escribir, uno para borrar y uno para todas las operaciones con registros. Así, una función de la capa de acceso a datos, que sea de consultas, solo puede leer, no puede escribir ni borrar, lo que aumenta un tris la seguridad
