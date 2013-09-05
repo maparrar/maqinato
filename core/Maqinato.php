@@ -364,9 +364,10 @@ class Maqinato{
     }
     /**
      * Write the main configuration variables in html to be readed from JS
+     * @param array $parameters (opcional)Parámetros adicionales para incluir
      * @return string Write the variables in html
      */
-    public static function configInHtml(){
+    public static function configInHtml($parameters=false){
         $id=0;
         $name="";
         if(self::$user){
@@ -394,7 +395,8 @@ class Maqinato{
             "sessionLifetime"=>$_SESSION["sessionLifetime"],
             "sessionCheckTime"=>self::$config["client"]["sessionCheckTime"],
             "daemonsInterval"=>self::$config["client"]["daemonsInterval"],
-            "request"=>$request
+            "request"=>$request,
+            "parameters"=>$parameters
         );
         $html=
             "<!--Configuration data-->
