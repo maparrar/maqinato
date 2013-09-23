@@ -11,7 +11,7 @@
  * documentos, etc.
  * 
  * En la primera parte se definen variables por defecto para la base de datos
- * $database y para el servidor de archivos $data, pero al final se pueden
+ * $database y para el servidor de archivos $fileServer, pero al final se pueden
  * especificar condiciones diferentes para cada uno de los ambientes.
  */
 
