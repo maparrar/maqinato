@@ -263,6 +263,11 @@ sino también centralizar el acceso a archivos de la aplicación, así, en caso 
 que se requiera un cambio de servidor para dicha información, baste con cambiar
 la configuración en engine/config/environments.php.
 
+Como ejemplo, para retornar la ruta de una imagen de acuerdo al source elegido:
+```
+Maqinato::img("foo/maqinato.png");
+```
+
 
 Cambios
 ==========
