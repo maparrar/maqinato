@@ -8,11 +8,7 @@
  * @package views
  * @subpackage templates
  */
-//Verifica si hay usuario registrado, si es así, redirige al main
-if(Maqinato::user()){
-    Router::redirect("main");
-}
- ?>
+?>
 <header>
     <h1 class="logo"><a href="<?php echo Router::path('root'); ?>"><?php echo Maqinato::application(); ?></a></h1>
     <div id="loginForm">

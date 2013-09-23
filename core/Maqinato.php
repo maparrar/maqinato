@@ -180,7 +180,17 @@ class Maqinato{
         //Hace el routing del Request capturado
         Router::route(self::$request);
     }
-    
+    /**
+     * Verifica que haya un usuario conectado
+     * @return bool True si hay un usuario válido registrado, false en otro caso
+     */
+    public static function checkSession(){
+        $status=false;
+        if(self::$user&&get_class(self::$user)==="User"&&SecurityController::isEmail(self::$user->getEmail())){
+            $status=true;
+        }
+        return $status;
+    }
     /**************************************************************************/
     /********************************** UTILS *********************************/
     /**************************************************************************/
@@ -290,6 +300,16 @@ class Maqinato{
                                                 }
                                             $info.='</ul>';
                                     $info.='</ul>';
+                                $info.='<li>fileServer:</li>';
+                                    $info.='<ul>';
+                                        $info.='<li>source: '.self::$environment->getFileServer()->getSource().'</li>';
+                                        $info.='<li>isSSL: '.self::$environment->getFileServer()->getIsSSL().'</li>';
+                                        $info.='<li>domain: '.self::$environment->getFileServer()->getDomain().'</li>';
+                                        $info.='<li>bucket: '.self::$environment->getFileServer()->getBucket().'</li>';
+                                        $info.='<li>folder: '.self::$environment->getFileServer()->getFolder().'</li>';
+                                        $info.='<li>accessKey: '.self::$environment->getFileServer()->getAccessKey().'</li>';
+                                        $info.='<li>secretKey: '.self::$environment->getFileServer()->getSecretKey().'</li>';
+                                    $info.='</ul>';
                             $info.='</ul>';
                         $info.='<li>locale: '.self::$locale.'</li>';
                         $info.='<li>request:</li>';
@@ -354,9 +374,10 @@ class Maqinato{
     }
     /**
      * Write the main configuration variables in html to be readed from JS
+     * @param array $parameters (opcional)Parámetros adicionales para incluir
      * @return string Write the variables in html
      */
-    public static function configInHtml(){
+    public static function configInHtml($parameters=false){
         $id=0;
         $name="";
         if(self::$user){
@@ -384,7 +405,8 @@ class Maqinato{
             "sessionLifetime"=>$_SESSION["sessionLifetime"],
             "sessionCheckTime"=>self::$config["client"]["sessionCheckTime"],
             "daemonsInterval"=>self::$config["client"]["daemonsInterval"],
-            "request"=>$request
+            "request"=>$request,
+            "parameters"=>$parameters
         );
         $html=
             "<!--Configuration data-->
