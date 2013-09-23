@@ -1,4 +1,4 @@
-Maqinato v.0.6.1 (alpha)
+Maqinato v.0.6.2 (alpha)
 ==========
 ¡¡¡No es funcional. Solo disponible para pruebas hasta la versión 1.0.!!!
 
@@ -230,8 +230,46 @@ INSERT INTO Role VALUES(2,"Admin");
 INSERT INTO Role VALUES(3,"User");
 ```
 
+Servidor de archivos
+==========
+Cada ambiente (environment) puede tener un método de acceso diferente a archivos
+requeridos por la aplicación. Un servidor de archivos puede ser externo o local,
+si es local, debe estar dentro del mismo folder de la aplicación, de otro modo,
+se debe configurar el acceso como externo. Normalmente se usa para un folder donde 
+se almacenan imágenes, videos, audio, documentos, etc, con los que se alimenta la 
+aplicación.
+
+Normalmente para acceder a una imagen de ejemplo desde un ambiente de desarrollo
+se puede cargar por medio de la siguiente url:
+```
+foo/bar/data/users/richard.png
+```
+
+Mientras que desde un ambiente de producción podría ser:
+```
+https://data.fileserver.com/folderA/another_folder/data/users/richard.png
+```
+
+El objetivo de definir un Servidor ds Archivos es que el acceso a dicha información
+sea transparente para la aplicación independientemente del ambiente que se esté 
+ejecutando. Luego de la configuración, en los ejemplos mencionados, el acceso a
+la imagen sería:
+```
+data/users/richard.png
+```
+
+Esto permite no solo tener una configuración independiente para cada ambiente
+sino también centralizar el acceso a archivos de la aplicación, así, en caso de 
+que se requiera un cambio de servidor para dicha información, baste con cambiar
+la configuración en engine/config/environments.php.
+
+
 Cambios
 ==========
+Versión 0.6.2:
+----------
+- Opción de carga de archivos desde local o servidor de archivos externos
+
 Versión 0.6.1:
 ----------
 - Carga de roles de usuario
