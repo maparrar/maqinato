@@ -250,10 +250,10 @@ Mientras que desde un ambiente de producción podría ser:
 https://data.fileserver.com/folderA/another_folder/data/users/richard.png
 ```
 
-El objetivo de definir un Servidor ds Archivos es que el acceso a dicha información
+El objetivo de definir un Servidor de Archivos es que el acceso a dicha información
 sea transparente para la aplicación independientemente del ambiente que se esté 
 ejecutando. Luego de la configuración, en los ejemplos mencionados, el acceso a
-la imagen sería:
+la imagen se realizaría pasando la "url abstracta" que se usa en todos los casos:
 ```
 data/users/richard.png
 ```
