@@ -31,19 +31,21 @@ class Environment{
     /** 
      * Servidor de archivos del Environment 
      * 
-     * @var Data
+     * @var FileServer
      */
-    protected $data;
+    protected $fileServer;
     /**
     * Constructor
     * @param string $name Nombre del Environment        
     * @param array $urls Lista de las urls para las que el ambiente es válido        
     * @param Database $database Base de datos del Environment        
+    * @param FileServer $fileServer Servidor de archivos del Environment        
     */
-    function __construct($name="",$urls=array(),$database=false){        
+    function __construct($name="",$urls=array(),$database=false,$fileServer=false){        
         $this->name=$name;
         $this->urls=$urls;
         $this->database=$database;
+        $this->fileServer=$fileServer;
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
@@ -70,6 +72,14 @@ class Environment{
     public function setDatabase($value) {
         $this->database=$value;
     }
+    /**
+    * Setter fileServer
+    * @param FileServer $value Servidor de archivos del Environment
+    * @return void
+    */
+    public function setFileServer($value) {
+        $this->fileServer=$value;
+    }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
     * Getter: name
@@ -91,6 +101,13 @@ class Environment{
     */
     public function getDatabase() {
         return $this->database;
+    }    
+    /**
+    * Getter: fileServer
+    * @return FileServer
+    */
+    public function getFileServer() {
+        return $this->fileServer;
     }    
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
@@ -114,10 +131,26 @@ class Environment{
     public function readEnvironment($array){
         $this->name=$array["name"];
         $this->urls=$array["urls"];
-        $database=new Database($array["database"]["name"],$array["database"]["driver"],$array["database"]["persistent"],$array["database"]["host"]);
+        //Lee labase de datos
+        $database=new Database(
+                            $array["database"]["name"],
+                            $array["database"]["driver"],
+                            $array["database"]["persistent"],
+                            $array["database"]["host"]
+                        );
         foreach ($array["database"]["connections"] as $connection) {
             $database->addConnection($connection["name"],$connection["login"],$connection["password"]);
         }
         $this->database=$database;
+        //Lee el servidor de archivos
+        $this->fileServer=new FileServer(
+                                    $array["fileServer"]["source"],
+                                    $array["fileServer"]["isSSL"],
+                                    $array["fileServer"]["domain"],
+                                    $array["fileServer"]["bucket"],
+                                    $array["fileServer"]["folder"],
+                                    $array["fileServer"]["accessKey"],
+                                    $array["fileServer"]["secretKey"]
+                                );
     }
 }

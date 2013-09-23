@@ -87,7 +87,7 @@ $database=array(
  *      "accessKey" =>  "KJHAJ7JKEDSJA2J9YMPD",
  *      "secretKey" =>  "HedBxjeasde3dhYnfKdwHohu03u7nzvCWDPScErC"
  */
-$data=array(
+$fileServer=array(
     /**
      * Define si se debe acceder a los archivos de la aplicación en un folder o
      * una URL extarna
@@ -175,7 +175,7 @@ return array(
             "10.0.0.102"
         ),
         "database"  => $database,
-        "data"  => $data
+        "fileServer"  => $fileServer
     ),
     array(
         "name"  => "release",
@@ -185,7 +185,7 @@ return array(
             "01.01.01.01"
         ),
         "database"  => $database,
-        "data"  => $data
+        "fileServer"  => $fileServer
     ),
     array(
         "name"  => "production",
@@ -224,6 +224,6 @@ return array(
                 )
             )
         ),
-        "data"  => $data
+        "fileServer"  => $fileServer
     )
 );

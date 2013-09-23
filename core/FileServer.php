@@ -1,15 +1,15 @@
 <?php
-/** Data File
+/** FileServer File
 * @package core @subpackage  */
 /**
-* Data Class
+* FileServer Class
 *
 * @author https://github.com/maparrar/maqinato
 * @author maparrar <maparrar@gmail.com>
 * @package core
 * @subpackage 
 */
-class Data{
+class FileServer{
     /**
      * Define si se debe acceder a los archivos de la aplicación en un folder o
      * una URL extarna
@@ -83,7 +83,7 @@ class Data{
     * @param string $accessKey Clave de acceso al servidor de archivos        
     * @param string $secretKey Clave secreta de acceso al servidor de archivos        
     */
-    function __construct($source="",$isSSL=0,$domain="",$bucket="",$folder="",$accessKey="",$secretKey=""){        
+    function __construct($source="",$isSSL=false,$domain="",$bucket="",$folder="",$accessKey="",$secretKey=""){        
         $this->source=$source;
         $this->isSSL=$isSSL;
         $this->domain=$domain;
