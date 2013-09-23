@@ -1,158 +1,203 @@
 <?php
-/** Router File
- * @package config */
-//namespace maqinato\core;
+/** Data File
+* @package core @subpackage  */
 /**
- * Router Class
- * Specifies the paths and the application name for all the System.
- *
- * @author https://github.com/maparrar/maqinato
- * @author Alejandro Parra <maparrar@gmail.com> 
- * @package config
- */
-class Router{
+* Data Class
+*
+* @author https://github.com/maparrar/maqinato
+* @author maparrar <maparrar@gmail.com>
+* @package core
+* @subpackage 
+*/
+class Data{
     /**
-     * Retorna la ruta a partir de su nombre y del directorio de rutas definido
-     * en config. Esta función retorna enlaces del tipo:<br>
-     *      /maqinato/public/css/template.css<br>
-     *      /maqinato/public/js/jquery/jquery-2.0.3.min.js<br>
-     * que generalmente sirven para escribrir enlaces en el HTML como los de JS y
-     * CSS. Esto fue necesario desde la inclusión del htaccess que redirecciona
-     * todas las peticiones al index.php de la aplicación con mod_rewrite.<br>
-     * Si el folder no existe, se muestra un error en el debug de Maqinato.
+     * Define si se debe acceder a los archivos de la aplicación en un folder o
+     * una URL extarna
+     * @var mixed:
+     *      false: No carga archivos para la aplicación
+     *      "local": Lee los datos de un folder dentro de la aplicación
+     *      "external": Lee los datos de una fuente externa por medio de una URL
      */
-    public static function path($folder){
-        $path=false;
-        if(file_exists(Maqinato::$config["paths"]["app"][$folder])||$folder==="root"){
-            $path="/".Maqinato::application()."/".Maqinato::$config["paths"]["app"][$folder];
-        }else{
-            Maqinato::debug('Router::path("'.$folder.'") -> Folder not found',debug_backtrace());
-        }
-        return $path;
+    protected $source;
+    /**
+     * Define si se accede por SSL a los archivos externos
+     * @var bool true para acceso seguro al servidor de archivos (debe estar 
+     *           configurado en el servidor), false en otro caso
+     */
+    protected $isSSL;
+    /**
+     * Dominio del servidor de archivos para acceder a los datos, no incluye el 
+     * protocolo, pues se define en la variable isSSL. No se usa en caso de 
+     * source="local"
+     * @var string Dominio en caso de source="external", por ejemplo:
+     *      - "www.maqinato.com"
+     *      - "s3.amazonaws.com"
+     */
+    protected $domain;
+    /**
+     * Bucket o contenedor, usado principalmente en servidores de datos externos
+     * como AWS. No se usa en caso de source="local"
+     * @var string Contenedor de archivos en caso de datos externos como AWS
+     */
+    protected $bucket;
+    /**
+     * Folder raíz de almacenamiento
+     * @var string:
+     *      - En caso de que source="local" debe ser una ruta relativa dentro
+     *        del folder de la aplicación. P.e.
+     *          - si la aplicación está en la ruta: "/var/www/maqinato" y el folder 
+     *            de datos en "/var/www/maqinato/data/" se debe pasar a esta 
+     *            variable el valor "data/"
+     *          - si la aplicación está en la ruta: "/var/www/maqinato" y el folder 
+     *            de datos en "/var/www/maqinato/foo/data" se debe pasar a esta 
+     *            variable el valor "foo/data/"
+     *      - En caso de source="external", debe ser el folder que contiene los
+     *        datos. P.e.
+     *          - si los datos están almacenados en "http://dataserver.com/foo/data"
+     *            el valor de esta variable debe ser: "foo/data/"
+     *          - si se trata de un proveedor de datos externos como AWS que requiere
+     *            un bucket o contenedor, se especifica en otra variable, excluyendo
+     *            en esta variable el nombre del bucket. Para un servidor
+     *            "http://s3.amazonaws.com/bucket_name/data" el valor de esta
+     *            variable debe ser: "data/".
+     */
+    protected $folder;
+    /**
+     * Clave de acceso al servidor de archivos, por ahora solo se usa con servidores
+     * AWS.
+     * @var string Clave de acceso al servidor de archivos
+     */
+    protected $accessKey;
+    /**
+     * Clave secreta para acceso al servidor de archivos. Solo usada para AWS.
+     * @var string Clave secreta para aceeder al servidor de archivos
+     */
+    protected $secretKey;
+    /**
+    * Constructor
+    * @param string $source Tipo de acceso al servidor de archivos        
+    * @param bool $isSSL Si se debe usar SSL        
+    * @param string $domain Dominio del servidor de archivos        
+    * @param string $bucket Contenedor de archivos en el servidor        
+    * @param string $folder Folder de los archivos        
+    * @param string $accessKey Clave de acceso al servidor de archivos        
+    * @param string $secretKey Clave secreta de acceso al servidor de archivos        
+    */
+    function __construct($source="",$isSSL=0,$domain="",$bucket="",$folder="",$accessKey="",$secretKey=""){        
+        $this->source=$source;
+        $this->isSSL=$isSSL;
+        $this->domain=$domain;
+        $this->bucket=$bucket;
+        $this->folder=$folder;
+        $this->accessKey=$accessKey;
+        $this->secretKey=$secretKey;
+    }
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /**
+    * Setter source
+    * @param string $value Tipo de acceso al servidor de archivos
+    * @return void
+    */
+    public function setSource($value) {
+        $this->source=$value;
     }
     /**
-     * Función para importar scripts de PHP en otros scripts. Se usa para centralizar
-     * la forma de importar scritps, en caso de que se tengan que modificar los
-     * paths, es decir, si se soluciona el problema que generó la función ::path().<br>
-     * Si el archivo no existe, se muestra un error en el debug de Maqinato.
-     */
-    
-    public static function import($filepath){
-        $parts=pathinfo($filepath);
-        $path=Maqinato::$config["paths"]["app"][$parts["dirname"]].$parts["basename"];
-        if(file_exists($path)){
-            require_once $path;
-        }else{
-            Maqinato::debug('require_once "'.$path.'" -> File not found.',debug_backtrace());
-        }
+    * Setter isSSL
+    * @param bool $value Si se debe usar SSL
+    * @return void
+    */
+    public function setIsSSL($value) {
+        $this->isSSL=$value;
     }
     /**
-     * Procesa un Request y usa el controlador, la función y los parámetros para
-     * redirigir a la página indicada.
-     * @param Request $request Objeto de tipo Request que se routeará
-     */
-    public static function route(Request $request){
-        switch ($request->getController()) {
-            case "":
-                self::redirect("accessing");
-                break;
-            case "accessing":
-                View::render("accessing");
-                break;
-            case "acceso":
-                View::render("accessing");
-                break;
-            case "main":
-                View::render("main");
-                break;
-            case "principal":
-                View::render("main");
-                break;
-            case "error":
-                View::render("error");
-                break;
-            default:
-                Maqinato::debug("Controller not detected");
-                self::redirect("error/notFound");
-                break;
-        }
+    * Setter domain
+    * @param string $value Dominio del servidor de archivos
+    * @return void
+    */
+    public function setDomain($value) {
+        $this->domain=$value;
     }
     /**
-     * Redirecciona a una URL dentro de la aplicación. La url debe ser del tipo
-     *      controller/function/parameter1/parameter2/...
-     * @param string $url La url a la que se quiere redireccionar
-     */
-    public static function redirect($url){
-        header( 'Location: /'.Maqinato::application().'/'.filter_var($url,FILTER_SANITIZE_URL));
+    * Setter bucket
+    * @param string $value Contenedor de archivos en el servidor
+    * @return void
+    */
+    public function setBucket($value) {
+        $this->bucket=$value;
     }
     /**
-     * Return the html includes of a JS script or an array of scripts, if is not
-     * registered, search the name in js folder
-     * @param mixed Array or sigle name of JS scripts
-     * @return string String with the includes for each JS provided
-     */
-    public static function js(){
-        $string="";
-        $values = func_get_args();
-        if(array_search("basic",$values)!==false){
-            array_splice($values,array_search("basic",$values),1,Maqinato::$config["paths"]["basic"]);
-        }
-        foreach ($values as $value){
-            if(array_key_exists($value,Maqinato::$config["paths"]["js"])){
-                $path=self::path("root").Maqinato::$config["paths"]["js"][$value];
-                $string.='<script type="text/javascript" src="'.$path.'"></script>';
-            }else{
-                $ext=pathinfo($value,PATHINFO_EXTENSION);
-                if(!$ext){
-                    $value.=".js";
-                }
-                if(file_exists(self::path("js").$value)){
-                    $string.='<script type="text/javascript" src="'.self::path("js").$value.'"></script>';
-                }else{
-                    Maqinato::debug('JS script NOT Found: '.$value,debug_backtrace());
-                }
-            }
-        }
-        echo $string;
+    * Setter folder
+    * @param string $value Folder de los archivos
+    * @return void
+    */
+    public function setFolder($value) {
+        $this->folder=$value;
     }
     /**
-     * Return the html includes of a CSS script or an array of scripts, if is not
-     * registered, search the name in css folder
-     * @param mixed Array or sigle name of CSS scripts
-     * @return string String with the includes for each CSS provided
-     */
-    public static function css(){
-        $string="";
-        $values = func_get_args();
-        foreach ($values as $value){
-            if(array_key_exists($value,Maqinato::$config["paths"]["css"])){
-                $path=self::path("root").Maqinato::$config["paths"]["css"][$value];
-                $string.='<link rel="stylesheet" type="text/css" href="'.$path.'">';
-            }else{
-                $ext=pathinfo($value,PATHINFO_EXTENSION);
-                if(!$ext){
-                    $value.=".css";
-                }
-                if(file_exists(Maqinato::$config["paths"]["app"]["css"].$value)){
-                    $string.='<link rel="stylesheet" type="text/css" href="'.self::path("css").$value.'">';
-                }else{
-                    Maqinato::debug('CSS script NOT Found: '.$value,debug_backtrace());
-                }
-            }
-        }
-        echo $string;
+    * Setter accessKey
+    * @param string $value Clave de acceso al servidor de archivos
+    * @return void
+    */
+    public function setAccessKey($value) {
+        $this->accessKey=$value;
     }
     /**
-     * Carga los archivos de configuración en las variables de configuraión
-     * @return void
-     */
-    public static function loadConfig(){
-        return array(
-            "app"           =>  require_once Maqinato::root().'/engine/config/app.php',
-            "environments"  =>  require_once Maqinato::root().'/engine/config/environment.php',
-            "client"        =>  require_once Maqinato::root().'/engine/config/client.php',
-            "paths"         =>  require_once Maqinato::root().'/engine/config/paths.php'
-        );
+    * Setter secretKey
+    * @param string $value Clave secreta de acceso al servidor de archivos
+    * @return void
+    */
+    public function setSecretKey($value) {
+        $this->secretKey=$value;
     }
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   SETTERS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /**
+    * Getter: source
+    * @return string
+    */
+    public function getSource() {
+        return $this->source;
+    }
+    /**
+    * Getter: isSSL
+    * @return bool
+    */
+    public function getIsSSL() {
+        return $this->isSSL;
+    }
+    /**
+    * Getter: domain
+    * @return string
+    */
+    public function getDomain() {
+        return $this->domain;
+    }
+    /**
+    * Getter: bucket
+    * @return string
+    */
+    public function getBucket() {
+        return $this->bucket;
+    }
+    /**
+    * Getter: folder
+    * @return string
+    */
+    public function getFolder() {
+        return $this->folder;
+    }
+    /**
+    * Getter: accessKey
+    * @return string
+    */
+    public function getAccessKey() {
+        return $this->accessKey;
+    }
+    /**
+    * Getter: secretKey
+    * @return string
+    */
+    public function getSecretKey() {
+        return $this->secretKey;
+    }    
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>   METHODS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 }
-?>

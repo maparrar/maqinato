@@ -300,6 +300,24 @@ class Maqinato{
                                                 }
                                             $info.='</ul>';
                                     $info.='</ul>';
+                                $info.='<li>data:</li>';
+                                    $info.='<ul>';
+                                        $info.='<li>name: '.self::$environment->getDatabase()->getName().'</li>';
+                                        $info.='<li>driver: '.self::$environment->getDatabase()->getDriver().'</li>';
+                                        $info.='<li>persistent: '.self::$environment->getDatabase()->getPersistent().'</li>';
+                                        $info.='<li>host: '.self::$environment->getDatabase()->getHost().'</li>';
+                                        $info.='<li>connections:</li>';
+                                            $info.='<ul>';
+                                                foreach(self::$environment->getDatabase()->getConnections() as $dbConnection){
+                                                    $info.='<li>connection:</li>';
+                                                    $info.='<ul>';
+                                                        $info.='<li>name: '.$dbConnection->getName().'</li>';
+                                                        $info.='<li>login: '.$dbConnection->getLogin().'</li>';
+                                                        $info.='<li>password: '.$dbConnection->getPassword().'</li>';
+                                                    $info.='</ul>';
+                                                }
+                                            $info.='</ul>';
+                                    $info.='</ul>';
                             $info.='</ul>';
                         $info.='<li>locale: '.self::$locale.'</li>';
                         $info.='<li>request:</li>';

@@ -28,6 +28,12 @@ class Environment{
      * @var Database
      */
     protected $database;
+    /** 
+     * Servidor de archivos del Environment 
+     * 
+     * @var Data
+     */
+    protected $data;
     /**
     * Constructor
     * @param string $name Nombre del Environment        
