@@ -90,23 +90,6 @@ class Maqinato{
         }else{
             self::$user=false;
         }
-        
-        
-        
-        
-        
-        $variable=self::$environment->getFileServer()->getFile("maqinato.png");
-        
-        $image=
-            '<img src="'.
-            self::$environment->getFileServer()->img("maqinato.png").
-            '" alt="test image"/>';
-        
-        Maqinato::debug($image);
-        
-        //self::$environment->getFileServer()->dataPut("/tmp/cat.jpg","ultracat.jpg");
-        
-        
         //Calcula el tiempo que toma exec()
         $end=microtime(true);
         array_push(self::$procTimers,array("name"=>"maqinato","ini"=>$ini,"end"=>$end));
