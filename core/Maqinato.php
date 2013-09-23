@@ -191,6 +191,98 @@ class Maqinato{
         }
         return $status;
     }
+    /**
+     * FUNCIONES ALIAS PARA ACCESO A ARCHIVOS LOCALES O ENSERVIDOR REMOTO
+     */
+    /** 
+     * Retorna la ruta real de un archivo a partir de la ruta abstracta o relativa 
+     * al folder de datos
+     * @param string $abstractPath Ruta abstracta o relativa al folder de datos, i.e.: 
+     *      - "users/richard.png"
+     *      - "users/images/10.png"
+     * @return mixed Retorna la ruta real de acuerdo al source elegido
+     *      - "http://s3.amazonaws.com/foo/data/combinations/110.png?AWSAccessKeyId=AKIAJP2UTAR7UQEPY72Q&Expires=1356955251&Signature=WfmXKKXhBzjIU1ZsM4UO7F%2Bo3QM%3D"
+     *      - "http://s3.amazonaws.com/foo/data/combinations/110.png"
+     *      - "foo/data/combinations/110.png"
+     */
+    public static function dataUrl($abstractPath){
+        return self::$environment->getFileServer()->dataUrl($abstractPath);
+    }
+    /**
+     * Alias de dataUrl para ser usado como versión corta en la carga de imágenes
+     * @param string $abstractPath Ruta abstracta de la imagen
+     *      - "folder/110.png"
+     * @return string Retorna la ruta de la imagen:
+     *      - "http://s3.amazonaws.com/foo/data/combinations/110.png?AWSAccessKeyId=AKIAJP2UTAR7UQEPY72Q&Expires=1356955251&Signature=WfmXKKXhBzjIU1ZsM4UO7F%2Bo3QM%3D"
+     *      - "http://s3.amazonaws.com/foo/data/combinations/110.png"
+     *      - "/home/operator/foo/data/combinations/110.png"
+     */
+    public static function img($abstractPath){
+        return self::$environment->getFileServer()->dataUrl($abstractPath);
+    }
+    /** 
+     * Alias para dataPut, sube un archivo al sistema de archivos
+     * @param string $source una ruta estándar donde está el archivo a guardar 
+     *      - "/tmp/tempfile123.png"
+     * @param string $abstractDestination Nombre de la ruta abstracta donde se guardará
+     *      - "folder/saved.png"
+     * @return bool:
+     *      true if could save the file
+     *      false otherwise
+     */
+    public function saveFile($source,$abstractDestination){
+        return self::$environment->getFileServer()->saveFile($source,$abstractDestination);
+    }
+    /** 
+     * Función utilizada para guardar una imagen que ha sido subida por medio de
+     * un FILE input.
+     * @param string $source Path and filename, i.e.: 
+     *      - $_FILES["file"]["tmp_name"]
+     * @param string $abstractDestination Name to save the file in the data folder:
+     *      - "folder/110.png"
+     * @return bool:
+     *      true if could save the file
+     *      false otherwise
+     */
+    public function saveUploadedFile($source,$abstractDestination){
+        return self::$environment->getFileServer()->saveUploadedFile($source,$abstractDestination);
+    }
+    /** 
+     * Copia un archivo de una ruta abstracta a otra ruta abstracta
+     * @param string $abstractSource Ruta abstracta del archivo de origen
+     *      - "foo/110.png"
+     *      - "bar/images/10.png"
+     * @param string $abstractDestination Ruta abstracta del archivo destino
+     *      - "bar/110.png"
+     *      - "users/foo/10.png"
+     * @return bool True if successful
+     */
+    public function copyFile($abstractSource,$abstractDestination){
+        return self::$environment->getFileServer()->copyFile($abstractSource,$abstractDestination);
+    }
+    /** 
+     * Elimina un archivo del folder de datos a partir de su ruta abstracta
+     * @param string $abstractPath Ruta abstracta del archivo que se eliminará 
+     *      - "foo/110.png"
+     *      - "users/bar/10.png"
+     * @return bool True if successful
+     */
+    public function deleteFile($abstractPath){
+        return self::$environment->getFileServer()->deleteFile($abstractPath);
+    }
+    /**
+     * Verifica si un archivo existe, Si es externo, verifica la URL, sino verifica
+     * con file_exist()
+     * @abstract Debido a la demora en la comprobación si una imagen existe o no
+     * se verifica si la imagen carga directamente en la etiqueta img y
+     * se crea el directorio para imágenes por default que va con el
+     * código de la aplicación. Esta función no se usa para archivos externos
+     * en self::img() por ahora.
+     * @param string $abstractPath Ruta abstracta del archivo a comprobar 
+     */
+    public function fileExist($abstractPath){
+        return self::$environment->getFileServer()->fileExist($abstractPath);
+    }
     /**************************************************************************/
     /********************************** UTILS *********************************/
     /**************************************************************************/

@@ -250,10 +250,10 @@ Mientras que desde un ambiente de producción podría ser:
 https://data.fileserver.com/folderA/another_folder/data/users/richard.png
 ```
 
-El objetivo de definir un Servidor ds Archivos es que el acceso a dicha información
+El objetivo de definir un Servidor de Archivos es que el acceso a dicha información
 sea transparente para la aplicación independientemente del ambiente que se esté 
 ejecutando. Luego de la configuración, en los ejemplos mencionados, el acceso a
-la imagen sería:
+la imagen se realizaría pasando la "url abstracta" que se usa en todos los casos:
 ```
 data/users/richard.png
 ```
@@ -262,6 +262,11 @@ Esto permite no solo tener una configuración independiente para cada ambiente
 sino también centralizar el acceso a archivos de la aplicación, así, en caso de 
 que se requiera un cambio de servidor para dicha información, baste con cambiar
 la configuración en engine/config/environments.php.
+
+Como ejemplo, para retornar la ruta de una imagen de acuerdo al source elegido:
+```
+Maqinato::img("foo/maqinato.png");
+```
 
 
 Cambios

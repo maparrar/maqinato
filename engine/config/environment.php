@@ -71,7 +71,7 @@ $database=array(
  *      "accessKey" =>  "",         //Ignorado
  *      "secretKey" =>  ""          //Ignorado
  *  - Acceso a los archivos en un servidor AWS sin SSL y sin claves de acceso
- *      "source"    =>  "external",
+ *      "source"    =>  "s3",
  *      "isSSL"     =>  false,
  *      "domain"    =>  "s3.amazonaws.com",
  *      "bucket"    =>  "bucket_name",
@@ -79,7 +79,7 @@ $database=array(
  *      "accessKey" =>  "",         //Ignorado
  *      "secretKey" =>  ""          //Ignorado
  *  - Acceso a los archivos en un servidor AWS con SSL requiere claves de acceso
- *      "source"    =>  "external",
+ *      "source"    =>  "s3",
  *      "isSSL"     =>  true,
  *      "domain"    =>  "s3.amazonaws.com",
  *      "bucket"    =>  "bucket_name",
@@ -95,6 +95,7 @@ $fileServer=array(
      *      false: No carga archivos para la aplicación
      *      "local": Lee los datos de un folder dentro de la aplicación
      *      "external": Lee los datos de una fuente externa por medio de una URL
+     *      "s3": Lee los datos de un bucket S3 de AWS
      */
     "source"    =>  "local",
     
@@ -137,6 +138,7 @@ $fileServer=array(
      *        datos. P.e.
      *          - si los datos están almacenados en "http://dataserver.com/foo/data"
      *            el valor de esta variable debe ser: "foo/data/"
+     *      - En caso de source="s3"
      *          - si se trata de un proveedor de datos externos como AWS que requiere
      *            un bucket o contenedor, se especifica en otra variable, excluyendo
      *            en esta variable el nombre del bucket. Para un servidor
@@ -175,7 +177,42 @@ return array(
             "10.0.0.102"
         ),
         "database"  => $database,
-        "fileServer"  => $fileServer
+        "fileServer"  => array(
+            
+            
+            
+            
+"source"    =>  "local",
+"isSSL"     =>  false,
+"domain"    =>  "",
+"bucket"    =>  "",
+"folder"    =>  "public/data/",
+"accessKey" =>  "",
+"secretKey" =>  ""
+            
+            
+//"source"    =>  "external",
+//"isSSL"     =>  false,
+//"domain"    =>  "maparrar.com",
+//"bucket"    =>  "",
+//"folder"    =>  "data/",
+//"accessKey" =>  "",
+//"secretKey" =>  ""
+            
+            
+//"source"    =>  "s3",
+//"isSSL"     =>  true,
+//"domain"    =>  "s3.amazonaws.com",
+//"bucket"    =>  "bonfoliorc",
+//"folder"    =>  "data/",
+//"accessKey" =>  "AKIAJ7JKMEBJA2J2KCSA",
+//"secretKey" =>  "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"
+            
+            
+            
+            
+            
+        )
     ),
     array(
         "name"  => "release",
