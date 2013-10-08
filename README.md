@@ -93,6 +93,7 @@ de "contact_us":
 - example.com/contact_us
 
 ```
+
 - Luego de registrar los nombres de acceso, en dicho script "engine/views/contact_us.php",
 se pueden acceder los datos de la URL pasada. Así, si se pasa la URL "example.com/contact/save/congratulations/all/",
 desde el script se pueden acceder los siguientes datos:
