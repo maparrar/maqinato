@@ -88,10 +88,10 @@ engine/views/contact_us.php
 En el ejemplo anterior, con cualquiera de las siguientes URL's se accede a la vista
 de "contact_us":
 ```
-
 - example.com/contact
 - example.com/contactenos
 - example.com/contact_us
+
 ```
 - Luego de registrar los nombres de acceso, en dicho script "engine/views/contact_us.php",
 se pueden acceder los datos de la URL pasada. Así, si se pasa la URL "example.com/contact/save/congratulations/all/",
@@ -99,7 +99,8 @@ desde el script se pueden acceder los siguientes datos:
 ```
 print_r Maqinato::request()->getController();    //Imprime: contact
 print_r Maqinato::request()->getFunction();      //Imprime: save
-print_r Maqinato::request()->getParameters();    //Imprime: Array ([0] => congratulations [1] => all)         
+print_r Maqinato::request()->getParameters();    //Imprime: Array ([0] => congratulations [1] => all)
+
 ```
 
 Internacionalización y Localización
