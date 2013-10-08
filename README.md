@@ -101,6 +101,7 @@ desde el script se pueden acceder los siguientes datos:
 print_r Maqinato::request()->getController();    //Imprime: contact
 print_r Maqinato::request()->getFunction();      //Imprime: save
 print_r Maqinato::request()->getParameters();    //Imprime: Array ([0] => congratulations [1] => all)
+
 ```
 
 Internacionalización y Localización
