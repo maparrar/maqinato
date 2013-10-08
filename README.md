@@ -68,6 +68,7 @@ engine/views/contact_us.php
 - Registrarlo en el array "directory" del archivo "engine/config/paths.php"
 ```
 "directory" => array(
+
     ...
     'contact_us'     =>  'contact_us',
     ...
@@ -77,7 +78,8 @@ engine/views/contact_us.php
 ```
 "directory" => array(
     ... 
-    'contact'        =>  'contact_us',<br/>
+    'contact'        =>  'contact_us',
+
     'contactenos'    =>  'contact_us', 
     'contact_us'     =>  'contact_us', 
     ...
@@ -86,6 +88,7 @@ engine/views/contact_us.php
 En el ejemplo anterior, con cualquiera de las siguientes URL's se accede a la vista
 de "contact_us":
 ```
+
 - example.com/contact
 - example.com/contactenos
 - example.com/contact_us
