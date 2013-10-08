@@ -78,11 +78,8 @@ engine/views/contact_us.php
 "directory" => array(
     ...
     'contact'        =>  'contact_us',
-
     'contactenos'    =>  'contact_us',
-
     'contact_us'     =>  'contact_us',
-
     ...
 )
 ```
