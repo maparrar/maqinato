@@ -76,10 +76,10 @@ engine/views/contact_us.php
 - Es posible definir varios nombres para acceder a una vista:
 ```
 "directory" => array(
-    ...
-    'contact'        =>  'contact_us',
-    'contactenos'    =>  'contact_us',
-    'contact_us'     =>  'contact_us',
+    ... 
+    'contact'        =>  'contact_us', 
+    'contactenos'    =>  'contact_us', 
+    'contact_us'     =>  'contact_us', 
     ...
 )
 ```
