@@ -72,9 +72,10 @@ return array(
      * error. Así un usuario solo podrá acceder a lugares explícitamente permitidos.
      * La clave o índice (valor de la izquierda) es el nombre en la URL, el valor
      * de la derecha es la página a la que se redirige.
+     * Cuando la clave es "root" se trata de la URL sin controller
      */
     "directory" => array(
-        ''              =>  'accessing',
+        'root'          =>  'accessing',
         'accessing'     =>  'accessing',
         'main'          =>  'main',
         'home'          =>  'main',
