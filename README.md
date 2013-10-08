@@ -85,12 +85,13 @@ engine/views/contact_us.php
     ...
 )
 ```
+
 En el ejemplo anterior, con cualquiera de las siguientes URL's se accede a la vista
 de "contact_us":
 ```
-- example.com/contact
-- example.com/contactenos
-- example.com/contact_us
+example.com/contact
+example.com/contactenos
+example.com/contact_us
 
 ```
 
