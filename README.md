@@ -1,4 +1,4 @@
-Maqinato v.0.6.2 (alpha)
+Maqinato v.0.6.3 (alpha)
 ==========
 ¡¡¡No es funcional. Solo disponible para pruebas hasta la versión 1.0.!!!
 
@@ -77,9 +77,13 @@ engine/views/contact_us.php
 ```
 "directory" => array(
     ...
+
     'contact'        =>  'contact_us',
+
     'contactenos'    =>  'contact_us',
+
     'contact_us'     =>  'contact_us',
+
     ...
 )
 ```
