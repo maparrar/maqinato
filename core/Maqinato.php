@@ -283,6 +283,28 @@ class Maqinato{
     public function fileExist($abstractPath){
         return self::$environment->getFileServer()->fileExist($abstractPath);
     }
+    
+    /**************************************************************************/
+    /******************************** SHORTCUTS *******************************/
+    /**************************************************************************/
+    /**
+     * Función para acceder al directorio de rutas definido en la configuración.
+     * Si se usa:
+     *      Maqinato::directory("main");
+     * es equivalente a usar:
+     *      Maqinato::$config["paths"]["directory"]["main"];
+     * @param string $address Dirección que se quiere buscar en el directorio
+     * @return mixed Si se encuentra la dirección, se retorna la página a la que
+     *              se debe redireccionar, sino, retorna false.
+     */
+    public static function directory($address){
+        $response=false;
+        if(array_key_exists($address,Maqinato::$config["paths"]["directory"])){
+            $response=Maqinato::$config["paths"]["directory"][$address];
+        }
+        return $response;
+    }
+
     /**************************************************************************/
     /********************************** UTILS *********************************/
     /**************************************************************************/

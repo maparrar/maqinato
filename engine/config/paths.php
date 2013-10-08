@@ -43,7 +43,7 @@ return array(
     ),
     
     /**
-     * Directorio de rutas de la aplicación
+     * Rutas de la aplicación
      * Array de rutas de la aplicación, es usado por el Router para calcular las
      * rutas dentro de maqinato. Solo se debe modificar si se modifica el árbol
      * de directorios.
@@ -63,5 +63,22 @@ return array(
         'public'        =>'public/',
             'css'           =>'public/css/',
             'js'            =>'public/js/'
+    ),
+    
+    /**
+     * Directorio de páginas permitidas en la aplicación. Como una medida de
+     * seguridad, solo las páginas especificadas en este array serán redireccionadas,
+     * las páginas no especificadas en este array, direccionarán a la página de
+     * error. Así un usuario solo podrá acceder a lugares explícitamente permitidos.
+     * La clave o índice (valor de la izquierda) es el nombre en la URL, el valor
+     * de la derecha es la página a la que se redirige.
+     * Cuando la clave es "root" se trata de la URL sin controller
+     */
+    "directory" => array(
+        'root'          =>  'accessing',
+        'accessing'     =>  'accessing',
+        'main'          =>  'main',
+        'home'          =>  'main',
+        'error'         =>  'error'
     )
 );

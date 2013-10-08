@@ -51,6 +51,53 @@ Requisitos
 ==========
 - Activar mod_rewrite en apache
 
+Redirección
+==========
+Como una medida de seguridad, solo las páginas especificadas en el array "directory" 
+serán redireccionadas, las páginas no especificadas en este array, direccionarán 
+a la página de error. Así un usuario solo podrá acceder a lugares explícitamente 
+permitidos.
+
+La redirección se hace a vistas dentro del folder "engine/views/" pasando los datos
+de la URL como parámetros. Por ejemplo, si se requiere que una página llamada 
+"contact_us" esté disponible, se debe hacer lo siguiente:
+- Crear el script en el folder "engine/views/":
+```
+engine/views/contact_us.php
+```
+- Registrarlo en el array "directory" del archivo "engine/config/paths.php"
+```
+"directory" => array(
+    ...
+    'contact_us'     =>  'contact_us',
+    ...
+)
+```
+- Es posible definir varios nombres para acceder a una vista:
+```
+"directory" => array(
+    ...
+    'contact'        =>  'contact_us',
+    'contactenos'    =>  'contact_us',
+    'contact_us'     =>  'contact_us',
+    ...
+)
+```
+En el ejemplo anterior, con cualquiera de las siguientes URL's se accede a la vista
+de "contact_us":
+```
+- example.com/contact
+- example.com/contactenos
+- example.com/contact_us
+```
+- Luego de registrar los nombres de acceso, en dicho script "engine/views/contact_us.php",
+se pueden acceder los datos de la URL pasada. Así, si se pasa la URL "example.com/contact/save/congratulations/all/",
+desde el script se pueden acceder los siguientes datos:
+```
+print_r Maqinato::request()->getController();    //Imprime: contact
+print_r Maqinato::request()->getFunction();      //Imprime: save
+print_r Maqinato::request()->getParameters();    //Imprime: Array ([0] => congratulations [1] => all)         
+```
 
 Internacionalización y Localización
 ==========
@@ -114,7 +161,7 @@ que corresponda, si no la encuentra, usa el texto que tiene por defecto, es deci
 el usado en programación.
 
 Si se quiere forzar un "locale", en /engine/config/app.php modificar la variable
-"locale" por uno especídico, por ejemplo "pr_BR".
+"locale" por uno específico, por ejemplo "pr_BR".
 
 Uso
 ----------
@@ -271,6 +318,10 @@ Maqinato::img("foo/maqinato.png");
 
 Cambios
 ==========
+Versión 0.6.3:
+----------
+- Creación de array de redirección: "directory"
+
 Versión 0.6.2:
 ----------
 - Opción de carga de archivos desde local o servidor de archivos externos

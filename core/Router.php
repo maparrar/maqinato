@@ -52,29 +52,16 @@ class Router{
      * @param Request $request Objeto de tipo Request que se routeará
      */
     public static function route(Request $request){
-        switch ($request->getController()) {
-            case "":
-                self::redirect("accessing");
-                break;
-            case "accessing":
-                View::render("accessing");
-                break;
-            case "acceso":
-                View::render("accessing");
-                break;
-            case "main":
-                View::render("main");
-                break;
-            case "principal":
-                View::render("main");
-                break;
-            case "error":
-                View::render("error");
-                break;
-            default:
+        if($request->getController()==""){
+            self::redirect(Maqinato::directory("root"));
+        }else{
+            $address=Maqinato::directory($request->getController());
+            if($address){
+                View::render($address);
+            }else{
                 Maqinato::debug("Controller not detected");
                 self::redirect("error/notFound");
-                break;
+            }
         }
     }
     /**
